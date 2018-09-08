@@ -271,9 +271,11 @@ public class MainMenu  extends JPanel  {
 
     }
 
-    private void setTheProperties() {
+    private void  setTheProperties() {
         setBounds(0,0,MainFrame.screenSize.width,MainFrame.screenSize.height);
         setBackground(Color.red);
+
+
 
 
 

@@ -1,4 +1,4 @@
-package ImageHandel;
+ package  ImageHandel;
 
 import java.awt.image.BufferedImage;
 
@@ -6,7 +6,7 @@ public class SpriteSheet {
 
     private BufferedImage sheet;
 
-    SpriteSheet(BufferedImage sheet){
+    public SpriteSheet(BufferedImage sheet){
 
         this.sheet=sheet;
     }

@@ -12,15 +12,22 @@ public class GamePanel extends JPanel {
     private JLabel power,money,place;
     private Border border = BorderFactory.createLineBorder(Color.black, 3);
 
-    public GamePanel(){
-setBounds(0,0,MainFrame.screenSize.width,MainFrame.screenSize.height/15);
+    public GamePanel() {
+
+        setBounds(0, 0, MainFrame.screenSize.width, MainFrame.screenSize.height / 15);
         setBackground(Color.yellow);
-        imageLoader=new ImageLoader();
+        imageLoader = new ImageLoader();
         setThePower();
         setTheMoney();
         setThePlace();
-        setOpaque(true);
         setBorder(border);
+
+        setLayout(null);
+
+
+
+
+
     }
 
     private void setThePlace() {

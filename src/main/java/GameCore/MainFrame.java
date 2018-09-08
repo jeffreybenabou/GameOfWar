@@ -7,23 +7,28 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-public class MainFrame extends JFrame implements MouseListener {
+public class MainFrame extends JFrame implements MouseListener, MouseMotionListener {
 
 
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private MainMenu mainMenu;
     private Border border = BorderFactory.createLineBorder(Color.black, 3);
+    public static World world;
+    public static GamePanel gamePanel;
+    private int xMousePosition = 0, yMousePosition = 0, xMouseLocation, yMouseLocation;
 
-    public MainFrame(){
+
+    public MainFrame() {
         setTheJFrame();
         setTheMenu();
+        addMouseMotionListener(this);
 
     }
 
     private void setTheMenu() {
-        mainMenu=new MainMenu(this);
-//        setJMenuBar(mainMenu.getjMenu());
+        mainMenu = new MainMenu(this);
         add(mainMenu);
     }
 
@@ -31,9 +36,13 @@ public class MainFrame extends JFrame implements MouseListener {
 
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
-        setBounds(0,0,screenSize.width,screenSize.height);
+        setBounds(0, 0, screenSize.width, screenSize.height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        setLayout(new BorderLayout(2,1));
+
+
+
 
 
     }
@@ -56,6 +65,29 @@ public class MainFrame extends JFrame implements MouseListener {
 
     }
 
+    private void moveTheWorld() {
+
+        new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    try {
+                        // TODO: 08/09/2018 make sure that its not null
+                        repaint();
+                        world.getBackGroundImage().setLocation(world.getBackGroundImage().getX() + xMousePosition, world.getBackGroundImage().getY() + yMousePosition);
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
+
+
+
+
+    }
+
     private void checkIfComponentIsFromWorld(MouseEvent e) {
 
     }
@@ -73,11 +105,16 @@ public class MainFrame extends JFrame implements MouseListener {
             remove(mainMenu);
 
 
-            repaint();
 
-            add(new GamePanel());
-            add(new World());
+            gamePanel=new GamePanel();
 
+            world=new World(true);
+
+            add(world);
+            add(gamePanel);
+
+
+            moveTheWorld();
         }
         if(e.getComponent().equals(mainMenu.getStartGame()))
         {
@@ -150,6 +187,40 @@ public class MainFrame extends JFrame implements MouseListener {
     }
 
     public void mouseExited(MouseEvent e) {
+
+    }
+
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    public void mouseMoved(MouseEvent e) {
+
+
+        xMouseLocation=e.getX();
+        yMouseLocation=e.getY();
+
+
+            if(e.getX()>getWidth()-20)
+                xMousePosition--;
+            else if(e.getX()<20)
+            xMousePosition++;
+        else
+            xMousePosition=0;
+
+
+
+            if(e.getY()>getHeight()-20)
+                yMousePosition--;
+            else if(e.getY()<20)
+                yMousePosition++;
+            else
+                yMousePosition=0;
+
+
+
+
+
 
     }
 }
