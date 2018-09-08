@@ -1,43 +1,42 @@
 package GameCore;
 
 import ImageHandel.ImageLoader;
+import ObjectPackege.GameObject;
 import ObjectPackege.Unit;
 import Units.InfantryUnit.ArmoredInfentry;
 import Units.InfantryUnit.BazzokaUnit;
 import Units.InfantryUnit.Infantry;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class World extends JPanel {
 
     private JLabel backGroundImage;
     private boolean isTesting;
-
+    public static ArrayList<Unit> allUnit;
 
     private Unit tempUnit;
 
-    public World(boolean isTesting){
-        this.isTesting=isTesting;
-        if(isTesting)
-        {
+    public World(boolean isTesting) {
+        this.isTesting = isTesting;
+        allUnit = new ArrayList<Unit>();
+        if (isTesting) {
             setTheTestScreen();
         }
 
-        setBounds(0,MainFrame.gamePanel.getHeight(),MainFrame.screenSize.width,MainFrame.screenSize.height);
-            setTheBackGroundWorld();
-            setBackground(Color.gray);
 
-setLayout(null);
-
-
-
-
-
-
+        setBounds(0, MainFrame.gamePanel.getHeight(), MainFrame.screenSize.width, MainFrame.screenSize.height);
+        setTheBackGroundWorld();
+        setBackground(Color.gray);
+        setLayout(null);
 
 
     }
+
+
 
     private void setTheTestScreen() {
 
@@ -50,11 +49,14 @@ setLayout(null);
                 backGroundImage.setBounds(0,0,MainFrame.screenSize.width*10,MainFrame.screenSize.height*20);
                 backGroundImage.setBackground(Color.black);
                 backGroundImage.setOpaque(true);
+                backGroundImage.addMouseListener(MainFrame.mainFrame);
+
                 tempUnit=new Infantry();
+                allUnit.add(tempUnit);
                 backGroundImage.add(tempUnit);
-                ArmoredInfentry bazzokaUnit=new ArmoredInfentry();
-                backGroundImage.add(bazzokaUnit);
-                bazzokaUnit.setLocation(300,300);
+
+
+
                 add(backGroundImage);
             }
         }).start();

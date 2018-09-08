@@ -28,34 +28,31 @@ public class GameObject extends JLabel {
 
     protected boolean objectCanMove;
     protected boolean objectIsOnWorld;
-    protected boolean objectIsMoving=true;
-    protected boolean objectIsStanding=false;
+    protected boolean objectIsMoving=false;
+    protected boolean objectIsStanding=true;
     protected boolean enoughPower = true, enoughMoney = true, enoughUnitPlace=true;
 
     protected boolean canShotAir;
     protected boolean isFloatOnPanel;
     protected boolean objectIsPressed = false;
     protected boolean objectIsLive=true;
-    private MainFrame mainFrame;
+    protected int type;
+    protected MainFrame mainFrame;
+    protected Rectangle bound;
 
 
-    public GameObject(Rectangle bound,boolean objectIsOnWorld){
-        init(bound,objectIsOnWorld);
-
-
-
-
-
-
+    public GameObject(){
+        mainFrame=MainFrame.mainFrame;
 
     }
 
 
 
-    public void init(Rectangle bound, boolean objectIsOnWorld){
+    public void init(){
 
-        this.objectIsOnWorld=objectIsOnWorld;
+
         setBounds(bound);
+        addMouseListener(mainFrame);
         setTheUnitProperties();
 
 
@@ -71,17 +68,16 @@ public class GameObject extends JLabel {
      *
      *
      * */
-
-//    addMouseListener(mainFrame);
-    /*switch (getClass().getSimpleName()) {
-        case "Infantry": {
-
+    switch (type)
+    {
+        case 0: {
+//Infantry
             canShotAir = true;
-            objectIsLive = false;
+            objectIsLive = true;
             objectCanMove = true;
 
             rangeOfAttack=200;
-            speedOfMove = 3;
+            speedOfMove = 10;
             speedOfAttack = 2000;
             damageToEnemy = 15;
             timeToTrain = 2000;
@@ -91,6 +87,9 @@ public class GameObject extends JLabel {
 
             break;
         }
+    }
+    /*switch (getClass().getSimpleName()) {
+
         case "ArmoredInfentry": {
             canShotAir = false;
             objectIsLive = false;
@@ -339,7 +338,171 @@ public class GameObject extends JLabel {
 
 }
 
+    public ImageLoader getImageLoader() {
+        return imageLoader;
+    }
 
+    public void setImageLoader(ImageLoader imageLoader) {
+        this.imageLoader = imageLoader;
+    }
 
+    public int getLife() {
+        return life;
+    }
 
+    public void setLife(int life) {
+        this.life = life;
+    }
+
+    public int getSpeedOfMove() {
+        return speedOfMove;
+    }
+
+    public void setSpeedOfMove(int speedOfMove) {
+        this.speedOfMove = speedOfMove;
+    }
+
+    public int getSpeedOfAttack() {
+        return speedOfAttack;
+    }
+
+    public void setSpeedOfAttack(int speedOfAttack) {
+        this.speedOfAttack = speedOfAttack;
+    }
+
+    public int getDamageToEnemy() {
+        return damageToEnemy;
+    }
+
+    public void setDamageToEnemy(int damageToEnemy) {
+        this.damageToEnemy = damageToEnemy;
+    }
+
+    public int getTimeToTrain() {
+        return timeToTrain;
+    }
+
+    public void setTimeToTrain(int timeToTrain) {
+        this.timeToTrain = timeToTrain;
+    }
+
+    public int getPowerNeedToBuild() {
+        return powerNeedToBuild;
+    }
+
+    public void setPowerNeedToBuild(int powerNeedToBuild) {
+        this.powerNeedToBuild = powerNeedToBuild;
+    }
+
+    public int getCostToBuild() {
+        return costToBuild;
+    }
+
+    public void setCostToBuild(int costToBuild) {
+        this.costToBuild = costToBuild;
+    }
+
+    public int getRangeOfAttack() {
+        return rangeOfAttack;
+    }
+
+    public void setRangeOfAttack(int rangeOfAttack) {
+        this.rangeOfAttack = rangeOfAttack;
+    }
+
+    public boolean isObjectCanMove() {
+        return objectCanMove;
+    }
+
+    public void setObjectCanMove(boolean objectCanMove) {
+        this.objectCanMove = objectCanMove;
+    }
+
+    public boolean isObjectIsOnWorld() {
+        return objectIsOnWorld;
+    }
+
+    public void setObjectIsOnWorld(boolean objectIsOnWorld) {
+        this.objectIsOnWorld = objectIsOnWorld;
+    }
+
+    public boolean isObjectIsMoving() {
+        return objectIsMoving;
+    }
+
+    public void setObjectIsMoving(boolean objectIsMoving) {
+        this.objectIsMoving = objectIsMoving;
+    }
+
+    public boolean isObjectIsStanding() {
+        return objectIsStanding;
+    }
+
+    public void setObjectIsStanding(boolean objectIsStanding) {
+        this.objectIsStanding = objectIsStanding;
+    }
+
+    public boolean isEnoughPower() {
+        return enoughPower;
+    }
+
+    public void setEnoughPower(boolean enoughPower) {
+        this.enoughPower = enoughPower;
+    }
+
+    public boolean isEnoughMoney() {
+        return enoughMoney;
+    }
+
+    public void setEnoughMoney(boolean enoughMoney) {
+        this.enoughMoney = enoughMoney;
+    }
+
+    public boolean isEnoughUnitPlace() {
+        return enoughUnitPlace;
+    }
+
+    public void setEnoughUnitPlace(boolean enoughUnitPlace) {
+        this.enoughUnitPlace = enoughUnitPlace;
+    }
+
+    public boolean isCanShotAir() {
+        return canShotAir;
+    }
+
+    public void setCanShotAir(boolean canShotAir) {
+        this.canShotAir = canShotAir;
+    }
+
+    public boolean isFloatOnPanel() {
+        return isFloatOnPanel;
+    }
+
+    public void setFloatOnPanel(boolean floatOnPanel) {
+        isFloatOnPanel = floatOnPanel;
+    }
+
+    public boolean isObjectIsPressed() {
+        return objectIsPressed;
+    }
+
+    public void setObjectIsPressed(boolean objectIsPressed) {
+        this.objectIsPressed = objectIsPressed;
+    }
+
+    public boolean isObjectIsLive() {
+        return objectIsLive;
+    }
+
+    public void setObjectIsLive(boolean objectIsLive) {
+        this.objectIsLive = objectIsLive;
+    }
+
+    public MainFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    public void setMainFrame(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+    }
 }

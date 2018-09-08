@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class AntiAirTank extends MechanicUnit {
 
-    public AntiAirTank(Rectangle bound) {
-        super(bound);
+    public AntiAirTank() {
+        super();
     }
 }

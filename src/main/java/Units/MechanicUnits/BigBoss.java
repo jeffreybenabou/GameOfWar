@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class BigBoss extends MechanicUnit {
 
-    public BigBoss(Rectangle bound) {
-        super(bound);
+    public BigBoss() {
+        super();
     }
 }
