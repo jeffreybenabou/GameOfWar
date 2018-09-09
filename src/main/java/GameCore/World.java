@@ -3,6 +3,7 @@ package GameCore;
 import ImageHandel.ImageLoader;
 import ObjectPackege.GameObject;
 import ObjectPackege.Unit;
+import Units.Factory.MainFactory;
 import Units.InfantryUnit.ArmoredInfentry;
 import Units.InfantryUnit.BazzokaUnit;
 import Units.InfantryUnit.Infantry;
@@ -54,6 +55,9 @@ public class World extends JPanel {
                 tempUnit=new Infantry();
                 allUnit.add(tempUnit);
                 backGroundImage.add(tempUnit);
+
+                MainFactory mainFactory=new MainFactory();
+                backGroundImage.add(mainFactory);
 
 
 

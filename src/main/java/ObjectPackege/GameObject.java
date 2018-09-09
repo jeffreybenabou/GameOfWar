@@ -43,8 +43,10 @@ public class GameObject extends JLabel {
 
     public GameObject(){
         mainFrame=MainFrame.mainFrame;
+        imageLoader=new ImageLoader();
 
     }
+
 
 
 
@@ -70,7 +72,7 @@ public class GameObject extends JLabel {
      * */
     switch (type)
     {
-        case 0: {
+        case 0:
 //Infantry
             canShotAir = true;
             objectIsLive = true;
@@ -86,7 +88,16 @@ public class GameObject extends JLabel {
             life = 150;
 
             break;
-        }
+        case 1:
+//main factory
+
+
+            powerNeedToBuild = 0;
+            costToBuild = 3000;
+            life = 3000;
+
+            break;
+
     }
     /*switch (getClass().getSimpleName()) {
 

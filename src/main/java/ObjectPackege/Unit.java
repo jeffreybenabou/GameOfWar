@@ -25,7 +25,6 @@ public class Unit extends GameObject {
 
     public Unit() {
         super();
-        initTheSpriteSheet();
         pointToMove=new Point();
 
     }
@@ -161,9 +160,7 @@ public class Unit extends GameObject {
 
     }
 
-    private void initTheSpriteSheet() {
-        imageLoader=new ImageLoader();
-}
+
 
     public SpriteSheet getStandSpriteSheet() {
         return standSpriteSheet;
