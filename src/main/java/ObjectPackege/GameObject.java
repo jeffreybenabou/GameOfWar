@@ -1,6 +1,7 @@
 package ObjectPackege;
 
 
+import GameCore.LifeBar;
 import GameCore.MainFrame;
 import ImageHandel.ImageLoader;
 
@@ -15,6 +16,7 @@ public class GameObject extends JLabel {
 
     protected ImageLoader imageLoader;
 
+    protected LifeBar lifeBar;
     protected int life;
     protected int speedOfMove;
     protected int speedOfAttack;
@@ -41,16 +43,39 @@ public class GameObject extends JLabel {
     protected Rectangle bound;
 
 
-    public GameObject(){
+    protected GameObject(){
         mainFrame=MainFrame.mainFrame;
         imageLoader=new ImageLoader();
 
+
+        addLife();
+
+    }
+
+    protected void addLife() {
+        new Thread(new Runnable() {
+            public void run() {
+                while (getWidth()==0)
+                {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                setTheLifeBar();
+            }
+        }).start();
+
+    }
+
+    private void setTheLifeBar() {
+        lifeBar=new LifeBar(this,life);
+        add(lifeBar);
     }
 
 
-
-
-    public void init(){
+    protected void init(){
 
 
         setBounds(bound);
@@ -64,7 +89,7 @@ public class GameObject extends JLabel {
 
 
 
-    public void setTheUnitProperties() {
+    protected void setTheUnitProperties() {
     /*
      * this method will update the object field by their type of class
      *
@@ -95,6 +120,15 @@ public class GameObject extends JLabel {
             powerNeedToBuild = 0;
             costToBuild = 3000;
             life = 3000;
+
+            break;
+        case 2:
+//power factory
+
+
+            powerNeedToBuild = 0;
+            costToBuild = 300;
+            life = 1000;
 
             break;
 

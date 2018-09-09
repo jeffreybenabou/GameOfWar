@@ -8,6 +8,7 @@ public class HumanUnit extends Unit {
     public HumanUnit() {
 
         super();
-  bound=new Rectangle(0,200, MainFrame.world.getBackGroundImage().getWidth()/200,MainFrame.world.getBackGroundImage().getWidth()/200);
+        bound = new Rectangle(0, 200, MainFrame.world.getBackGroundImage().getWidth() / 200, MainFrame.world.getBackGroundImage().getWidth() / 200);
+        setLayout(new GridLayout(6,1));
     }
 }
