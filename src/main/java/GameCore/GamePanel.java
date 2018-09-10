@@ -11,15 +11,18 @@ public class GamePanel extends JPanel {
     private ImageLoader imageLoader;
     private JLabel power,money,place;
     private Border border = BorderFactory.createLineBorder(Color.black, 3);
+    private JButton showTheMap;
+    private boolean isMapIsVisible=false;
 
     public GamePanel() {
 
-        setBounds(0, 0, MainFrame.screenSize.width, MainFrame.screenSize.height / 15);
+        setBounds(0, 50, MainFrame.screenSize.width, MainFrame.screenSize.height / 12);
         setBackground(Color.yellow);
         imageLoader = new ImageLoader();
         setThePower();
         setTheMoney();
         setThePlace();
+        setTheMapButton();
         setBorder(border);
 
         setLayout(null);
@@ -27,6 +30,14 @@ public class GamePanel extends JPanel {
 
 
 
+
+    }
+
+    private void setTheMapButton() {
+        showTheMap=new JButton("show the Map");
+        showTheMap.setBounds(getWidth()/20,5,getWidth()/10,getHeight()/2+getHeight()/5);
+        showTheMap.addMouseListener(MainFrame.mainFrame);
+        add(showTheMap);
 
     }
 
@@ -55,5 +66,64 @@ public class GamePanel extends JPanel {
         power.setVerticalAlignment(JLabel.CENTER);
         power.setHorizontalAlignment(JLabel.CENTER);
         add(power);
+    }
+
+
+    public ImageLoader getImageLoader() {
+        return imageLoader;
+    }
+
+    public void setImageLoader(ImageLoader imageLoader) {
+        this.imageLoader = imageLoader;
+    }
+
+    public JLabel getPower() {
+        return power;
+    }
+
+    public void setPower(JLabel power) {
+        this.power = power;
+    }
+
+    public JLabel getMoney() {
+        return money;
+    }
+
+    public void setMoney(JLabel money) {
+        this.money = money;
+    }
+
+    public JLabel getPlace() {
+        return place;
+    }
+
+    public void setPlace(JLabel place) {
+        this.place = place;
+    }
+
+    @Override
+    public Border getBorder() {
+        return border;
+    }
+
+    @Override
+    public void setBorder(Border border) {
+        this.border = border;
+    }
+
+    public JButton getShowTheMap() {
+        return showTheMap;
+    }
+
+    public boolean isMapIsVisible() {
+        return isMapIsVisible;
+    }
+
+    public void setMapIsVisible(boolean mapIsVisible) {
+        isMapIsVisible = mapIsVisible;
+    }
+
+    public void setShowTheMap(JButton showTheMap) {
+        this.showTheMap = showTheMap;
     }
 }

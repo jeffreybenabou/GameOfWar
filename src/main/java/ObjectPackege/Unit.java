@@ -72,7 +72,7 @@ public class Unit extends GameObject {
 
 
             try {
-                Thread.sleep(150);
+                Thread.sleep(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

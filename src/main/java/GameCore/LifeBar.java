@@ -9,8 +9,7 @@ import java.awt.*;
 
 public class LifeBar extends JProgressBar {
 
-    public LifeBar(GameObject unit, int max){
-        setBounds(0,0, unit.getWidth(), getHeight()/15);
+    public LifeBar(int max){
         setBackground(Color.black);
         setForeground(Color.green);
 

@@ -3,6 +3,7 @@ package ObjectPackege;
 
 import GameCore.LifeBar;
 import GameCore.MainFrame;
+import GameCore.World;
 import ImageHandel.ImageLoader;
 
 
@@ -46,9 +47,12 @@ public class GameObject extends JLabel {
     protected GameObject(){
         mainFrame=MainFrame.mainFrame;
         imageLoader=new ImageLoader();
-
-
         addLife();
+        synchronized ( World.allObjects)
+        {
+            World.allObjects.add(this);
+        }
+
 
     }
 
@@ -70,7 +74,7 @@ public class GameObject extends JLabel {
     }
 
     private void setTheLifeBar() {
-        lifeBar=new LifeBar(this,life);
+        lifeBar=new LifeBar(life);
         add(lifeBar);
     }
 

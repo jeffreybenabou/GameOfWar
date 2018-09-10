@@ -2,6 +2,8 @@ package GameCore;
 
 import ObjectPackege.Unit;
 import Server.Sql;
+import Units.Factory.MainFactory;
+import Units.InfantryUnit.Infantry;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -18,7 +20,7 @@ public class MainFrame extends JFrame implements MouseListener{
     public static World world;
     public static GamePanel gamePanel;
     public static MainFrame mainFrame;
-    private int xMousePosition = 0, yMousePosition = 0, xMouseLocation, yMouseLocation;
+    public static int xMousePosition = 0, yMousePosition = 0, xMouseLocation, yMouseLocation;
 
 
     public MainFrame() {
@@ -40,8 +42,8 @@ public class MainFrame extends JFrame implements MouseListener{
         setUndecorated(true);
         setBounds(0, 0, screenSize.width, screenSize.height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(Color.BLUE);
 
-        setLayout(new BorderLayout(2,1));
         setVisible(true);
 
 
@@ -153,12 +155,14 @@ public class MainFrame extends JFrame implements MouseListener{
                             yMousePosition=0;
 
                         // TODO: 08/09/2018 make sure that its not null
-                        repaint();
+
                         world.getBackGroundImage().setLocation(world.getBackGroundImage().getX() + xMousePosition, world.getBackGroundImage().getY() + yMousePosition);
+                        world.getMiniMap().setLocation(-(world.getBackGroundImage().getLocation().x),-(world.getBackGroundImage().getLocation().y));
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         moveTheWorld();
+                        break;
                     }
                 }
             }
@@ -172,6 +176,25 @@ public class MainFrame extends JFrame implements MouseListener{
 
     private void checkIfComponentIsFromWorld(MouseEvent e) {
 
+        if(e.getComponent().equals(gamePanel.getShowTheMap()))
+        {
+            if(gamePanel.isMapIsVisible())
+            {
+                gamePanel.getShowTheMap().setText("show the Map");
+                world.getMiniMap().setVisible(false);
+                gamePanel.setMapIsVisible(false);
+            }
+            else
+            {
+                gamePanel.getShowTheMap().setText("hide the Map");
+                world.getMiniMap().setVisible(true);
+                gamePanel.setMapIsVisible(true);
+
+            }
+
+
+        }
+
     }
 
     private void checkIfComponentIsFromMainMenu(MouseEvent e) {
@@ -181,24 +204,11 @@ public class MainFrame extends JFrame implements MouseListener{
             Sql.setTheUserOnline("false",mainMenu.get_userName());
             System.exit(1);
         }
-        if(e.getComponent().equals(mainMenu.getStartTutorial()))
+        else if(e.getComponent().equals(mainMenu.getStartTutorial()))
         {
-
-            remove(mainMenu);
-
-
-
-            gamePanel=new GamePanel();
-
-            world=new World(true);
-
-            add(world);
-            add(gamePanel);
-
-
-            moveTheWorld();
+            startTheTutorial();
         }
-        if(e.getComponent().equals(mainMenu.getStartGame()))
+        else if(e.getComponent().equals(mainMenu.getStartGame()))
         {
 
             mainMenu.getUserMenu().setVisible(true);
@@ -258,6 +268,32 @@ public class MainFrame extends JFrame implements MouseListener{
 
 
 
+    }
+
+    private void startTheTutorial() {
+        remove(mainMenu);
+        gamePanel=new GamePanel();
+        world=new World(true);
+
+        Infantry tempUnit=new Infantry();
+        World.allUnit.add(tempUnit);
+        world.getBackGroundImage().add(tempUnit);
+
+        MainFactory mainFactory=new MainFactory();
+        world.getBackGroundImage().add(mainFactory);
+        world.getMiniMap().setTheObjectsOnMiniMap();
+
+
+
+
+
+        add(world);
+
+
+        add(gamePanel);
+
+
+        moveTheWorld();
     }
 
     public void mouseReleased(MouseEvent e) {
