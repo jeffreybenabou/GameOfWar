@@ -10,12 +10,14 @@ import ImageHandel.ImageLoader;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 
 public class GameObject extends JLabel {
 
 
 
     protected ImageLoader imageLoader;
+    protected BufferedImage image;
 
     protected LifeBar lifeBar;
     protected int life;
@@ -40,6 +42,7 @@ public class GameObject extends JLabel {
     protected boolean objectIsPressed = false;
     protected boolean objectIsLive=true;
     protected int type;
+    protected String nameOfObject,discription;
     protected MainFrame mainFrame;
     protected Rectangle bound;
 
@@ -87,6 +90,7 @@ public class GameObject extends JLabel {
         setTheUnitProperties();
 
 
+
     }
 
 
@@ -94,49 +98,134 @@ public class GameObject extends JLabel {
 
 
     protected void setTheUnitProperties() {
-    /*
-     * this method will update the object field by their type of class
-     *
-     *
-     * */
-    switch (type)
-    {
-        case 0:
+        /*
+         * this method will update the object field by their type of class
+         *
+         *
+         * */
+        switch (type) {
+            case 0:
 //Infantry
-            canShotAir = true;
-            objectIsLive = true;
-            objectCanMove = true;
+                nameOfObject = "Infantry";
+                canShotAir = true;
+                objectIsLive = true;
+                objectCanMove = true;
 
-            rangeOfAttack=200;
-            speedOfMove = 10;
-            speedOfAttack = 2000;
-            damageToEnemy = 15;
-            timeToTrain = 2000;
-            powerNeedToBuild = 0;
-            costToBuild = 300;
-            life = 150;
+                rangeOfAttack = 200;
+                speedOfMove = 10;
+                speedOfAttack = 2000;
+                damageToEnemy = 15;
+                timeToTrain = 2000;
+                powerNeedToBuild = 0;
+                costToBuild = 300;
+                life = 150;
 
-            break;
-        case 1:
+                break;
+            case 1:
 //main factory
+                discription="<html>this is a main factory. <br>with this building you can build any other building you want. </html>";
+                nameOfObject = "Main Factory";
+                World.factoryWhoCanBuild.add((Factory) this);
+                powerNeedToBuild = 0;
+                costToBuild = 3000;
+                life = 3000;
 
-
-            powerNeedToBuild = 0;
-            costToBuild = 3000;
-            life = 3000;
-
-            break;
-        case 2:
+                break;
+            case 2:
 //power factory
+                discription="<html>this is a power factory. <br>you need this building in order to get enough power to build building .</html> ";
+
+                nameOfObject = "Power Factory";
+
+                powerNeedToBuild = 0;
+                costToBuild = 300;
+                life = 1000;
+
+                break;
+            case 3:
+//InfentryFactory
+
+                nameOfObject = "Infentry Factory";
+
+                powerNeedToBuild = 40;
+                costToBuild = 1000;
+                life = 1500;
+
+                break;
+
+            case 4:
+//AirForceFactory
+
+                nameOfObject = "Air Force Factory";
+
+                life = 500;
+                powerNeedToBuild = 0;
+                costToBuild = 500;
+
+                break;
+
+            case 5:
+//CloneFactory
+
+                nameOfObject = "Clone Factory";
+
+                life = 500;
+                powerNeedToBuild = 0;
+                costToBuild = 500;
+
+                break;
+            case 6:
+                //SpacielOpsFactory
+
+                nameOfObject = "Spaciel Ops Factory";
+                life = 500;
+                powerNeedToBuild = 0;
+                costToBuild = 500;
+
+                break;
+            case 7:
+                //SuperWeponeFactory
+
+                nameOfObject = "Super Wepone Factory";
+                life = 500;
+                powerNeedToBuild = 0;
+                costToBuild = 500;
+
+                break;
+            case 8:
+                //MoneyFactory
+
+                nameOfObject = "Money Factory";
+                life = 500;
+                powerNeedToBuild = 0;
+                costToBuild = 500;
+
+                break;
+            case 9:
+                //TankFactory
+
+                nameOfObject = "Tank Factory";
+                life = 500;
+                powerNeedToBuild = 0;
+                costToBuild = 500;
+
+                break;
+            case 10:
+                //SateliteFactory
+
+                nameOfObject = "Satelite Factory";
+                life = 500;
+                powerNeedToBuild = 0;
+                costToBuild = 500;
+
+                break;
 
 
-            powerNeedToBuild = 0;
-            costToBuild = 300;
-            life = 1000;
+        }
 
-            break;
 
     }
+
     /*switch (getClass().getSimpleName()) {
 
         case "ArmoredInfentry": {
@@ -289,103 +378,18 @@ public class GameObject extends JLabel {
 
 
 
-        case "MainFactory": {
-
-            life = 3000;
-
-            if (objectIsOnWorld) {
 
 
 
-            }
 
-            break;
         }
-        case "PowerFactory": {
-            life = 500;
-            powerNeedToBuild = -20;
 
-            break;
-        }
-        case "InfentryFactory": {
-
-            powerNeedToBuild = 40;
-            costToBuild = 1000;
-            life = 1500;
-
-            if (objectIsOnWorld) {
-
-
-            }
-
-
-            break;
-        }
-        case "AirForceFactory": {
-
-            life = 500;
-            powerNeedToBuild = 0;
-            costToBuild = 500;
-            if (objectIsOnWorld) {
-
-
-            }
-
-            break;
-        }
-        case "CloneFactory": {
-            life = 500;
-            powerNeedToBuild = 0;
-            costToBuild = 500;
-
-            break;
-        }
-        case "SpacielOpsFactory": {
-            life = 500;
-            powerNeedToBuild = 0;
-            costToBuild = 500;
-
-            break;
-        }
-        case "SuperWeponeFactory": {
-            life = 500;
-            powerNeedToBuild = 0;
-            costToBuild = 500;
-
-            break;
-        }
-        case "MoneyFactory": {
-            powerNeedToBuild = 20;
-            costToBuild = 2000;
-            life = 1500;
-
-            break;
-        }
-        case "TankFactory": {
-            powerNeedToBuild = 20;
-            costToBuild = 2000;
-            life = 1500;
-
-            if (objectIsOnWorld) {
-
-
-            }
-
-            break;
-        }
-        case "SateliteFactory": {
-            powerNeedToBuild = 20;
-            costToBuild = 2000;
-            life = 1500;
-
-            break;
-        }
 
 
 
     }*/
 
-}
+
 
     public ImageLoader getImageLoader() {
         return imageLoader;
@@ -475,6 +479,21 @@ public class GameObject extends JLabel {
         this.objectIsOnWorld = objectIsOnWorld;
     }
 
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void setImage() {
+        image = new BufferedImage(
+                getIcon().getIconWidth(),
+                getIcon().getIconHeight(),
+                BufferedImage.TYPE_INT_ARGB );
+        Graphics g = image.createGraphics();
+// paint the Icon to the BufferedImage.
+        getIcon().paintIcon(null, g, 0,0);
+        g.dispose();
+    }
+
     public boolean isObjectIsMoving() {
         return objectIsMoving;
     }
@@ -553,5 +572,45 @@ public class GameObject extends JLabel {
 
     public void setMainFrame(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
+    }
+
+    public LifeBar getLifeBar() {
+        return lifeBar;
+    }
+
+    public void setLifeBar(LifeBar lifeBar) {
+        this.lifeBar = lifeBar;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getNameOfObject() {
+        return nameOfObject;
+    }
+
+    public void setNameOfObject(String nameOfObject) {
+        this.nameOfObject = nameOfObject;
+    }
+
+    public Rectangle getBound() {
+        return bound;
+    }
+
+    public void setBound(Rectangle bound) {
+        this.bound = bound;
+    }
+
+    public String getDiscription() {
+        return discription;
+    }
+
+    public void setDiscription(String discription) {
+        this.discription = discription;
     }
 }

@@ -7,6 +7,7 @@ import ObjectPackege.Factory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class MainFactory extends Factory {
 
@@ -16,6 +17,8 @@ public class MainFactory extends Factory {
         type=1;
         init();
         setIcon(new ImageIcon(spriteSheet.crop(0,0,StaticVariables.FACTORY_SHEET_WIDTH,StaticVariables.FACTORY_SHEET_HEIGHT).getScaledInstance(getWidth(),getHeight(),4)));
+        setImage();
+
 
 
 

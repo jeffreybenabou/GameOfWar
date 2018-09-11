@@ -13,7 +13,7 @@ import java.io.*;
 
 public class MainMenu  extends JPanel  {
 
-    private Font fontOfMenuItems,fontOfButtons;
+    public static Font fontOfMenuItems,fontOfButtons;
     private JMenuItem exitFromPanel, statics,load,register,signIn,signOut;
     private JMenuBar jMenu;
     private MainFrame mainFrame;

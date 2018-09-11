@@ -1,5 +1,6 @@
 package GameCore;
 
+import ObjectPackege.Factory;
 import ObjectPackege.GameObject;
 import ObjectPackege.Unit;
 
@@ -13,7 +14,9 @@ public class World extends JPanel {
     private boolean isTesting;
     public static ArrayList<Unit> allUnit;
     public static ArrayList<GameObject>allObjects;
+    public static ArrayList<Factory>factoryWhoCanBuild;
     private MiniMap miniMap;
+    private BuildingAndUnitsMenu buildingAndUnitsMenu;
 
     private Unit tempUnit;
 
@@ -21,6 +24,7 @@ public class World extends JPanel {
         this.isTesting = isTesting;
         allUnit = new ArrayList<Unit>();
         allObjects=new ArrayList<GameObject>();
+        factoryWhoCanBuild=new ArrayList<Factory>();
         if (isTesting) {
             setTheTestScreen();
         }
@@ -37,6 +41,9 @@ public class World extends JPanel {
     {
         miniMap =new MiniMap();
         getBackGroundImage().add(miniMap);
+         buildingAndUnitsMenu=new BuildingAndUnitsMenu();
+        getBackGroundImage().add(buildingAndUnitsMenu);
+
     }
 
 
@@ -90,6 +97,22 @@ public class World extends JPanel {
 
     public static void setAllUnit(ArrayList<Unit> allUnit) {
         World.allUnit = allUnit;
+    }
+
+    public static ArrayList<GameObject> getAllObjects() {
+        return allObjects;
+    }
+
+    public static void setAllObjects(ArrayList<GameObject> allObjects) {
+        World.allObjects = allObjects;
+    }
+
+    public BuildingAndUnitsMenu getBuildingAndUnitsMenu() {
+        return buildingAndUnitsMenu;
+    }
+
+    public void setBuildingAndUnitsMenu(BuildingAndUnitsMenu buildingAndUnitsMenu) {
+        this.buildingAndUnitsMenu = buildingAndUnitsMenu;
     }
 
     public MiniMap getMiniMap() {

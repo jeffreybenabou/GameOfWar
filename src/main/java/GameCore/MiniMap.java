@@ -13,7 +13,7 @@ public class MiniMap extends JLabel {
 
     private ImageLoader imageLoader;
     private SpriteSheet spriteSheet;
-    private JLabel map,middel,options;
+    private JLabel map;
     private ArrayList<JLabel>lables;
 
     public MiniMap(){
@@ -93,19 +93,5 @@ public class MiniMap extends JLabel {
         this.map = map;
     }
 
-    public JLabel getMiddel() {
-        return middel;
-    }
 
-    public void setMiddel(JLabel middel) {
-        this.middel = middel;
-    }
-
-    public JLabel getOptions() {
-        return options;
-    }
-
-    public void setOptions(JLabel options) {
-        this.options = options;
-    }
 }

@@ -33,6 +33,8 @@ public class GamePanel extends JPanel {
 
     }
 
+
+
     private void setTheMapButton() {
         showTheMap=new JButton("show the Map");
         showTheMap.setBounds(getWidth()/20,5,getWidth()/10,getHeight()/2+getHeight()/5);
