@@ -8,7 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class BuildingAndUnitsMenu extends JLabel {
+public class BuildingMenu extends JLabel {
+
+    private     Font    fontOfButtons=new Font("SERIF", Font.PLAIN, (MainFrame.screenSize.width + MainFrame.screenSize.height) / 120);
 
     private ImageLoader imageLoader;
     private SpriteSheet spriteSheet;
@@ -21,10 +23,21 @@ public class BuildingAndUnitsMenu extends JLabel {
     private JLabel pictureOfObject;
 
 
+    public BuildingMenu(){
+        imageLoader = new ImageLoader();
+        spriteSheet=new SpriteSheet(imageLoader.loadImage("image/panel/grid.png"));
+        init();
+
+        spriteSheet=new SpriteSheet(imageLoader.loadImage("image/factor/userFactory/building.png"));
+
+        addComponentToBuild();
+
+    }
+
     public void setTheInformation(GameObject gameObject){
         gatherTheInformation=new JLabel();
 
-        gatherTheInformation.setBounds(0,getHeight()/2-getHeight()/3,getWidth()/2,getHeight()/2+getHeight()/4);
+        gatherTheInformation.setBounds(0,getHeight()/2-getHeight()/3,getWidth()/2+getWidth()/10,getHeight()/2+getHeight()/4);
 
         add(gatherTheInformation);
         setTheNameOfObject(gameObject);
@@ -54,7 +67,7 @@ public class BuildingAndUnitsMenu extends JLabel {
     {
         objectProperties=new JLabel(gameObject.getDiscription());
         objectProperties.setBounds(gatherTheInformation.getWidth()/2,gatherTheInformation.getHeight()/2,gatherTheInformation.getWidth(),gatherTheInformation.getHeight()/2);
-        objectProperties.setFont(MainMenu.fontOfButtons);
+        objectProperties.setFont(fontOfButtons);
         objectProperties.setVerticalTextPosition(JLabel.TOP);
 
 
@@ -67,16 +80,17 @@ public class BuildingAndUnitsMenu extends JLabel {
     private void setTheObjectCost(GameObject gameObject) {
         objectCost=new JLabel("cost: "+gameObject.getCostToBuild());
         objectCost.setBounds(gatherTheInformation.getWidth()/2,gatherTheInformation.getY()/2,gatherTheInformation.getWidth()/3,gatherTheInformation.getHeight()/3);
-        objectCost.setFont(MainMenu.fontOfButtons);
+        objectCost.setFont(fontOfButtons);
         objectCost.setVerticalTextPosition(JLabel.TOP);
         objectCost.setForeground(Color.red);
         gatherTheInformation.add(objectCost);
     }
 
     private void setTheDamageThatObjectDo(GameObject gameObject) {
-        objectDamge=new JLabel("damage: "+gameObject.getDamageToEnemy());
-        objectDamge.setBounds(gatherTheInformation.getWidth()-getGatherTheInformation().getWidth()/11,gatherTheInformation.getY()/2,gatherTheInformation.getWidth()/3,gatherTheInformation.getHeight()/3);
-        objectDamge.setFont(MainMenu.fontOfButtons);
+
+        objectDamge=new JLabel("<html>building need:<br> <html>"+gameObject.getNameOfObject());
+        objectDamge.setBounds(gatherTheInformation.getWidth()-getGatherTheInformation().getWidth()/8,gatherTheInformation.getY()/2,gatherTheInformation.getWidth()/3,gatherTheInformation.getHeight()/3);
+        objectDamge.setFont(fontOfButtons);
         objectDamge.setVerticalTextPosition(JLabel.TOP);
         objectDamge.setForeground(Color.red);
 
@@ -88,23 +102,14 @@ public class BuildingAndUnitsMenu extends JLabel {
         objectName=new JLabel(gameObject.getNameOfObject());
         objectName.setBounds(gatherTheInformation.getWidth()-gatherTheInformation.getWidth()/3,0,gatherTheInformation.getWidth()/3,gatherTheInformation.getHeight()/3);
         objectName.setVerticalTextPosition(JLabel.TOP);
-        objectName.setFont(MainMenu.fontOfButtons);
+        objectName.setFont(fontOfButtons);
         objectName.setForeground(Color.red);
 
         gatherTheInformation.add(objectName);
 
     }
 
-    public BuildingAndUnitsMenu(){
-        imageLoader = new ImageLoader();
-        spriteSheet=new SpriteSheet(imageLoader.loadImage("image/panel/grid.png"));
-        init();
 
-        spriteSheet=new SpriteSheet(imageLoader.loadImage("image/factor/userFactory/building.png"));
-
-        addComponentToBuild();
-     
-    }
 
 
 
@@ -209,7 +214,7 @@ public class BuildingAndUnitsMenu extends JLabel {
     }
 
     public static void setBuildingLabel(ArrayList<JLabel> buildingLabel) {
-        BuildingAndUnitsMenu.buildingLabel = buildingLabel;
+        BuildingMenu.buildingLabel = buildingLabel;
     }
 
     public JLabel getBoxBackGround() {

@@ -4,7 +4,7 @@ import ObjectPackege.Factory;
 import ObjectPackege.Unit;
 import Server.Sql;
 import Units.Factory.*;
-import Units.InfantryUnit.Infantry;
+import Units.InfantryUnit.*;
 
 
 import javax.swing.*;
@@ -12,7 +12,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 public class MainFrame extends JFrame implements MouseListener {
 
@@ -74,11 +73,32 @@ public class MainFrame extends JFrame implements MouseListener {
             checkIfComponentIsFromWorld(e);
             checkIfUserPreesUnit(e);
             checkIfUserWantsToMoveUnit(e);
+
         }
         else if(e.getButton()==MouseEvent.BUTTON3)
         {
+            removeTheFactoryFromWorld(e);
             removeTheUnitPickAndStopHim(e);
         }
+
+
+    }
+
+    private void removeTheFactoryFromWorld(MouseEvent e) {
+
+        Factory factory=null;
+
+        if(e.getComponent().getClass().getPackage().toString().contains("Factory"))
+        {
+            factory=(Factory)e.getComponent();
+            if(Factory.objectIsFlotingWorld&&!factory.isFactoryIsOnWorld())
+            {
+                world.getBackGroundImage().remove(factory);
+                world.getBackGroundImage().repaint();
+                Factory.objectIsFlotingWorld=false;
+            }
+        }
+
 
 
     }
@@ -161,7 +181,8 @@ public class MainFrame extends JFrame implements MouseListener {
 
                         world.getBackGroundImage().setLocation(world.getBackGroundImage().getX() + xMousePosition, world.getBackGroundImage().getY() + yMousePosition);
                         world.getMiniMap().setLocation(-(world.getBackGroundImage().getLocation().x),-(world.getBackGroundImage().getLocation().y));
-                        world.getBuildingAndUnitsMenu().setLocation(-(world.getBackGroundImage().getLocation().x),-(world.getBackGroundImage().getLocation().y)+((screenSize.height-world.getBuildingAndUnitsMenu().getHeight())-screenSize.height/10));
+                        world.getBuildingMenu().setLocation(-(world.getBackGroundImage().getLocation().x),-(world.getBackGroundImage().getLocation().y)+((screenSize.height-world.getBuildingMenu().getHeight())-screenSize.height/10));
+                        world.getUnitTrainMenu().setLocation(-(world.getBackGroundImage().getLocation().x),-(world.getBackGroundImage().getLocation().y)+((screenSize.height-world.getBuildingMenu().getHeight())-screenSize.height/10));
 
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
@@ -182,31 +203,70 @@ public class MainFrame extends JFrame implements MouseListener {
     private void checkIfComponentIsFromWorld(MouseEvent e) {
 
 
-        checkIfUserPreesShowTheMap(e);
-        checkIfUserPressBuildingMenu(e);
-        checkIfUserSelectFactoryToBuild(e);
+        if(!Factory.objectIsFlotingWorld)
+        {
+            checkIfUserPreesShowTheMap(e);
+            checkIfUserPressBuildingMenu(e);
+            checkIfUserPreesUnitToBuild(e);
+            checkIfUserSelectFactoryToBuild(e);
+        }
+        else
+        {
+            addTheFactoryToWorld(e);
+        }
 
+
+
+
+
+
+
+    }
+
+    private void checkIfUserPreesUnitToBuild(MouseEvent e) {
+
+    }
+
+    private void addTheFactoryToWorld(MouseEvent e) {
+
+
+
+        Factory.factory.checkIfFactoryIntercetWithOtherFactory();
 
 
     }
 
     private void checkIfUserSelectFactoryToBuild(MouseEvent e) {
-        if(BuildingAndUnitsMenu.buildingLabel.contains(e.getComponent()))
+        if(BuildingMenu.buildingLabel.contains(e.getComponent()))
         {
-            System.out.println(e.getComponent().getName());
+            world.getBuildingMenu().setVisible(false);
+            world.addFactoryToWorld(e);
         }
     }
 
     private void checkIfUserPressBuildingMenu(MouseEvent e) {
         for (Factory factory :World.factoryWhoCanBuild) {
-            if(e.getComponent().equals(factory)||e.getComponent().equals(world.getBuildingAndUnitsMenu())||BuildingAndUnitsMenu.buildingLabel.contains(e.getComponent()))
+            if(e.getComponent().equals(factory)||e.getComponent().equals(world.getBuildingMenu()))
             {
-                world.getBuildingAndUnitsMenu().setVisible(true);
+                if(factory.getType()==1)
+                {
+                    world.getBuildingMenu().setVisible(true);
+                    world.getUnitTrainMenu().setVisible(false);
+
+                }
+                else if (factory.getType()==3){
+                    world.getBuildingMenu().setVisible(false);
+                    world.getUnitTrainMenu().setVisible(true);
+                }
                 break;
 
             }
             else
-                world.getBuildingAndUnitsMenu().setVisible(false);
+            {
+                world.getUnitTrainMenu().setVisible(false);
+                world.getBuildingMenu().setVisible(false);
+
+            }
 
         }
 
@@ -315,7 +375,7 @@ public class MainFrame extends JFrame implements MouseListener {
         World.allUnit.add(tempUnit);
         world.getBackGroundImage().add(tempUnit);
 
-        MainFactory mainFactory=new MainFactory();
+        MainFactory mainFactory=new MainFactory(true);
         world.getBackGroundImage().add(mainFactory);
         world.getMiniMap().setTheObjectsOnMiniMap();
 
@@ -337,65 +397,114 @@ public class MainFrame extends JFrame implements MouseListener {
     }
 
     public void mouseEntered(MouseEvent e) {
-        if(world!=null&&BuildingAndUnitsMenu.buildingLabel.contains(e.getComponent()))
+       checkIfComponentIsHoverAFactoryToBuild(e);
+        checkIfComponentIsHoverAUnitToBuild(e);
+
+    }
+
+    private void checkIfComponentIsHoverAUnitToBuild(MouseEvent e) {
+        if(world!=null&& UnitTrainMenu.buildingLabel.contains(e.getComponent()))
         {
 
-            if(world.getBuildingAndUnitsMenu().getGatherTheInformation()!=null)
-            world.getBuildingAndUnitsMenu().remove(world.getBuildingAndUnitsMenu().getGatherTheInformation());
+
+            if(world.getUnitTrainMenu().getGatherTheInformation()!=null)
+                world.getUnitTrainMenu().remove(world.getUnitTrainMenu().getGatherTheInformation());
             switch (Integer.parseInt(e.getComponent().getName()))
             {
                 case 0:
-                    world.getBuildingAndUnitsMenu().setTheInformation(new MainFactory());
+                    world.getUnitTrainMenu().setTheInformation(new ArmoredInfentry());
 
                     break;
                 case 1:
-                    world.getBuildingAndUnitsMenu().setTheInformation(new PowerFactory());
+                    world.getUnitTrainMenu().setTheInformation(new Infantry());
 
                     break;
                 case 2:
-                    world.getBuildingAndUnitsMenu().setTheInformation(new MoneyFactory());
+                    world.getUnitTrainMenu().setTheInformation(new Medic());
 
                     break;
                 case 3:
-                    world.getBuildingAndUnitsMenu().setTheInformation(new InfentryFactory());
+                    world.getUnitTrainMenu().setTheInformation(new Sniper());
 
                     break;
                 case 4:
-                    world.getBuildingAndUnitsMenu().setTheInformation(new TankFactory());
+                    world.getUnitTrainMenu().setTheInformation(new BazzokaUnit());
+
+                    break;
+
+
+
+            }
+            world.getUnitTrainMenu().getGatherTheInformation().setVisible(true);
+        }
+        else if(world!=null&&world.getUnitTrainMenu().getGatherTheInformation()!=null)
+        {
+            world.getUnitTrainMenu().getGatherTheInformation().setVisible(false);
+
+
+        }
+    }
+
+    private void checkIfComponentIsHoverAFactoryToBuild(MouseEvent e) {
+        if(world!=null&& BuildingMenu.buildingLabel.contains(e.getComponent()))
+        {
+
+
+            if(world.getBuildingMenu().getGatherTheInformation()!=null)
+                world.getBuildingMenu().remove(world.getBuildingMenu().getGatherTheInformation());
+            switch (Integer.parseInt(e.getComponent().getName()))
+            {
+                case 0:
+                    world.getBuildingMenu().setTheInformation(new MainFactory(false));
+
+                    break;
+                case 1:
+                    world.getBuildingMenu().setTheInformation(new PowerFactory());
+
+                    break;
+                case 2:
+                    world.getBuildingMenu().setTheInformation(new MoneyFactory());
+
+                    break;
+                case 3:
+                    world.getBuildingMenu().setTheInformation(new InfentryFactory());
+
+                    break;
+                case 4:
+                    world.getBuildingMenu().setTheInformation(new TankFactory());
 
                     break;
                 case 5:
-                    world.getBuildingAndUnitsMenu().setTheInformation(new SateliteFactory());
+                    world.getBuildingMenu().setTheInformation(new SateliteFactory());
 
                     break;
                 case 6:
-                    world.getBuildingAndUnitsMenu().setTheInformation(new AirForceFactory());
+                    world.getBuildingMenu().setTheInformation(new AirForceFactory());
 
                     break;
                 case 7:
-                    world.getBuildingAndUnitsMenu().setTheInformation(new SuperWeponeFactory());
+                    world.getBuildingMenu().setTheInformation(new SuperWeponeFactory());
 
                     break;
                 case 8:
-                    world.getBuildingAndUnitsMenu().setTheInformation(new SpacielOpsFactory());
+                    world.getBuildingMenu().setTheInformation(new SpacielOpsFactory());
 
                     break;
                 case 9:
-                    world.getBuildingAndUnitsMenu().setTheInformation(new CloneFactory());
+                    world.getBuildingMenu().setTheInformation(new CloneFactory());
 
                     break;
 
 
             }
-            world.getBuildingAndUnitsMenu().getGatherTheInformation().setVisible(true);
+            world.getBuildingMenu().getGatherTheInformation().setVisible(true);
         }
-        else if(world!=null&&world.getBuildingAndUnitsMenu().getGatherTheInformation()!=null)
+        else if(world!=null&&world.getBuildingMenu().getGatherTheInformation()!=null)
         {
-            world.getBuildingAndUnitsMenu().getGatherTheInformation().setVisible(false);
+            world.getBuildingMenu().getGatherTheInformation().setVisible(false);
 
 
         }
-
     }
 
     public void mouseExited(MouseEvent e) {

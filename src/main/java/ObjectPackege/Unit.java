@@ -119,7 +119,14 @@ public class Unit extends GameObject {
         }
 
 
-        setIcon(new ImageIcon(spriteSheet.crop(xToMove,yToMove,x,y).getScaledInstance(getWidth(),getHeight(),4)));
+        try
+        {
+            setIcon(new ImageIcon(spriteSheet.crop(xToMove,yToMove,x,y).getScaledInstance(getWidth(),getHeight(),4)));
+
+        }catch (Exception e)
+        {
+
+        }
 
 
     }

@@ -42,7 +42,7 @@ public class GameObject extends JLabel {
     protected boolean objectIsPressed = false;
     protected boolean objectIsLive=true;
     protected int type;
-    protected String nameOfObject,discription;
+    protected String nameOfObject,discription,buildingNeed;
     protected MainFrame mainFrame;
     protected Rectangle bound;
 
@@ -106,7 +106,9 @@ public class GameObject extends JLabel {
         switch (type) {
             case 0:
 //Infantry
+                buildingNeed="<html>none<html>";
                 nameOfObject = "Infantry";
+                discription="<html>the infentry unit is great against  air and land units.<br>its cheep and fast to create<html>";
                 canShotAir = true;
                 objectIsLive = true;
                 objectCanMove = true;
@@ -123,6 +125,7 @@ public class GameObject extends JLabel {
                 break;
             case 1:
 //main factory
+                buildingNeed="none";
                 discription="<html>this is a main factory. <br>with this building you can build any other building you want. </html>";
                 nameOfObject = "Main Factory";
                 World.factoryWhoCanBuild.add((Factory) this);
@@ -133,6 +136,7 @@ public class GameObject extends JLabel {
                 break;
             case 2:
 //power factory
+                buildingNeed="none";
                 discription="<html>this is a power factory. <br>you need this building in order to get enough power to build building .</html> ";
 
                 nameOfObject = "Power Factory";
@@ -144,7 +148,9 @@ public class GameObject extends JLabel {
                 break;
             case 3:
 //InfentryFactory
-
+                buildingNeed="power factory.";
+                discription="<html>this is a Infentry factory. <br>you need this building in order to create infantry units.</html> ";
+                World.factoryWhoCanBuild.add((Factory) this);
                 nameOfObject = "Infentry Factory";
 
                 powerNeedToBuild = 40;
@@ -155,9 +161,12 @@ public class GameObject extends JLabel {
 
             case 4:
 //AirForceFactory
+                buildingNeed="<html>power factory<br>staelite factory<html>";
+
+                discription="<html>this is a Air Force factory.<br>you need this building in order to create air units.</html> ";
 
                 nameOfObject = "Air Force Factory";
-
+                World.factoryWhoCanBuild.add((Factory) this);
                 life = 500;
                 powerNeedToBuild = 0;
                 costToBuild = 500;
@@ -166,6 +175,9 @@ public class GameObject extends JLabel {
 
             case 5:
 //CloneFactory
+                buildingNeed="<html>Spaciel Ops Factory <html>";
+
+                discription="<html>this is a clone factory.<br>the clone factory give you extra 2 units on each one you build.</html> ";
 
                 nameOfObject = "Clone Factory";
 
@@ -176,6 +188,9 @@ public class GameObject extends JLabel {
                 break;
             case 6:
                 //SpacielOpsFactory
+                buildingNeed="<html>staelite factory<html>";
+
+                discription="<html>this is a Spacial Ops factory.<br>it give you the access to very strong units.</html> ";
 
                 nameOfObject = "Spaciel Ops Factory";
                 life = 500;
@@ -185,6 +200,9 @@ public class GameObject extends JLabel {
                 break;
             case 7:
                 //SuperWeponeFactory
+                buildingNeed="<html>Spaciel Ops Factory <html>";
+
+                discription="<html>this is a Super Weapon factory.<br>lets make the enemy blow away.</html> ";
 
                 nameOfObject = "Super Wepone Factory";
                 life = 500;
@@ -193,7 +211,9 @@ public class GameObject extends JLabel {
 
                 break;
             case 8:
+                buildingNeed="power factory";
                 //MoneyFactory
+                discription="<html>this is a Money factory.<br>give us a strong economy.</html> ";
 
                 nameOfObject = "Money Factory";
                 life = 500;
@@ -202,8 +222,10 @@ public class GameObject extends JLabel {
 
                 break;
             case 9:
+                buildingNeed="<html>power factory<br>infentry factory,<br>money factory<html>";
                 //TankFactory
-
+                discription="<html>this is a tank factory.<br>lets shot the big guns and roll over the enemy .</html> ";
+                World.factoryWhoCanBuild.add((Factory) this);
                 nameOfObject = "Tank Factory";
                 life = 500;
                 powerNeedToBuild = 0;
@@ -212,11 +234,88 @@ public class GameObject extends JLabel {
                 break;
             case 10:
                 //SateliteFactory
+                buildingNeed="<html>power factory<br>tank factory,<br>money factory<html>";
+                discription="<html>this is a Satellite factory.<br>see the enemy in the map.</html> ";
 
-                nameOfObject = "Satelite Factory";
+                nameOfObject = "Satellite Factory";
                 life = 500;
                 powerNeedToBuild = 0;
                 costToBuild = 500;
+
+                break;
+            case 11:
+//ArmoredInfentry
+                nameOfObject = "Armored Infentry";
+                buildingNeed="<html>none<html>";
+                discription="<html>the Armored Infantry unit is great against land units .<br>its little bit expansive and medium speed but last <br>long and make massive damage to enemy<html>";
+
+                canShotAir = false;
+                objectIsLive = false;
+                objectCanMove = true;
+                rangeOfAttack=300;
+                speedOfMove = 2;
+                speedOfAttack = 1500;
+                damageToEnemy = 35;
+                timeToTrain = 2000;
+                powerNeedToBuild = 0;
+                costToBuild = 650;
+                life = 400;
+
+                break;
+            case 12:
+//BazzokaUnit
+                nameOfObject = "Bazzoka Unit";
+                buildingNeed="<html>none<html>";
+                discription="<html>the Bazooka unit is powerful against  air and land units.<br>its not cheep and also slow move but when hit it deal a great damage<html>";
+                canShotAir = true;
+                objectIsLive = false;
+                objectCanMove = true;
+                rangeOfAttack=300;
+                speedOfMove = 2;
+                speedOfAttack = 2000;
+                damageToEnemy = 150;
+                timeToTrain = 2000;
+                powerNeedToBuild = 0;
+                costToBuild = 850;
+                life = 200;
+
+                break;
+            case 13:
+                //medic
+                nameOfObject="Medic";
+                buildingNeed="<html>Tank Factory<html>";
+                discription="<html>this unit is unique with is power -its heal only solider that are injured.<br>its take time to train but worth the life <br>of your units<html>";
+
+                canShotAir = false;
+                objectIsLive = false;
+                objectCanMove = true;
+                rangeOfAttack=150;
+                speedOfMove = 3;
+                speedOfAttack = 500;
+                damageToEnemy = 15;
+                timeToTrain = 2000;
+                powerNeedToBuild = 0;
+                costToBuild = 1500;
+                life = 1000;
+
+                break;
+            case 14:
+//                sniper
+                nameOfObject="sniper";
+                buildingNeed="<html>spaciel ops factory<html>";
+                discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
+
+                canShotAir = false;
+                objectIsLive = false;
+                objectCanMove = true;
+                rangeOfAttack=500;
+                speedOfMove = 3;
+                speedOfAttack = 1500;
+                damageToEnemy = 50;
+                timeToTrain = 18000;
+                powerNeedToBuild = 0;
+                costToBuild = 1000;
+                life = 200;
 
                 break;
 
@@ -228,54 +327,9 @@ public class GameObject extends JLabel {
 
     /*switch (getClass().getSimpleName()) {
 
-        case "ArmoredInfentry": {
-            canShotAir = false;
-            objectIsLive = false;
-            objectCanMove = true;
-            rangeOfAttack=300;
-            speedOfMove = 2;
-            speedOfAttack = 1500;
-            damageToEnemy = 35;
-            timeToTrain = 2000;
-            powerNeedToBuild = 0;
-            costToBuild = 650;
-            life = 400;
 
 
-            break;
-        }
-        case "BazzokaUnit": {
 
-            canShotAir = true;
-            objectIsLive = false;
-            objectCanMove = true;
-            rangeOfAttack=300;
-            speedOfMove = 2;
-            speedOfAttack = 2000;
-            damageToEnemy = 150;
-            timeToTrain = 2000;
-            powerNeedToBuild = 0;
-            costToBuild = 850;
-            life = 200;
-
-            break;
-        }
-        case "Medic": {
-
-            canShotAir = false;
-            objectIsLive = false;
-            objectCanMove = true;
-            rangeOfAttack=150;
-            speedOfMove = 3;
-            speedOfAttack = 500;
-            damageToEnemy = 15;
-            timeToTrain = 2000;
-            powerNeedToBuild = 0;
-            costToBuild = 1500;
-            life = 1000;
-
-            break;
-        }
         case "Sniper": {
 
             canShotAir = false;
@@ -608,6 +662,18 @@ public class GameObject extends JLabel {
 
     public String getDiscription() {
         return discription;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
+    public String getBuildingNeed() {
+        return buildingNeed;
+    }
+
+    public void setBuildingNeed(String buildingNeed) {
+        this.buildingNeed = buildingNeed;
     }
 
     public void setDiscription(String discription) {
