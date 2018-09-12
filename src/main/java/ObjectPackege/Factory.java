@@ -3,22 +3,27 @@ package ObjectPackege;
 
 import GameCore.LifeBar;
 import GameCore.MainFrame;
+import GameCore.UnitTrainMenu;
 import GameCore.World;
 import ImageHandel.SpriteSheet;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 
 public class Factory extends GameObject {
 
 
     protected SpriteSheet spriteSheet;
-    private Thread moveTheFactoryAroundTheWorld;
+    protected Thread moveTheFactoryAroundTheWorld;
     public static boolean objectIsFlotingWorld=false;
-    private boolean canAddToWorld=true;
-    private boolean factoryIsOnWorld=false;
+    protected boolean canAddToWorld=true;
+    protected boolean factoryIsOnWorld=false;
+
     public static Factory factory;
+    protected UnitTrainMenu unitTrainMenu;
 
 
     public Factory() {
@@ -28,7 +33,10 @@ public class Factory extends GameObject {
         bound=new Rectangle(0,0, MainFrame.world.getBackGroundImage().getWidth()/50,MainFrame.world.getBackGroundImage().getHeight()/70);
         setLayout(new GridLayout(12,1));
 
+
     }
+
+
 
     public void checkIfFactoryIntercetWithOtherFactory(){
         for (Factory factory:World.allFactorys) {

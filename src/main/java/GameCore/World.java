@@ -4,6 +4,7 @@ import ObjectPackege.Factory;
 import ObjectPackege.GameObject;
 import ObjectPackege.Unit;
 import Units.Factory.*;
+import Units.InfantryUnit.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ public class World extends JPanel {
     private boolean isTesting;
     public static ArrayList<Unit> allUnit;
     public static ArrayList<GameObject>allObjects;
-    public static ArrayList<Factory>factoryWhoCanBuild;
+    public static ArrayList<Factory> infentryFactory;
     public static ArrayList<Factory>allFactorys;
     private MiniMap miniMap;
     private BuildingMenu buildingMenu;
@@ -28,7 +29,7 @@ public class World extends JPanel {
         this.isTesting = isTesting;
         allUnit = new ArrayList<Unit>();
         allObjects=new ArrayList<GameObject>();
-        factoryWhoCanBuild=new ArrayList<Factory>();
+        infentryFactory =new ArrayList<Factory>();
         allFactorys=new ArrayList<Factory>();
         if (isTesting) {
             setTheTestScreen();
@@ -223,4 +224,29 @@ public class World extends JPanel {
     public void setMiniMap(MiniMap miniMap) {
         this.miniMap = miniMap;
     }
+
+    public void addUnitToQuaqe(MouseEvent e) {
+        switch (Integer.parseInt(e.getComponent().getName()))
+        {
+            case 0:
+                unitTrainMenu.setTheQueue(new ArmoredInfentry());
+                break;
+            case 1:
+                unitTrainMenu.setTheQueue(new Infantry());
+                break;
+            case 2:
+                unitTrainMenu.setTheQueue(new Medic());
+                break;
+            case 3:
+                unitTrainMenu.setTheQueue(new Sniper());
+                break;
+            case 4:
+                unitTrainMenu.setTheQueue(new BazzokaUnit());
+                break;
+        }
+
+
+    }
+
+
 }

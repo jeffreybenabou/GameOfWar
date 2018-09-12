@@ -9,7 +9,6 @@ import ImageHandel.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 public class GameObject extends JLabel {
@@ -128,7 +127,7 @@ public class GameObject extends JLabel {
                 buildingNeed="none";
                 discription="<html>this is a main factory. <br>with this building you can build any other building you want. </html>";
                 nameOfObject = "Main Factory";
-                World.factoryWhoCanBuild.add((Factory) this);
+
                 powerNeedToBuild = 0;
                 costToBuild = 3000;
                 life = 3000;
@@ -150,7 +149,7 @@ public class GameObject extends JLabel {
 //InfentryFactory
                 buildingNeed="power factory.";
                 discription="<html>this is a Infentry factory. <br>you need this building in order to create infantry units.</html> ";
-                World.factoryWhoCanBuild.add((Factory) this);
+                World.infentryFactory.add((Factory) this);
                 nameOfObject = "Infentry Factory";
 
                 powerNeedToBuild = 40;
@@ -166,7 +165,7 @@ public class GameObject extends JLabel {
                 discription="<html>this is a Air Force factory.<br>you need this building in order to create air units.</html> ";
 
                 nameOfObject = "Air Force Factory";
-                World.factoryWhoCanBuild.add((Factory) this);
+
                 life = 500;
                 powerNeedToBuild = 0;
                 costToBuild = 500;
@@ -225,7 +224,7 @@ public class GameObject extends JLabel {
                 buildingNeed="<html>power factory<br>infentry factory,<br>money factory<html>";
                 //TankFactory
                 discription="<html>this is a tank factory.<br>lets shot the big guns and roll over the enemy .</html> ";
-                World.factoryWhoCanBuild.add((Factory) this);
+
                 nameOfObject = "Tank Factory";
                 life = 500;
                 powerNeedToBuild = 0;
@@ -250,13 +249,13 @@ public class GameObject extends JLabel {
                 discription="<html>the Armored Infantry unit is great against land units .<br>its little bit expansive and medium speed but last <br>long and make massive damage to enemy<html>";
 
                 canShotAir = false;
-                objectIsLive = false;
+                objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack=300;
                 speedOfMove = 2;
                 speedOfAttack = 1500;
                 damageToEnemy = 35;
-                timeToTrain = 2000;
+                timeToTrain = 10;
                 powerNeedToBuild = 0;
                 costToBuild = 650;
                 life = 400;
@@ -268,7 +267,7 @@ public class GameObject extends JLabel {
                 buildingNeed="<html>none<html>";
                 discription="<html>the Bazooka unit is powerful against  air and land units.<br>its not cheep and also slow move but when hit it deal a great damage<html>";
                 canShotAir = true;
-                objectIsLive = false;
+                objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack=300;
                 speedOfMove = 2;
@@ -287,7 +286,7 @@ public class GameObject extends JLabel {
                 discription="<html>this unit is unique with is power -its heal only solider that are injured.<br>its take time to train but worth the life <br>of your units<html>";
 
                 canShotAir = false;
-                objectIsLive = false;
+                objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack=150;
                 speedOfMove = 3;
@@ -306,7 +305,7 @@ public class GameObject extends JLabel {
                 discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
 
                 canShotAir = false;
-                objectIsLive = false;
+                objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack=500;
                 speedOfMove = 3;

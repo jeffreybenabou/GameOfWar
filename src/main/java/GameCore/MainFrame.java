@@ -16,6 +16,7 @@ import java.awt.event.MouseListener;
 public class MainFrame extends JFrame implements MouseListener {
 
 
+    private MainFactory mainFactory;
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private MainMenu mainMenu;
     private Border border = BorderFactory.createLineBorder(Color.black, 3);
@@ -23,6 +24,7 @@ public class MainFrame extends JFrame implements MouseListener {
     public static GamePanel gamePanel;
     public static MainFrame mainFrame;
     public static int xMousePosition = 0, yMousePosition = 0, xMouseLocation, yMouseLocation;
+    public static Point locationOfFactory;
 
 
     public MainFrame() {
@@ -37,53 +39,6 @@ public class MainFrame extends JFrame implements MouseListener {
         mainMenu = new MainMenu(this);
         add(mainMenu);
     }
-
-    private void setTheJFrame() {
-
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setUndecorated(true);
-        setBounds(0, 0, screenSize.width, screenSize.height);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setBackground(Color.BLUE);
-
-        setVisible(true);
-
-
-
-
-
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new MainFrame();
-            }
-        });
-    }
-
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    public void mousePressed(MouseEvent e) {
-        if(e.getButton()==MouseEvent.BUTTON1)
-        {
-            checkIfComponentIsFromMainMenu(e);
-            checkIfComponentIsFromWorld(e);
-            checkIfUserPreesUnit(e);
-            checkIfUserWantsToMoveUnit(e);
-
-        }
-        else if(e.getButton()==MouseEvent.BUTTON3)
-        {
-            removeTheFactoryFromWorld(e);
-            removeTheUnitPickAndStopHim(e);
-        }
-
-
-    }
-
     private void removeTheFactoryFromWorld(MouseEvent e) {
 
         Factory factory=null;
@@ -224,7 +179,11 @@ public class MainFrame extends JFrame implements MouseListener {
     }
 
     private void checkIfUserPreesUnitToBuild(MouseEvent e) {
+        if(world.getUnitTrainMenu().getUnitLabel().contains(e.getComponent()))
+        {
 
+            world.addUnitToQuaqe(e);
+        }
     }
 
     private void addTheFactoryToWorld(MouseEvent e) {
@@ -245,30 +204,33 @@ public class MainFrame extends JFrame implements MouseListener {
     }
 
     private void checkIfUserPressBuildingMenu(MouseEvent e) {
-        for (Factory factory :World.factoryWhoCanBuild) {
-            if(e.getComponent().equals(factory)||e.getComponent().equals(world.getBuildingMenu()))
-            {
-                if(factory.getType()==1)
-                {
-                    world.getBuildingMenu().setVisible(true);
-                    world.getUnitTrainMenu().setVisible(false);
 
-                }
-                else if (factory.getType()==3){
-                    world.getBuildingMenu().setVisible(false);
-                    world.getUnitTrainMenu().setVisible(true);
-                }
-                break;
+        if(e.getComponent().equals(mainFactory)||e.getComponent().equals(world.getBuildingMenu()))
+        {
 
-            }
-            else
-            {
-                world.getUnitTrainMenu().setVisible(false);
-                world.getBuildingMenu().setVisible(false);
+            world.getBuildingMenu().setVisible(true);
+            world.getUnitTrainMenu().setVisible(false);
 
-            }
+
+
 
         }
+        else if (World.infentryFactory.contains(e.getComponent())||e.getComponent().equals(world.getUnitTrainMenu())||world.getUnitTrainMenu().getUnitLabel().equals(e.getComponent()))
+        {
+
+            if(World.infentryFactory.contains(e.getComponent()))
+            locationOfFactory=e.getComponent().getLocation();
+            world.getUnitTrainMenu().setVisible(true);
+            world.getBuildingMenu().setVisible(false);
+
+        }
+        else if(!world.getUnitTrainMenu().getUnitLabel().contains(e.getComponent()))
+        {
+            world.getUnitTrainMenu().setVisible(false);
+            world.getBuildingMenu().setVisible(false);
+        }
+
+
 
     }
 
@@ -375,7 +337,7 @@ public class MainFrame extends JFrame implements MouseListener {
         World.allUnit.add(tempUnit);
         world.getBackGroundImage().add(tempUnit);
 
-        MainFactory mainFactory=new MainFactory(true);
+        mainFactory=new MainFactory(true);
         world.getBackGroundImage().add(mainFactory);
         world.getMiniMap().setTheObjectsOnMiniMap();
 
@@ -392,6 +354,53 @@ public class MainFrame extends JFrame implements MouseListener {
         moveTheWorld();
     }
 
+    private void setTheJFrame() {
+
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
+        setBounds(0, 0, screenSize.width, screenSize.height);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(Color.BLUE);
+
+        setVisible(true);
+
+
+
+
+
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new MainFrame();
+            }
+        });
+    }
+
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    public void mousePressed(MouseEvent e) {
+        if(e.getButton()==MouseEvent.BUTTON1)
+        {
+            checkIfComponentIsFromMainMenu(e);
+            checkIfComponentIsFromWorld(e);
+            checkIfUserPreesUnit(e);
+            checkIfUserWantsToMoveUnit(e);
+
+        }
+        else if(e.getButton()==MouseEvent.BUTTON3)
+        {
+        removeTheFactoryFromWorld(e);
+        removeTheUnitPickAndStopHim(e);
+    }
+
+
+    }
+
+
     public void mouseReleased(MouseEvent e) {
 
     }
@@ -403,7 +412,7 @@ public class MainFrame extends JFrame implements MouseListener {
     }
 
     private void checkIfComponentIsHoverAUnitToBuild(MouseEvent e) {
-        if(world!=null&& UnitTrainMenu.buildingLabel.contains(e.getComponent()))
+        if(world!=null&& world.getUnitTrainMenu().getUnitLabel().contains(e.getComponent()))
         {
 
 

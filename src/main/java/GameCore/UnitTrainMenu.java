@@ -3,6 +3,8 @@ package GameCore;
 import ImageHandel.ImageLoader;
 import ImageHandel.SpriteSheet;
 import ObjectPackege.GameObject;
+import ObjectPackege.Unit;
+import Units.InfantryUnit.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,13 +17,15 @@ public class UnitTrainMenu extends JLabel {
 
     private ImageLoader imageLoader;
     private SpriteSheet spriteSheet;
-    public static ArrayList<JLabel>buildingLabel;
+    private ArrayList<Unit>queqeOfUnit;
+    private  ArrayList<JLabel> unitLabel;
     private JLabel boxBackGround;
     private JLabel buildingBackGround;
     private int j=0;
-    private JLabel objectName, objectDamge, objectCost, objectProperties;
+    private JLabel objectName, objectDamage, objectCost, objectProperties, unitQueue, timeToTrain;
     private   JLabel gatherTheInformation;
     private JLabel pictureOfObject;
+    private int time=0,  spendTime=0;
 
     public UnitTrainMenu() {
         imageLoader = new ImageLoader();
@@ -31,19 +35,109 @@ public class UnitTrainMenu extends JLabel {
         spriteSheet = new SpriteSheet(imageLoader.loadImage("image/infentry/factoryPanel/list of human unit.png"));
         setVisible(false);
         addComponentToBuild();
+
     }
+
+
+
+
     private void addComponentToBuild() {
-        buildingLabel=new ArrayList<JLabel>();
+        unitLabel =new ArrayList<JLabel>();
+
 
 
         for (int i = 0; i <5 ; i++) {
             setTheBoxBackGround(i);
             setTheUnitIcon(i);
             boxBackGround.setName(""+i);
-            buildingLabel. add(boxBackGround);
+            unitLabel. add(boxBackGround);
             add(boxBackGround);
             boxBackGround.addMouseListener(MainFrame.mainFrame);
         }
+        defineTheQueue();
+        setTheTimeToTrain();
+    }
+
+    private void setTheTimeToTrain() {
+        timeToTrain=new JLabel("<html>next unit:<br> 0</html>");
+        timeToTrain.setBounds(unitQueue.getX()+unitQueue.getX()/10,getHeight()/2+getHeight()/10,getWidth()/10,getHeight()/3);
+        add(timeToTrain);
+    }
+
+    private void defineTheQueue() {
+        unitQueue =new JLabel();
+        unitQueue.setBounds(getWidth()/6,getHeight()/4,getWidth()/12,getHeight()/2);
+        unitQueue.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(boxBackGround.getWidth(),boxBackGround.getHeight(),4)));
+        add(unitQueue);
+    }
+
+    public void setTheQueue(final Unit unitToAdd){
+        queqeOfUnit.add(unitToAdd);
+
+
+
+        time+=unitToAdd.getTimeToTrain();
+
+        spendTime=unitToAdd.getTimeToTrain();
+        new Thread(new Runnable() {
+            public void run() {
+                int time2=spendTime;
+                while (time2>0)
+                {
+                    timeToTrain.setText("<html>next unit:<br> "+time2+"</html>");
+                    time2--;
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                if(unitToAdd.getNameOfObject().equals("Armored Infentry"))
+                {
+                    ArmoredInfentry armoredInfentry=new ArmoredInfentry();
+                    armoredInfentry.setLocation((int)MainFrame.locationOfFactory.getX(),(int)MainFrame.locationOfFactory.getY()+armoredInfentry.getHeight()*5);
+                    MainFrame.world.getBackGroundImage().add(armoredInfentry);
+                    World.allUnit.add(armoredInfentry);
+
+                }
+                else if(unitToAdd.getNameOfObject().equals("Infantry"))
+                {
+                    Infantry infantry=new Infantry();
+                    infantry.setLocation((int)MainFrame.locationOfFactory.getX(),(int)MainFrame.locationOfFactory.getY()+infantry.getHeight()*5);
+                    MainFrame.world.getBackGroundImage().add(infantry);
+                    World.allUnit.add(infantry);
+
+                }
+                else if(unitToAdd.getNameOfObject().equals("Medic"))
+                {
+                    Medic unit=new Medic();
+                    unit.setLocation((int)MainFrame.locationOfFactory.getX(),(int)MainFrame.locationOfFactory.getY()+unit.getHeight()*5);
+                    MainFrame.world.getBackGroundImage().add(unit);
+                    World.allUnit.add(unit);
+                }
+                else if(unitToAdd.getNameOfObject().equals("Bazzoka Unit"))
+                {
+                    BazzokaUnit unit=new BazzokaUnit();
+                    unit.setLocation((int)MainFrame.locationOfFactory.getX(),(int)MainFrame.locationOfFactory.getY()+unit.getHeight()*5);
+                    MainFrame.world.getBackGroundImage().add(unit);
+                    World.allUnit.add(unit);
+                }
+                else if(unitToAdd.getNameOfObject().equals("sniper"))
+                {
+                    Sniper unit=new Sniper();
+                    unit.setLocation((int)MainFrame.locationOfFactory.getX(),(int)MainFrame.locationOfFactory.getY()+unit.getHeight()*5);
+                    MainFrame.world.getBackGroundImage().add(unit);
+                    World.allUnit.add(unit);
+                }
+
+            }
+        }).start();
+
+
+
+
+
     }
 
     private void setTheUnitIcon(int i) {
@@ -92,8 +186,8 @@ public class UnitTrainMenu extends JLabel {
     public void init(){
         setBounds(MainFrame.screenSize.width/2,MainFrame.screenSize.height-MainFrame.screenSize.height/5,MainFrame.screenSize.width,MainFrame.screenSize.height/4);
         setIcon(new ImageIcon(spriteSheet.crop(390,180,spriteSheet.getSheet().getRaster().getWidth()-390,230).getScaledInstance(getWidth(),getHeight(),4)));
-//        setVisible(false);
         addMouseListener(MainFrame.mainFrame);
+        queqeOfUnit=new ArrayList<Unit>();
     }
 
     public void setTheInformation(GameObject gameObject){
@@ -102,6 +196,7 @@ public class UnitTrainMenu extends JLabel {
         gatherTheInformation.setBounds(0,getHeight()/2-getHeight()/3,getWidth()/2+getWidth()/10,getHeight()/2+getHeight()/4);
 
         add(gatherTheInformation);
+
         setTheNameOfObject(gameObject);
         setTheDamageThatObjectDo(gameObject);
         setTheObjectCost(gameObject);
@@ -150,13 +245,13 @@ public class UnitTrainMenu extends JLabel {
 
     private void setTheDamageThatObjectDo(GameObject gameObject) {
 
-        objectDamge=new JLabel("<html>damage:<br> <html>"+gameObject.getDamageToEnemy());
-        objectDamge.setBounds(gatherTheInformation.getWidth()-getGatherTheInformation().getWidth()/8,gatherTheInformation.getY()/2,gatherTheInformation.getWidth()/3,gatherTheInformation.getHeight()/3);
-        objectDamge.setFont(fontOfButtons);
-        objectDamge.setVerticalTextPosition(JLabel.TOP);
-        objectDamge.setForeground(Color.red);
+        objectDamage =new JLabel("<html>damage:<br> <html>"+gameObject.getDamageToEnemy());
+        objectDamage.setBounds(gatherTheInformation.getWidth()-getGatherTheInformation().getWidth()/8,gatherTheInformation.getY()/2,gatherTheInformation.getWidth()/3,gatherTheInformation.getHeight()/3);
+        objectDamage.setFont(fontOfButtons);
+        objectDamage.setVerticalTextPosition(JLabel.TOP);
+        objectDamage.setForeground(Color.red);
 
-        gatherTheInformation.add(objectDamge);
+        gatherTheInformation.add(objectDamage);
     }
 
 
@@ -196,12 +291,28 @@ public class UnitTrainMenu extends JLabel {
         this.spriteSheet = spriteSheet;
     }
 
-    public static ArrayList<JLabel> getBuildingLabel() {
-        return buildingLabel;
+    public ArrayList<Unit> getQueqeOfUnit() {
+        return queqeOfUnit;
     }
 
-    public static void setBuildingLabel(ArrayList<JLabel> buildingLabel) {
-        UnitTrainMenu.buildingLabel = buildingLabel;
+    public void setQueqeOfUnit(ArrayList<Unit> queqeOfUnit) {
+        this.queqeOfUnit = queqeOfUnit;
+    }
+
+    public JLabel getUnitQueue() {
+        return unitQueue;
+    }
+
+    public void setUnitQueue(JLabel unitQueue) {
+        this.unitQueue = unitQueue;
+    }
+
+    public ArrayList<JLabel> getUnitLabel() {
+        return unitLabel;
+    }
+
+    public void setUnitLabel(ArrayList<JLabel> unitLabel) {
+        this.unitLabel = unitLabel;
     }
 
     public JLabel getBoxBackGround() {
@@ -236,12 +347,12 @@ public class UnitTrainMenu extends JLabel {
         this.objectName = objectName;
     }
 
-    public JLabel getObjectDamge() {
-        return objectDamge;
+    public JLabel getObjectDamage() {
+        return objectDamage;
     }
 
-    public void setObjectDamge(JLabel objectDamge) {
-        this.objectDamge = objectDamge;
+    public void setObjectDamage(JLabel objectDamage) {
+        this.objectDamage = objectDamage;
     }
 
     public JLabel getObjectCost() {
