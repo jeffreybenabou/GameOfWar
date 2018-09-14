@@ -219,7 +219,12 @@ public class MainFrame extends JFrame implements MouseListener {
         {
 
             if(World.infentryFactory.contains(e.getComponent()))
-            locationOfFactory=e.getComponent().getLocation();
+            {
+                locationOfFactory=e.getComponent().getLocation();
+                World.factoryPreesed=(Factory) e.getComponent();
+                World.factoryPreesed.getQuaqe(). setTheQuaqeVisible();
+            }
+
             world.getUnitTrainMenu().setVisible(true);
             world.getBuildingMenu().setVisible(false);
 
@@ -334,6 +339,7 @@ public class MainFrame extends JFrame implements MouseListener {
         world=new World(true);
 
         Infantry tempUnit=new Infantry();
+        tempUnit.setTheUnitMethod();
         World.allUnit.add(tempUnit);
         world.getBackGroundImage().add(tempUnit);
 
@@ -476,7 +482,7 @@ public class MainFrame extends JFrame implements MouseListener {
 
                     break;
                 case 3:
-                    world.getBuildingMenu().setTheInformation(new InfentryFactory());
+                    world.getBuildingMenu().setTheInformation(new InfentryFactory(false));
 
                     break;
                 case 4:

@@ -12,6 +12,8 @@ import java.awt.*;
 
 public class Unit extends GameObject {
 
+
+
     protected SpriteSheet standSpriteSheet, moveSpriteSheet;
 
     protected int xToMove=0,yToMove=0;
@@ -32,9 +34,9 @@ public class Unit extends GameObject {
 
 
 
-    protected void setTheUnitMethod(final SpriteSheet move, final SpriteSheet walk, final int x, final int y) {
-        xWitdhToCrop=x;
-        yHeightToCrop=y;
+    public void setTheUnitMethod() {
+
+
         new Thread(new Runnable() {
             public void run() {
                 while (objectIsLive)
@@ -44,14 +46,9 @@ public class Unit extends GameObject {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if(objectIsMoving)
-                    {
-                        moveTheUnit(move,x,y);
+                        moveTheUnit();
 
-                    }else if (objectIsStanding)
-                    {
-                        changeTheImage(walk, x, y);
-                    }
+
 
                 }
             }
@@ -63,7 +60,7 @@ public class Unit extends GameObject {
         distance   = Math.sqrt((xDistance*xDistance) + (yDistance*yDistance));
 
     }
-    private void moveTheUnit(SpriteSheet move,int x,int y) {
+    public void moveTheUnit() {
 
 
 
@@ -90,15 +87,15 @@ public class Unit extends GameObject {
             }
             setLocation((int) ((getX() + directionX)), (int) ((getY() + directionY)));
 
-            changeTheImage(move,x,y);
+
 
         }
-
+        changeTheImage();
 
 
     }
 
-    public void changeTheImage(SpriteSheet spriteSheet, int x, int y){
+    public void changeTheImage(){
 
 
         if(isObjectIsMoving())
@@ -106,22 +103,25 @@ public class Unit extends GameObject {
 
 
 
-            yToMove+=y;
-            if(yToMove>spriteSheet.getSheet().getRaster().getHeight()-y)
+            yToMove+=yHeightToCrop;
+            if(yToMove>standSpriteSheet.getSheet().getRaster().getHeight()-yHeightToCrop)
                 yToMove=0;
+            setIcon(new ImageIcon(moveSpriteSheet.crop(xToMove,yToMove,xWitdhToCrop,yHeightToCrop).getScaledInstance(getWidth(),getHeight(),4)));
+
         }else if (objectIsStanding)
         {
             yToMove=0;
-            xToMove+=x;
-            if(xToMove>spriteSheet.getSheet().getRaster().getWidth()-x)
+            xToMove+=xWitdhToCrop;
+            if(xToMove>moveSpriteSheet.getSheet().getRaster().getWidth()-xWitdhToCrop)
                 xToMove=0;
+            setIcon(new ImageIcon(standSpriteSheet.crop(xToMove,yToMove,xWitdhToCrop,yHeightToCrop).getScaledInstance(getWidth(),getHeight(),4)));
 
         }
 
 
         try
         {
-            setIcon(new ImageIcon(spriteSheet.crop(xToMove,yToMove,x,y).getScaledInstance(getWidth(),getHeight(),4)));
+
 
         }catch (Exception e)
         {

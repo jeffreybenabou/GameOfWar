@@ -5,6 +5,7 @@ import GameCore.LifeBar;
 import GameCore.MainFrame;
 import GameCore.World;
 import ImageHandel.ImageLoader;
+import ImageHandel.SpriteSheet;
 
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ public class GameObject extends JLabel {
 
 
 
-    protected ImageLoader imageLoader;
+    protected static ImageLoader imageLoader=new ImageLoader();
     protected BufferedImage image;
 
     protected LifeBar lifeBar;
@@ -49,11 +50,11 @@ public class GameObject extends JLabel {
     protected GameObject(){
         mainFrame=MainFrame.mainFrame;
         imageLoader=new ImageLoader();
+
         addLife();
-        synchronized ( World.allObjects)
-        {
+
             World.allObjects.add(this);
-        }
+
 
 
     }
@@ -64,7 +65,7 @@ public class GameObject extends JLabel {
                 while (getWidth()==0)
                 {
                     try {
-                        Thread.sleep(10);
+                        Thread.sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -78,6 +79,7 @@ public class GameObject extends JLabel {
     private void setTheLifeBar() {
         lifeBar=new LifeBar(life);
         add(lifeBar);
+        repaint();
     }
 
 
@@ -116,7 +118,7 @@ public class GameObject extends JLabel {
                 speedOfMove = 10;
                 speedOfAttack = 2000;
                 damageToEnemy = 15;
-                timeToTrain = 2000;
+                timeToTrain = 1;
                 powerNeedToBuild = 0;
                 costToBuild = 300;
                 life = 150;
@@ -273,7 +275,7 @@ public class GameObject extends JLabel {
                 speedOfMove = 2;
                 speedOfAttack = 2000;
                 damageToEnemy = 150;
-                timeToTrain = 2000;
+                timeToTrain = 25;
                 powerNeedToBuild = 0;
                 costToBuild = 850;
                 life = 200;
@@ -292,7 +294,7 @@ public class GameObject extends JLabel {
                 speedOfMove = 3;
                 speedOfAttack = 500;
                 damageToEnemy = 15;
-                timeToTrain = 2000;
+                timeToTrain = 45;
                 powerNeedToBuild = 0;
                 costToBuild = 1500;
                 life = 1000;
@@ -311,7 +313,7 @@ public class GameObject extends JLabel {
                 speedOfMove = 3;
                 speedOfAttack = 1500;
                 damageToEnemy = 50;
-                timeToTrain = 18000;
+                timeToTrain = 60;
                 powerNeedToBuild = 0;
                 costToBuild = 1000;
                 life = 200;

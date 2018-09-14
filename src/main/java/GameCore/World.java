@@ -1,7 +1,9 @@
 package GameCore;
 
+import ImageHandel.SpriteSheet;
 import ObjectPackege.Factory;
 import ObjectPackege.GameObject;
+import ObjectPackege.HumanUnit;
 import ObjectPackege.Unit;
 import Units.Factory.*;
 import Units.InfantryUnit.*;
@@ -10,24 +12,28 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 
 public class World extends JPanel {
 
     private JLabel backGroundImage;
     private boolean isTesting;
-    public static ArrayList<Unit> allUnit;
+    public static ArrayList<HumanUnit> allUnit;
     public static ArrayList<GameObject>allObjects;
     public static ArrayList<Factory> infentryFactory;
     public static ArrayList<Factory>allFactorys;
     private MiniMap miniMap;
     private BuildingMenu buildingMenu;
     private UnitTrainMenu unitTrainMenu;
-
+    public static Factory factoryPreesed;
+    private HumanUnit human;
 
 
     public World(boolean isTesting) {
         this.isTesting = isTesting;
-        allUnit = new ArrayList<Unit>();
+        allUnit = new ArrayList<HumanUnit>();
+
         allObjects=new ArrayList<GameObject>();
         infentryFactory =new ArrayList<Factory>();
         allFactorys=new ArrayList<Factory>();
@@ -91,7 +97,7 @@ public class World extends JPanel {
 
                 break;
             case 3:
-                InfentryFactory infentryFactory=new InfentryFactory();
+                InfentryFactory infentryFactory=new InfentryFactory(true);
                 Factory.factory=infentryFactory;
                 Factory.objectIsFlotingWorld=true;
                 infentryFactory.setTheLocation();
@@ -167,6 +173,7 @@ public class World extends JPanel {
 
     }
 
+
     public JLabel getBackGroundImage() {
         return backGroundImage;
     }
@@ -184,15 +191,6 @@ public class World extends JPanel {
     }
 
 
-
-    public static ArrayList<Unit> getAllUnit() {
-        return allUnit;
-    }
-
-    public static void setAllUnit(ArrayList<Unit> allUnit) {
-        World.allUnit = allUnit;
-    }
-
     public static ArrayList<GameObject> getAllObjects() {
         return allObjects;
     }
@@ -203,6 +201,38 @@ public class World extends JPanel {
 
     public BuildingMenu getBuildingMenu() {
         return buildingMenu;
+    }
+
+    public static ArrayList<HumanUnit> getAllUnit() {
+        return allUnit;
+    }
+
+    public static void setAllUnit(ArrayList<HumanUnit> allUnit) {
+        World.allUnit = allUnit;
+    }
+
+    public static ArrayList<Factory> getInfentryFactory() {
+        return infentryFactory;
+    }
+
+    public static void setInfentryFactory(ArrayList<Factory> infentryFactory) {
+        World.infentryFactory = infentryFactory;
+    }
+
+    public static ArrayList<Factory> getAllFactorys() {
+        return allFactorys;
+    }
+
+    public static void setAllFactorys(ArrayList<Factory> allFactorys) {
+        World.allFactorys = allFactorys;
+    }
+
+    public static Factory getFactoryPreesed() {
+        return factoryPreesed;
+    }
+
+    public static void setFactoryPreesed(Factory factoryPreesed) {
+        World.factoryPreesed = factoryPreesed;
     }
 
     public UnitTrainMenu getUnitTrainMenu() {
@@ -229,19 +259,19 @@ public class World extends JPanel {
         switch (Integer.parseInt(e.getComponent().getName()))
         {
             case 0:
-                unitTrainMenu.setTheQueue(new ArmoredInfentry());
+                factoryPreesed.getQuaqe().setTheQueue(new ArmoredInfentry());
                 break;
             case 1:
-                unitTrainMenu.setTheQueue(new Infantry());
+                factoryPreesed.getQuaqe().setTheQueue(new Infantry());
                 break;
             case 2:
-                unitTrainMenu.setTheQueue(new Medic());
+                factoryPreesed.getQuaqe().setTheQueue(new Medic());
                 break;
             case 3:
-                unitTrainMenu.setTheQueue(new Sniper());
+                factoryPreesed.getQuaqe().setTheQueue(new Sniper());
                 break;
             case 4:
-                unitTrainMenu.setTheQueue(new BazzokaUnit());
+                factoryPreesed.getQuaqe().setTheQueue(new BazzokaUnit());
                 break;
         }
 

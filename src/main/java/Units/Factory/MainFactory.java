@@ -19,8 +19,8 @@ public class MainFactory extends Factory {
 
 
         init();
-        setIcon(new ImageIcon(spriteSheet.crop(0,0,StaticVariables.FACTORY_SHEET_WIDTH,StaticVariables.FACTORY_SHEET_HEIGHT).getScaledInstance(getWidth(),getHeight(),4)));
-        setImage();
+//        setIcon(new ImageIcon(spriteSheet.crop(0,0,StaticVariables.FACTORY_SHEET_WIDTH,StaticVariables.FACTORY_SHEET_HEIGHT).getScaledInstance(getWidth(),getHeight(),4)));
+//        setImage();
         if(addToWorld)
         addToWorld();
 

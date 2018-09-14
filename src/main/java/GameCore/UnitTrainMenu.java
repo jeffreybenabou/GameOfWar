@@ -55,14 +55,10 @@ public class UnitTrainMenu extends JLabel {
             boxBackGround.addMouseListener(MainFrame.mainFrame);
         }
         defineTheQueue();
-        setTheTimeToTrain();
+
     }
 
-    private void setTheTimeToTrain() {
-        timeToTrain=new JLabel("<html>next unit:<br> 0</html>");
-        timeToTrain.setBounds(unitQueue.getX()+unitQueue.getX()/10,getHeight()/2+getHeight()/10,getWidth()/10,getHeight()/3);
-        add(timeToTrain);
-    }
+
 
     private void defineTheQueue() {
         unitQueue =new JLabel();
@@ -71,74 +67,6 @@ public class UnitTrainMenu extends JLabel {
         add(unitQueue);
     }
 
-    public void setTheQueue(final Unit unitToAdd){
-        queqeOfUnit.add(unitToAdd);
-
-
-
-        time+=unitToAdd.getTimeToTrain();
-
-        spendTime=unitToAdd.getTimeToTrain();
-        new Thread(new Runnable() {
-            public void run() {
-                int time2=spendTime;
-                while (time2>0)
-                {
-                    timeToTrain.setText("<html>next unit:<br> "+time2+"</html>");
-                    time2--;
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-                if(unitToAdd.getNameOfObject().equals("Armored Infentry"))
-                {
-                    ArmoredInfentry armoredInfentry=new ArmoredInfentry();
-                    armoredInfentry.setLocation((int)MainFrame.locationOfFactory.getX(),(int)MainFrame.locationOfFactory.getY()+armoredInfentry.getHeight()*5);
-                    MainFrame.world.getBackGroundImage().add(armoredInfentry);
-                    World.allUnit.add(armoredInfentry);
-
-                }
-                else if(unitToAdd.getNameOfObject().equals("Infantry"))
-                {
-                    Infantry infantry=new Infantry();
-                    infantry.setLocation((int)MainFrame.locationOfFactory.getX(),(int)MainFrame.locationOfFactory.getY()+infantry.getHeight()*5);
-                    MainFrame.world.getBackGroundImage().add(infantry);
-                    World.allUnit.add(infantry);
-
-                }
-                else if(unitToAdd.getNameOfObject().equals("Medic"))
-                {
-                    Medic unit=new Medic();
-                    unit.setLocation((int)MainFrame.locationOfFactory.getX(),(int)MainFrame.locationOfFactory.getY()+unit.getHeight()*5);
-                    MainFrame.world.getBackGroundImage().add(unit);
-                    World.allUnit.add(unit);
-                }
-                else if(unitToAdd.getNameOfObject().equals("Bazzoka Unit"))
-                {
-                    BazzokaUnit unit=new BazzokaUnit();
-                    unit.setLocation((int)MainFrame.locationOfFactory.getX(),(int)MainFrame.locationOfFactory.getY()+unit.getHeight()*5);
-                    MainFrame.world.getBackGroundImage().add(unit);
-                    World.allUnit.add(unit);
-                }
-                else if(unitToAdd.getNameOfObject().equals("sniper"))
-                {
-                    Sniper unit=new Sniper();
-                    unit.setLocation((int)MainFrame.locationOfFactory.getX(),(int)MainFrame.locationOfFactory.getY()+unit.getHeight()*5);
-                    MainFrame.world.getBackGroundImage().add(unit);
-                    World.allUnit.add(unit);
-                }
-
-            }
-        }).start();
-
-
-
-
-
-    }
 
     private void setTheUnitIcon(int i) {
         buildingBackGround=new JLabel();
@@ -385,5 +313,29 @@ public class UnitTrainMenu extends JLabel {
 
     public void setPictureOfObject(JLabel pictureOfObject) {
         this.pictureOfObject = pictureOfObject;
+    }
+
+    public JLabel getTimeToTrain() {
+        return timeToTrain;
+    }
+
+    public void setTimeToTrain(JLabel timeToTrain) {
+        this.timeToTrain = timeToTrain;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public int getSpendTime() {
+        return spendTime;
+    }
+
+    public void setSpendTime(int spendTime) {
+        this.spendTime = spendTime;
     }
 }

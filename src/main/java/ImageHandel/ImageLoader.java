@@ -3,6 +3,8 @@ package ImageHandel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -33,28 +35,19 @@ public class ImageLoader {
         return null;
     }
 
-    public void addImageOfObject(int type, String dir, ArrayList<ImageIcon> linkedList) {
-        BufferedImage image;
-        String dirc;
+    public  BufferedImage scale(BufferedImage sbi,  int dWidth, int dHeight) {
+        BufferedImage dbi = null;
 
-
-
-
-        for (int i = 0; i<type; i++) {
-            try {
-                dirc = dir + i + ".png";
-                image = loadImage(dirc);
-                linkedList.add(new ImageIcon(image));
-
-            } catch (NullPointerException e) {
-
-                break;
-            }
+        if(sbi != null) {
+            dbi = new BufferedImage(dWidth, dHeight, 2);
+            Graphics2D g = dbi.createGraphics();
+            AffineTransform at = AffineTransform.getScaleInstance(dWidth, dHeight);
+            g.drawRenderedImage(sbi, at);
 
         }
-
-
+        return dbi;
     }
+
 
 
 

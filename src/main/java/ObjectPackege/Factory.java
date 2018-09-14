@@ -1,10 +1,7 @@
 package ObjectPackege;
 
 
-import GameCore.LifeBar;
-import GameCore.MainFrame;
-import GameCore.UnitTrainMenu;
-import GameCore.World;
+import GameCore.*;
 import ImageHandel.SpriteSheet;
 
 import javax.swing.*;
@@ -21,6 +18,7 @@ public class Factory extends GameObject {
     public static boolean objectIsFlotingWorld=false;
     protected boolean canAddToWorld=true;
     protected boolean factoryIsOnWorld=false;
+    protected Quaqe quaqe;
 
     public static Factory factory;
     protected UnitTrainMenu unitTrainMenu;
@@ -34,6 +32,10 @@ public class Factory extends GameObject {
         setLayout(new GridLayout(12,1));
 
 
+    }
+
+    protected void setTheQuaqe(){
+        quaqe=new Quaqe(this);
     }
 
 
@@ -113,6 +115,30 @@ public class Factory extends GameObject {
 
     public static void setObjectIsFlotingWorld(boolean objectIsFlotingWorld) {
         Factory.objectIsFlotingWorld = objectIsFlotingWorld;
+    }
+
+    public Quaqe getQuaqe() {
+        return quaqe;
+    }
+
+    public void setQuaqe(Quaqe quaqe) {
+        this.quaqe = quaqe;
+    }
+
+    public static Factory getFactory() {
+        return factory;
+    }
+
+    public static void setFactory(Factory factory) {
+        Factory.factory = factory;
+    }
+
+    public UnitTrainMenu getUnitTrainMenu() {
+        return unitTrainMenu;
+    }
+
+    public void setUnitTrainMenu(UnitTrainMenu unitTrainMenu) {
+        this.unitTrainMenu = unitTrainMenu;
     }
 
     public boolean isCanAddToWorld() {
