@@ -8,6 +8,7 @@ import ImageHandel.ImageLoader;
 import ImageHandel.SpriteSheet;
 
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,6 +20,7 @@ public class GameObject extends JLabel {
     protected static ImageLoader imageLoader=new ImageLoader();
     protected BufferedImage image;
 
+    protected boolean addedToMiniMap=false;
     protected LifeBar lifeBar;
     protected int life;
     protected int speedOfMove;
@@ -53,12 +55,16 @@ public class GameObject extends JLabel {
 
         addLife();
 
-            World.allObjects.add(this);
+
 
 
 
     }
-
+    public double calculateTheDistanceBetweenUnits(GameObject gameObject){
+        float xDistance = gameObject.getX() - getX();
+        float yDistance = gameObject.getY() - getY();
+        return Math.sqrt((xDistance*xDistance) + (yDistance*yDistance));
+    }
     protected void addLife() {
         new Thread(new Runnable() {
             public void run() {
@@ -70,6 +76,7 @@ public class GameObject extends JLabel {
                         e.printStackTrace();
                     }
                 }
+
                 setTheLifeBar();
             }
         }).start();
@@ -79,7 +86,6 @@ public class GameObject extends JLabel {
     private void setTheLifeBar() {
         lifeBar=new LifeBar(life);
         add(lifeBar);
-        repaint();
     }
 
 
@@ -679,5 +685,13 @@ public class GameObject extends JLabel {
 
     public void setDiscription(String discription) {
         this.discription = discription;
+    }
+
+    public boolean isAddedToMiniMap() {
+        return addedToMiniMap;
+    }
+
+    public void setAddedToMiniMap(boolean addedToMiniMap) {
+        this.addedToMiniMap = addedToMiniMap;
     }
 }

@@ -3,11 +3,13 @@ package ObjectPackege;
 
 
 import GameCore.StaticVariables;
+import GameCore.World;
 import ImageHandel.ImageLoader;
 import ImageHandel.SpriteSheet;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 
 public class Unit extends GameObject {
@@ -69,7 +71,7 @@ public class Unit extends GameObject {
 
 
             try {
-                Thread.sleep(5);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -85,8 +87,9 @@ public class Unit extends GameObject {
                 objectIsMoving=false;
                 objectIsStanding=true;
             }
-            setLocation((int) ((getX() + directionX)), (int) ((getY() + directionY)));
 
+            setLocation((int) ((getX() + directionX)), (int) ((getY() + directionY)));
+            changeTheImage();
 
 
         }
@@ -95,19 +98,25 @@ public class Unit extends GameObject {
 
     }
 
+
+
+
+
+
+
     public void changeTheImage(){
+
+
 
 
         if(isObjectIsMoving())
         {
 
 
-
-            yToMove+=yHeightToCrop;
-            if(yToMove>standSpriteSheet.getSheet().getRaster().getHeight()-yHeightToCrop)
+            if(yToMove>=standSpriteSheet.getSheet().getRaster().getHeight())
                 yToMove=0;
             setIcon(new ImageIcon(moveSpriteSheet.crop(xToMove,yToMove,xWitdhToCrop,yHeightToCrop).getScaledInstance(getWidth(),getHeight(),4)));
-
+            yToMove+=yHeightToCrop;
         }else if (objectIsStanding)
         {
             yToMove=0;
@@ -119,14 +128,7 @@ public class Unit extends GameObject {
         }
 
 
-        try
-        {
 
-
-        }catch (Exception e)
-        {
-
-        }
 
 
     }

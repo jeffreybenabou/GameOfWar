@@ -16,7 +16,7 @@ public class Quaqe {
     public static ArrayList<JLabel>allTimeToTrainLabel=new ArrayList<JLabel>();
     private Factory factory;
     private JLabel timeToTrain;
-    private Thread counter;
+
 
 
     public Quaqe(Factory factory){
@@ -88,7 +88,7 @@ public class Quaqe {
                     armoredInfentry.setLocation((int)point.getX(),(int)point.getY()+armoredInfentry.getHeight()*5);
                     MainFrame.world.getBackGroundImage().add(armoredInfentry);
                     World.allUnit.add(armoredInfentry);
-
+                    World.allObjects.add(armoredInfentry);
                 }
                 else if(unitToAdd.getNameOfObject().equals("Infantry"))
                 {
@@ -97,7 +97,7 @@ public class Quaqe {
                     infantry.setLocation((int)point.getX(),(int)point.getY()+infantry.getHeight()*5);
                     MainFrame.world.getBackGroundImage().add(infantry);
                     World.allUnit.add(infantry);
-
+                    World.allObjects.add(infantry);
                 }
                 else if(unitToAdd.getNameOfObject().equals("Medic"))
                 {
@@ -106,6 +106,7 @@ public class Quaqe {
                     unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*5);
                     MainFrame.world.getBackGroundImage().add(unit);
                     World.allUnit.add(unit);
+                    World.allObjects.add(unit);
                 }
                 else if(unitToAdd.getNameOfObject().equals("Bazzoka Unit"))
                 {
@@ -114,6 +115,7 @@ public class Quaqe {
                     unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*5);
                     MainFrame.world.getBackGroundImage().add(unit);
                     World.allUnit.add(unit);
+                    World.allObjects.add(unit);
                 }
                 else if(unitToAdd.getNameOfObject().equals("sniper"))
                 {
@@ -122,6 +124,7 @@ public class Quaqe {
                     unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*5);
                     MainFrame.world.getBackGroundImage().add(unit);
                     World.allUnit.add(unit);
+                    World.allObjects.add(unit);
                 }
 
             }

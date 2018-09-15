@@ -67,6 +67,7 @@ public class MainFrame extends JFrame implements MouseListener {
 
                     unit.setPointToMove(e.getPoint());
                     unit.setTheRightIcon();
+
                     unit.setObjectIsMoving(true);
                     unit.setObjectIsStanding(false);
 
@@ -112,32 +113,50 @@ public class MainFrame extends JFrame implements MouseListener {
                 while (true) {
                     try {
 
+
                         xMouseLocation=MouseInfo.getPointerInfo().getLocation().x;
                         yMouseLocation=MouseInfo.getPointerInfo().getLocation().y;
 
+//
 
-                        if(xMouseLocation>getWidth()-20)
+                        if(xMouseLocation>getWidth()-20&&world.getBackGroundImage().getX()>-world.getBackGroundImage().getWidth()+MainFrame.screenSize.width )
+                        {
+//                            right
                             xMousePosition--;
-                        else if(xMouseLocation<20)
+                        }
+
+                        else if(xMouseLocation<20&&world.getBackGroundImage().getX() <=0)
+                        {
                             xMousePosition++;
+                        }
+
                         else
                             xMousePosition=0;
 
 
 
-                        if(yMouseLocation>getHeight()-20)
+                        if(yMouseLocation>getHeight()-20&&world.getBackGroundImage().getY()>-world.getBackGroundImage().getHeight()+MainFrame.screenSize.height)
+                        {
                             yMousePosition--;
-                        else if(yMouseLocation<20)
+                        }
+
+                        else if(yMouseLocation<20&&world.getBackGroundImage().getY() <=0)
+                        {
                             yMousePosition++;
+                        }
+
                         else
                             yMousePosition=0;
 
                         // TODO: 08/09/2018 make sure that its not null
 
+
+
                         world.getBackGroundImage().setLocation(world.getBackGroundImage().getX() + xMousePosition, world.getBackGroundImage().getY() + yMousePosition);
                         world.getMiniMap().setLocation(-(world.getBackGroundImage().getLocation().x),-(world.getBackGroundImage().getLocation().y));
                         world.getBuildingMenu().setLocation(-(world.getBackGroundImage().getLocation().x),-(world.getBackGroundImage().getLocation().y)+((screenSize.height-world.getBuildingMenu().getHeight())-screenSize.height/10));
                         world.getUnitTrainMenu().setLocation(-(world.getBackGroundImage().getLocation().x),-(world.getBackGroundImage().getLocation().y)+((screenSize.height-world.getBuildingMenu().getHeight())-screenSize.height/10));
+                        world.getMiniMap().moveTheLocationOnMiniMap( world.getBackGroundImage().getX(),world.getBackGroundImage().getY());
 
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
@@ -345,7 +364,7 @@ public class MainFrame extends JFrame implements MouseListener {
 
         mainFactory=new MainFactory(true);
         world.getBackGroundImage().add(mainFactory);
-        world.getMiniMap().setTheObjectsOnMiniMap();
+
 
 
 
@@ -353,11 +372,15 @@ public class MainFrame extends JFrame implements MouseListener {
 
         add(world);
 
+        world.getBackGroundImage().repaint();
+
 
         add(gamePanel);
-
-
+        gamePanel.repaint();
+        repaint();
         moveTheWorld();
+
+
     }
 
     private void setTheJFrame() {

@@ -16,7 +16,7 @@ public class GamePanel extends JPanel {
 
     public GamePanel() {
 
-        setBounds(0, 50, MainFrame.screenSize.width, MainFrame.screenSize.height / 12);
+        setBounds(0, 0, MainFrame.screenSize.width, MainFrame.screenSize.height / 12);
         setBackground(Color.yellow);
         imageLoader = new ImageLoader();
         setThePower();

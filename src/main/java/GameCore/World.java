@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.Random;
 
 public class World extends JPanel {
 
@@ -45,8 +46,37 @@ public class World extends JPanel {
         addMiniMap();
         setBackground(Color.cyan);
         setLayout(null);
+        checkIfIntersect();
 
 
+    }
+
+    public void checkIfIntersect(){
+        new Thread(new Runnable() {
+            public void run() {
+                Random  random=new Random();
+                while (true) {
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    for (int i = 0; i < World.allUnit.size(); i++) {
+                        for (int j = 0; j <World.allObjects.size() ; j++) {
+                            while (World.allUnit.get(i).isObjectIsStanding()&&World.allUnit.get(i)!=World.allObjects.get(j)&&World.allUnit.get(i).calculateTheDistanceBetweenUnits(World.allObjects.get(j))<=30)
+                            {
+                                World.allUnit.get(i).setBound(new Rectangle(World.allUnit.get(i).getX()+1,World.allUnit.get(i).getY(),World.allUnit.get(i).getWidth(),World.allUnit.get(i).getHeight()));
+                                World.allUnit.get(i).setBounds(World.allUnit.get(i).getBound());
+                            }
+                        }
+
+
+                    }
+
+                }
+            }
+        }).start();
 
     }
 
@@ -60,7 +90,7 @@ public class World extends JPanel {
         getBackGroundImage().add(buildingMenu);
         getBackGroundImage().add(unitTrainMenu);
 
-        MainFrame.mainFrame.repaint();
+
 
 
     }
@@ -85,7 +115,7 @@ public class World extends JPanel {
                 Factory.objectIsFlotingWorld=true;
                 Factory.factory.setTheLocation();
                 backGroundImage.add( Factory.factory);
-
+                World.allObjects.add(Factory.factory);
 
                 break;
            case 2:
@@ -94,6 +124,7 @@ public class World extends JPanel {
                Factory.objectIsFlotingWorld=true;
                factory.setTheLocation();
                backGroundImage.add(factory);
+               World.allObjects.add(factory);
 
                 break;
             case 3:
@@ -102,6 +133,7 @@ public class World extends JPanel {
                 Factory.objectIsFlotingWorld=true;
                 infentryFactory.setTheLocation();
                 backGroundImage.add(infentryFactory);
+                World.allObjects.add(infentryFactory);
 
                 break;
             case 4:
@@ -110,6 +142,7 @@ public class World extends JPanel {
                 Factory.objectIsFlotingWorld=true;
                 tankFactory.setTheLocation();
                 backGroundImage.add(tankFactory);
+                World.allObjects.add(tankFactory);
 
                 break;
             case 5:
@@ -118,6 +151,7 @@ public class World extends JPanel {
                 Factory.objectIsFlotingWorld=true;
                 sateliteFactory.setTheLocation();
                 backGroundImage.add(sateliteFactory);
+                World.allObjects.add(sateliteFactory);
 
                 break;
             case 6:
@@ -126,6 +160,7 @@ public class World extends JPanel {
                 Factory.objectIsFlotingWorld=true;
                 airForceFactory.setTheLocation();
                 backGroundImage.add(airForceFactory);
+                World.allObjects.add(airForceFactory);
 
 
                 break;
@@ -135,6 +170,7 @@ public class World extends JPanel {
                 Factory.objectIsFlotingWorld=true;
                 superWeponeFactory.setTheLocation();
                 backGroundImage.add(superWeponeFactory);
+                World.allObjects.add(superWeponeFactory);
 
                 break;
             case 8:
@@ -144,6 +180,7 @@ public class World extends JPanel {
                 Factory.objectIsFlotingWorld=true;
                 spacielOpsFactory.setTheLocation();
                 backGroundImage.add(spacielOpsFactory);
+                World.allObjects.add(spacielOpsFactory);
                 break;
             case 9:
                 CloneFactory cloneFactory=new CloneFactory();
@@ -151,6 +188,7 @@ public class World extends JPanel {
                 Factory.objectIsFlotingWorld=true;
                 cloneFactory.setTheLocation();
                 backGroundImage.add(cloneFactory);
+                World.allObjects.add(cloneFactory);
 
                 break;
 

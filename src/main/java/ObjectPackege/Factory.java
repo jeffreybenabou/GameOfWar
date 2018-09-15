@@ -13,7 +13,7 @@ import java.util.Random;
 public class Factory extends GameObject {
 
 
-    protected SpriteSheet spriteSheet;
+    protected static SpriteSheet   spriteSheet=new SpriteSheet(imageLoader.loadImage("image/factor/userFactory/building.png"));
     protected Thread moveTheFactoryAroundTheWorld;
     public static boolean objectIsFlotingWorld=false;
     protected boolean canAddToWorld=true;
@@ -24,10 +24,10 @@ public class Factory extends GameObject {
     protected UnitTrainMenu unitTrainMenu;
 
 
+
     public Factory() {
 
         super();
-        spriteSheet=new SpriteSheet(imageLoader.loadImage("image/factor/userFactory/building.png"));
         bound=new Rectangle(0,0, MainFrame.world.getBackGroundImage().getWidth()/50,MainFrame.world.getBackGroundImage().getHeight()/70);
         setLayout(new GridLayout(12,1));
 
