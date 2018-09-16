@@ -20,7 +20,7 @@ public class MainMenu  extends JPanel  {
     private JPanel menuPanel;
 
     private String _userName,_password;
-    private JLabel imageLabel, buttonLabel,userMenu,signInMenu,writeUserInformation,userNameShow;
+    private JLabel imageLabel, buttonLabel,userMenu,signInMenu,writeUserInformation,userNameShow,waitForEnemy;
 
     private         Border border = BorderFactory.createLineBorder(Color.black, 3);
 
@@ -30,7 +30,7 @@ public class MainMenu  extends JPanel  {
 
     private Sql sql;
 
-    private JButton startGame,startTutorial,exitButton,signUpButton;
+    private JButton startGame,startTutorial,exitButton,signUpButton,cancelTheGame;
     public MainMenu(MainFrame mainFrame){
         this.mainFrame=mainFrame;
 
@@ -47,8 +47,20 @@ public class MainMenu  extends JPanel  {
         checkIfLogIn();
         addListOfUsers();
         addExitLisenersToProgram();
+        setTheWaitForEnemyLabel();
     }
 
+    public void setTheWaitForEnemyLabel(){
+        waitForEnemy=new JLabel("waiting for players to confirm the game..... ");
+        waitForEnemy.setBounds(MainFrame.screenSize.width/2-(MainFrame.screenSize.width/5)/2,MainFrame.screenSize.height/4,MainFrame.screenSize.width/5,MainFrame.screenSize.height/10);
+        waitForEnemy.setBackground(Color.BLUE);
+        waitForEnemy.setOpaque(true);
+        imageLabel.add(waitForEnemy);
+        cancelTheGame=new JButton("cancel the game");
+        cancelTheGame.setSize(waitForEnemy.getWidth()/2,waitForEnemy.getHeight()/3);
+        cancelTheGame.setLocation(waitForEnemy.getWidth()/4,waitForEnemy.getHeight()-cancelTheGame.getHeight());
+        waitForEnemy.add(cancelTheGame);
+    }
     public void saveUserName(String name,String password) {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("user.txt").getFile());

@@ -9,6 +9,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class MiniMap extends JLabel {
@@ -17,6 +18,7 @@ public class MiniMap extends JLabel {
     private SpriteSheet spriteSheet;
     private JLabel map,location;
     private ArrayList<JLabel>lables;
+    private volatile boolean running = true;
 
     public MiniMap(){
         imageLoader = new ImageLoader();
@@ -69,18 +71,20 @@ public class MiniMap extends JLabel {
 
         new Thread(new Runnable() {
             public void run() {
-                while (true)
+                while (running)
                 {
 
-                    for (int i = 0; i < lables.size(); i++) {
+                    for (int i = 0; i < getLables().size()-1; i++) {
                         try
                         {
-                            lables.get(i).setBounds(getWidth()/15+World.allObjects.get(i).getX()/73,getHeight()/5+World.getAllUnit().get(i).getY()/100,3,3);
+
+                            lables.get(i).setBounds(getWidth()/15+World.allObjects.get(i).getX()/73,getHeight()/5+World.allObjects.get(i).getY()/100,3,3);
 
                         }catch (Exception e)
                         {
                             e.printStackTrace();
-                            break;
+                            running=false;
+
 
                         }
 
@@ -92,24 +96,37 @@ public class MiniMap extends JLabel {
                         e.printStackTrace();
                     }
                 }
+                running=true;
+                showTheObjectsOnMiniMap();
             }
         }).start();
     }
 
     public void setTheMiniMapObjects (){
-        for (GameObject g:World.allObjects) {
-            if (!g.isAddedToMiniMap()) {
-                addAllObjectFromArrayListToTheMap(g);
-                g.setAddedToMiniMap(true);
-            }
+        try
+        {
+            for (GameObject g:World.allObjects) {
+                if (!g.isAddedToMiniMap()) {
+                    addAllObjectFromArrayListToTheMap(g);
+                    g.setAddedToMiniMap(true);
+                }
 
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
         }
+
     }
 
     public  void addAllObjectFromArrayListToTheMap(GameObject g) {
         JLabel k=new JLabel();
         k.setBounds(getWidth()/15+g.getX()/73,getHeight()/5+g.getY()/100,3,3);
+        // TODO: 15/09/2018 add here if team != team colour blue
+
         k.setBackground(Color.red);
+
+
         k.setOpaque(true);
         add(k);
         lables.add(k);
@@ -141,6 +158,28 @@ public class MiniMap extends JLabel {
 
     public JLabel getMap() {
         return map;
+    }
+
+
+
+    public void setLocation(JLabel location) {
+        this.location = location;
+    }
+
+    public ArrayList<JLabel> getLables() {
+        return lables;
+    }
+
+    public void setLables(ArrayList<JLabel> lables) {
+        this.lables = lables;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
     }
 
     public void setMap(JLabel map) {

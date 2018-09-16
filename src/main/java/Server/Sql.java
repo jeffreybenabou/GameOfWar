@@ -252,7 +252,7 @@ return false;
 
         connection();
 
-        String host = "jdbc:mysql://127.0.0.1:3306/wargame?useSSL=false";
+        String host = "jdbc:mysql://192.168.1.14:3306/wargame?useSSL=false";
         String username = "root";
         String password = "";
 

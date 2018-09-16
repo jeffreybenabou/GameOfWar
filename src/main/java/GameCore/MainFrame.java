@@ -176,23 +176,16 @@ public class MainFrame extends JFrame implements MouseListener {
 
     private void checkIfComponentIsFromWorld(MouseEvent e) {
 
-
-        if(!Factory.objectIsFlotingWorld)
-        {
-            checkIfUserPreesShowTheMap(e);
-            checkIfUserPressBuildingMenu(e);
-            checkIfUserPreesUnitToBuild(e);
-            checkIfUserSelectFactoryToBuild(e);
+        if (world != null) {
+            if (!Factory.objectIsFlotingWorld) {
+                checkIfUserPreesShowTheMap(e);
+                checkIfUserPressBuildingMenu(e);
+                checkIfUserPreesUnitToBuild(e);
+                checkIfUserSelectFactoryToBuild(e);
+            } else {
+                addTheFactoryToWorld(e);
+            }
         }
-        else
-        {
-            addTheFactoryToWorld(e);
-        }
-
-
-
-
-
 
 
     }
@@ -360,9 +353,12 @@ public class MainFrame extends JFrame implements MouseListener {
         Infantry tempUnit=new Infantry();
         tempUnit.setTheUnitMethod();
         World.allUnit.add(tempUnit);
+        World.allObjects.add(tempUnit);
         world.getBackGroundImage().add(tempUnit);
 
         mainFactory=new MainFactory(true);
+        World.allObjects.add(mainFactory);
+        World.allFactorys.add(mainFactory);
         world.getBackGroundImage().add(mainFactory);
 
 
