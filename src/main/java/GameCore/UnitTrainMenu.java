@@ -62,7 +62,7 @@ public class UnitTrainMenu extends JLabel {
 
     private void defineTheQueue() {
         unitQueue =new JLabel();
-        unitQueue.setBounds(getWidth()/6,getHeight()/4,getWidth()/12,getHeight()/2);
+        unitQueue.setBounds(getWidth()/6,getHeight()/5,getWidth()/12,getHeight()/2);
         unitQueue.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(boxBackGround.getWidth(),boxBackGround.getHeight(),4)));
         add(unitQueue);
     }

@@ -322,44 +322,42 @@ public class World extends JPanel {
     public void addUnitToQuaqe(MouseEvent e,int typeOfFactory) {
 
 
-        System.out.println(typeOfFactory);
-        System.out.println(factoryPreesed.getClass().getPackage());
         if(typeOfFactory==0)
         switch (Integer.parseInt(e.getComponent().getName()))
         {
             case 0:
-            factoryPreesed.getQuaqe().setTheQueue(new ArmoredInfentry());
+            factoryPreesed.getQuaqe().setTheQueue(new ArmoredInfentry(),factoryPreesed);
             break;
             case 1:
-                factoryPreesed.getQuaqe().setTheQueue(new Infantry());
+                factoryPreesed.getQuaqe().setTheQueue(new Infantry(),factoryPreesed);
                 break;
             case 2:
-                factoryPreesed.getQuaqe().setTheQueue(new Medic());
+                factoryPreesed.getQuaqe().setTheQueue(new Medic(),factoryPreesed);
                 break;
             case 3:
-                factoryPreesed.getQuaqe().setTheQueue(new Sniper());
+                factoryPreesed.getQuaqe().setTheQueue(new Sniper(),factoryPreesed);
                 break;
             case 4:
-                factoryPreesed.getQuaqe().setTheQueue(new BazzokaUnit());
+                factoryPreesed.getQuaqe().setTheQueue(new BazzokaUnit(),factoryPreesed);
                 break;
         }
         else if(typeOfFactory==1)
             switch (Integer.parseInt(e.getComponent().getName()))
             {
                 case 0:
-                    factoryPreesed.getQuaqe().setTheQueue(new Tank());
+                    factoryPreesed.getQuaqe().setTheQueue(new Tank(),factoryPreesed);
                     break;
                 case 1:
-                    factoryPreesed.getQuaqe().setTheQueue(new MiniGun());
+                    factoryPreesed.getQuaqe().setTheQueue(new MiniGun(),factoryPreesed);
                     break;
                 case 2:
-                    factoryPreesed.getQuaqe().setTheQueue(new SuperTank());
+                    factoryPreesed.getQuaqe().setTheQueue(new SuperTank(),factoryPreesed);
                     break;
                 case 3:
-                    factoryPreesed.getQuaqe().setTheQueue(new AntiAirTank());
+                    factoryPreesed.getQuaqe().setTheQueue(new AntiAirTank(),factoryPreesed);
                     break;
                 case 4:
-                    factoryPreesed.getQuaqe().setTheQueue(new BigBoss());
+                    factoryPreesed.getQuaqe().setTheQueue(new BigBoss(),factoryPreesed);
                     break;
             }
 

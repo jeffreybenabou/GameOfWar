@@ -1,5 +1,6 @@
 package GameCore;
 
+import ImageHandel.ImageLoader;
 import ObjectPackege.Factory;
 import ObjectPackege.Unit;
 import Units.AirUnits.AntiAir;
@@ -44,7 +45,7 @@ public class Quaqe {
         }
         allTimeToTrainLabel.add(timeToTrain);
     }
-    public  void setTheQueue(final Unit unitToAdd){
+    public  void setTheQueue(final Unit unitToAdd, final Factory typeOfFactory){
 
         setTheQuaqeVisible();
 
@@ -56,6 +57,9 @@ public class Quaqe {
 
 
         unitsInQuaqe++;
+
+
+
 
 
 
@@ -75,8 +79,14 @@ public class Quaqe {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
                 while (timeOfUnit>0)
                 {
+                    if(typeOfFactory.getType()==3)
+                    MainFrame.world.getUnitTrainMenu().getUnitQueue().setIcon(new ImageIcon(unitToAdd.getImage().getScaledInstance( MainFrame.world.getUnitTrainMenu().getUnitQueue().getWidth(), MainFrame.world.getUnitTrainMenu().getUnitQueue().getHeight(),4)));
+                    else if(typeOfFactory.getType()==9)
+                        MainFrame.world.getMechanicMenu().getUnitQueue().setIcon(new ImageIcon(unitToAdd.getImage().getScaledInstance( MainFrame.world.getMechanicMenu().getUnitQueue().getWidth(), MainFrame.world.getMechanicMenu().getUnitQueue().getHeight(),4)));
+
                     timeToTrain.setText("<html>next unit:<br> "+timeOfUnit+"</html>");
                     timeOfUnit--;
                     try {
@@ -91,7 +101,14 @@ public class Quaqe {
                 timeToWait-=unitToAdd.getTimeToTrain();
                 unitsInQuaqe--;
                 if(unitsInQuaqe==0)
+                {
+                    ImageLoader imageLoader=new ImageLoader();
+                    MainFrame.world.getUnitTrainMenu().getUnitQueue().setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(MainFrame.world.getUnitTrainMenu().getBoxBackGround().getWidth(),MainFrame.world.getUnitTrainMenu().getBoxBackGround().getHeight(),4)));
+                    MainFrame.world.getMechanicMenu().getUnitQueue().setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(MainFrame.world.getUnitTrainMenu().getBoxBackGround().getWidth(),MainFrame.world.getUnitTrainMenu().getBoxBackGround().getHeight(),4)));
+
                     timeToTrain.setText("<html>next unit:<br> none</html>");
+
+                }
 
                 if(unitToAdd.getNameOfObject().equals("Armored Infentry"))
                 {

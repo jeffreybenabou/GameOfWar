@@ -159,8 +159,8 @@ public class MechanicMenu extends JLabel {
 
     private void setTheBoxBackGround(int i) {
         boxBackGround =new JLabel();
-        boxBackGround.setSize(MainFrame.screenSize.width/21,MainFrame.screenSize.height/10);
-        if(i>=5)
+        boxBackGround.setSize(MainFrame.screenSize.width/15,MainFrame.screenSize.height/8);
+        if(i>=3)
         {
             boxBackGround.setLocation(j*boxBackGround.getWidth()+MainFrame.screenSize.width/2+MainFrame.screenSize.width/7,getHeight()/2);
             j++;
@@ -179,7 +179,7 @@ public class MechanicMenu extends JLabel {
     }
     private void defineTheQueue() {
         unitQueue =new JLabel();
-        unitQueue.setBounds(getWidth()/6,getHeight()/4,getWidth()/12,getHeight()/2);
+        unitQueue.setBounds(getWidth()/6,getHeight()/5,getWidth()/12,getHeight()/2);
         unitQueue.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(boxBackGround.getWidth(),boxBackGround.getHeight(),4)));
         add(unitQueue);
     }

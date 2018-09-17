@@ -143,7 +143,14 @@ public class MainMenu  extends JPanel  {
 
            public void windowClosing(WindowEvent e) {
 
-               Sql.setTheUserOnline("false",_userName);
+               try
+               {
+                   Sql.setTheUserOnline("false",_userName);
+
+               }catch (Exception es)
+               {
+                   es.printStackTrace();
+               }
 
            }
 

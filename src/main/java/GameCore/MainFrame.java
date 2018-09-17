@@ -204,7 +204,7 @@ public class MainFrame extends JFrame implements MouseListener {
         else if(world.getMechanicMenu().getUnitLabel().contains(e.getComponent()))
         {
 
-            System.out.println(e.getComponent());
+
             world.addUnitToQuaqe(e,1);
         }
     }
