@@ -5,8 +5,6 @@ import GameCore.LifeBar;
 import GameCore.MainFrame;
 import GameCore.World;
 import ImageHandel.ImageLoader;
-import ImageHandel.SpriteSheet;
-
 
 
 import javax.swing.*;
@@ -86,7 +84,9 @@ public class GameObject extends JLabel {
     private void setTheLifeBar() {
         lifeBar=new LifeBar(life);
         add(lifeBar);
+
     }
+
 
 
     protected void init(){
@@ -128,6 +128,7 @@ public class GameObject extends JLabel {
                 powerNeedToBuild = 0;
                 costToBuild = 300;
                 life = 150;
+
 
                 break;
             case 1:
@@ -230,9 +231,9 @@ public class GameObject extends JLabel {
                 break;
             case 9:
                 buildingNeed="<html>power factory<br>infentry factory,<br>money factory<html>";
-                //TankFactory
+                //tankFactory
                 discription="<html>this is a tank factory.<br>lets shot the big guns and roll over the enemy .</html> ";
-
+                World.tankFactory.add((Factory) this);
                 nameOfObject = "Tank Factory";
                 life = 500;
                 powerNeedToBuild = 0;
@@ -260,7 +261,7 @@ public class GameObject extends JLabel {
                 objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack=300;
-                speedOfMove = 2;
+                speedOfMove = 8;
                 speedOfAttack = 1500;
                 damageToEnemy = 35;
                 timeToTrain = 10;
@@ -278,7 +279,7 @@ public class GameObject extends JLabel {
                 objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack=300;
-                speedOfMove = 2;
+                speedOfMove = 7;
                 speedOfAttack = 2000;
                 damageToEnemy = 150;
                 timeToTrain = 25;
@@ -297,7 +298,7 @@ public class GameObject extends JLabel {
                 objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack=150;
-                speedOfMove = 3;
+                speedOfMove = 10;
                 speedOfAttack = 500;
                 damageToEnemy = 15;
                 timeToTrain = 45;
@@ -316,7 +317,7 @@ public class GameObject extends JLabel {
                 objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack=500;
-                speedOfMove = 3;
+                speedOfMove = 6;
                 speedOfAttack = 1500;
                 damageToEnemy = 50;
                 timeToTrain = 60;
@@ -325,130 +326,115 @@ public class GameObject extends JLabel {
                 life = 200;
 
                 break;
+            case 15:
+//                tank
+                nameOfObject="tank";
+                buildingNeed="<html>spaciel ops factory<html>";
+                discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
 
+                canShotAir = false;
+                objectIsLive = true;
+                objectCanMove = true;
+                rangeOfAttack=1000;
+                speedOfMove = 8;
+                speedOfAttack = 1300;
+                damageToEnemy = 200;
+                timeToTrain = 60;
+                powerNeedToBuild = 0;
+                costToBuild = 2500;
+                life = 1500;
+
+                break;
+            case 16:
+//                mini gun
+                nameOfObject="mini gun";
+                buildingNeed="<html>spaciel ops factory<html>";
+                discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
+
+                canShotAir = false;
+                objectIsLive = true;
+                objectCanMove = true;
+                rangeOfAttack=1000;
+                speedOfMove = 10;
+                speedOfAttack = 1300;
+                damageToEnemy = 200;
+                timeToTrain = 60;
+                powerNeedToBuild = 0;
+                costToBuild = 2500;
+                life = 1500;
+
+                break;
+
+            case 17:
+//                anti air
+                nameOfObject="anti air";
+                buildingNeed="<html>spaciel ops factory<html>";
+                discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
+
+                canShotAir = true;
+                objectIsLive = true;
+                objectCanMove = true;
+                rangeOfAttack=1000;
+                speedOfMove = 12;
+                speedOfAttack = 1300;
+                damageToEnemy = 200;
+                timeToTrain = 60;
+                powerNeedToBuild = 0;
+                costToBuild = 2500;
+                life = 1500;
+
+                break;
+
+            case 18:
+//                big boss
+                nameOfObject="big boss";
+                buildingNeed="<html>spaciel ops factory<html>";
+                discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
+
+                canShotAir = false;
+                objectIsLive = true;
+                objectCanMove = true;
+                rangeOfAttack=1000;
+                speedOfMove = 6;
+                speedOfAttack = 1300;
+                damageToEnemy = 200;
+                timeToTrain = 60;
+                powerNeedToBuild = 0;
+                costToBuild = 2500;
+                life = 1500;
+
+                break;
+            case 19:
+//                super tank
+                nameOfObject="Super tank";
+                buildingNeed="<html>spaciel ops factory<html>";
+                discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
+
+                canShotAir = true;
+                objectIsLive = true;
+                objectCanMove = true;
+                rangeOfAttack=1000;
+                speedOfMove = 6;
+                speedOfAttack = 1300;
+                damageToEnemy = 200;
+                timeToTrain = 60;
+                powerNeedToBuild = 0;
+                costToBuild = 2500;
+                life = 1500;
+
+                break;
 
         }
 
 
     }
 
-    /*switch (getClass().getSimpleName()) {
-
-
-
-
-        case "Sniper": {
-
-            canShotAir = false;
-            objectIsLive = false;
-            objectCanMove = true;
-            rangeOfAttack=500;
-            speedOfMove = 3;
-            speedOfAttack = 1500;
-            damageToEnemy = 50;
-            timeToTrain = 18000;
-            powerNeedToBuild = 0;
-            costToBuild = 1000;
-            life = 200;
-
-            break;
-        }
-
-        case "Tank": {
-
-            canShotAir = false;
-            objectIsLive = false;
-            objectCanMove = true;
-            rangeOfAttack=500;
-            speedOfMove = 2;
-            speedOfAttack = 2000;
-            damageToEnemy = 50;
-            timeToTrain = 20000;
-            powerNeedToBuild = 0;
-            costToBuild = 1000;
-            life = 800;
-
-            break;
-        }
-
-        case "MiniGun": {
-
-            canShotAir = false;
-            objectIsLive = false;
-            objectCanMove = true;
-            rangeOfAttack=600;
-            speedOfMove = 4;
-            speedOfAttack = 500;
-            damageToEnemy = 25;
-            timeToTrain = 25000;
-            powerNeedToBuild = 0;
-            costToBuild = 700;
-            life = 450;
-
-            break;
-        }
-        case "AntiAirTank": {
-
-            canShotAir = true;
-            objectIsLive = false;
-            objectCanMove = true;
-            rangeOfAttack=500;
-            speedOfMove = 4;
-            speedOfAttack = 800;
-            damageToEnemy = 20;
-            timeToTrain = 15000;
-            powerNeedToBuild = 0;
-            costToBuild = 800;
-            life = 300;
-
-            break;
-        }
-        case "SuperTank": {
-
-            canShotAir = false;
-            objectIsLive = false;
-            objectCanMove = true;
-            rangeOfAttack=700;
-            speedOfMove = 2;
-            speedOfAttack = 1000;
-            damageToEnemy = 50;
-            timeToTrain = 60000;
-            powerNeedToBuild = 0;
-            costToBuild = 2000;
-            life = 2000;
-
-            break;
-        }
-        case "BigBoss": {
-
-            canShotAir = true;
-            objectIsLive = false;
-            objectCanMove = true;
-            rangeOfAttack=700;
-            speedOfMove = 3;
-            speedOfAttack = 500;
-            damageToEnemy = 45;
-            timeToTrain = 75000;
-            powerNeedToBuild = 0;
-            costToBuild = 3000;
-            life = 2500;
-
-            break;
-        }
 
 
 
 
 
 
-
-
-        }
-
-
-
-
-    }*/
 
 
 

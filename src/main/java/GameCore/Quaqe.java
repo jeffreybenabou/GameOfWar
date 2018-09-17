@@ -2,7 +2,9 @@ package GameCore;
 
 import ObjectPackege.Factory;
 import ObjectPackege.Unit;
+import Units.AirUnits.AntiAir;
 import Units.InfantryUnit.*;
+import Units.MechanicUnits.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,9 +29,19 @@ public class Quaqe {
     public void setTheTimeToTrain() {
 
         timeToTrain=new JLabel("<html>next unit:<br> 0</html>");
-        timeToTrain.setBounds(MainFrame.world.getUnitTrainMenu().getUnitQueue().getX()+MainFrame.world.getUnitTrainMenu().getUnitQueue().getX()/10,MainFrame.world.getUnitTrainMenu().getHeight()/2+MainFrame.world.getUnitTrainMenu().getHeight()/10,MainFrame.world.getUnitTrainMenu().getWidth()/10,MainFrame.world.getUnitTrainMenu().getHeight()/3);
         timeToTrain.setVisible(false);
-        MainFrame.world.getUnitTrainMenu().add(timeToTrain);
+        if(factory.getType()==3)
+        {
+            timeToTrain.setBounds(MainFrame.world.getUnitTrainMenu().getUnitQueue().getX()+MainFrame.world.getUnitTrainMenu().getUnitQueue().getX()/10,MainFrame.world.getUnitTrainMenu().getHeight()/2+MainFrame.world.getUnitTrainMenu().getHeight()/10,MainFrame.world.getUnitTrainMenu().getWidth()/10,MainFrame.world.getUnitTrainMenu().getHeight()/3);
+            MainFrame.world.getUnitTrainMenu().add(timeToTrain);
+
+        }
+        if(factory.getType()==9)
+        {
+            timeToTrain.setBounds(MainFrame.world.getMechanicMenu().getUnitQueue().getX()+MainFrame.world.getMechanicMenu().getUnitQueue().getX()/10,MainFrame.world.getMechanicMenu().getHeight()/2+MainFrame.world.getMechanicMenu().getHeight()/10,MainFrame.world.getMechanicMenu().getWidth()/10,MainFrame.world.getMechanicMenu().getHeight()/3);
+            MainFrame.world.getMechanicMenu().add(timeToTrain);
+
+        }
         allTimeToTrainLabel.add(timeToTrain);
     }
     public  void setTheQueue(final Unit unitToAdd){
@@ -122,6 +134,51 @@ public class Quaqe {
                     Sniper unit=new Sniper();
                     unit.setTheUnitMethod();
                     unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*5);
+                    MainFrame.world.getBackGroundImage().add(unit);
+                    World.allUnit.add(unit);
+                    World.allObjects.add(unit);
+                }
+                else if(unitToAdd.getNameOfObject().equals("tank"))
+                {
+                    Tank unit=new Tank();
+                    unit.setTheUnitMethod();
+                    unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
+                    MainFrame.world.getBackGroundImage().add(unit);
+                    World.allUnit.add(unit);
+                    World.allObjects.add(unit);
+                }
+                else if(unitToAdd.getNameOfObject().equals("mini gun"))
+                {
+                    MiniGun unit=new MiniGun();
+                    unit.setTheUnitMethod();
+                    unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
+                    MainFrame.world.getBackGroundImage().add(unit);
+                    World.allUnit.add(unit);
+                    World.allObjects.add(unit);
+                }
+                else if(unitToAdd.getNameOfObject().equals("anti air"))
+                {
+                    AntiAirTank unit=new AntiAirTank();
+                    unit.setTheUnitMethod();
+                    unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
+                    MainFrame.world.getBackGroundImage().add(unit);
+                    World.allUnit.add(unit);
+                    World.allObjects.add(unit);
+                }
+                else if(unitToAdd.getNameOfObject().equals("big boss"))
+                {
+                    BigBoss unit=new BigBoss();
+                    unit.setTheUnitMethod();
+                    unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
+                    MainFrame.world.getBackGroundImage().add(unit);
+                    World.allUnit.add(unit);
+                    World.allObjects.add(unit);
+                }
+                else if(unitToAdd.getNameOfObject().equals("Super tank"))
+                {
+                    SuperTank unit=new SuperTank();
+                    unit.setTheUnitMethod();
+                    unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
                     MainFrame.world.getBackGroundImage().add(unit);
                     World.allUnit.add(unit);
                     World.allObjects.add(unit);

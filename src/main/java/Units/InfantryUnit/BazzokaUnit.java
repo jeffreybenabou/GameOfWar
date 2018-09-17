@@ -9,13 +9,16 @@ import javax.swing.*;
 public class BazzokaUnit extends HumanUnit {
 
 
+    public static SpriteSheet moveSpriteSheetBazzoka=new SpriteSheet(imageLoader.loadImage("image/infentry/userUnits/bazzoka/bazzokaMove.png"));
+    public static SpriteSheet standSpriteSheetBazzoka=new SpriteSheet(imageLoader.loadImage("image/infentry/userUnits/bazzoka/bazzokaStanding.png"));
+
     public BazzokaUnit() {
         super();
         type=12;
-        moveSpriteSheet =new SpriteSheet(imageLoader.loadImage("image/infentry/userUnits/bazzoka/bazzokaMove.png"));
-        standSpriteSheet =new SpriteSheet(imageLoader.loadImage("image/infentry/userUnits/bazzoka/bazzokaStanding.png"));
-
+        moveSpriteSheet =moveSpriteSheetBazzoka;
+        standSpriteSheet =standSpriteSheetBazzoka;
         init();
+        timeToTrain=1;
         setIcon(new ImageIcon(standSpriteSheet.crop(0,0,StaticVariables.HUMAN_UNIT_SHEET_MOVE_WIDTH,StaticVariables.HUMAN_UNIT_SHEET_MOVE_HEGIHT).getScaledInstance(getWidth(),getHeight(),4)));
         setImage();
     }

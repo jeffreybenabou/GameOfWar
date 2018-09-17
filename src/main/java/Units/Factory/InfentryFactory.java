@@ -13,6 +13,7 @@ public class InfentryFactory extends Factory {
 
 
 
+
     public InfentryFactory(boolean onWorld) {
         super();
         type=3;

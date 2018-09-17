@@ -43,11 +43,13 @@ public class Unit extends GameObject {
             public void run() {
                 while (objectIsLive)
                 {
+
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
                         moveTheUnit();
 
 
@@ -71,7 +73,7 @@ public class Unit extends GameObject {
 
 
             try {
-                Thread.sleep(200);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -113,18 +115,20 @@ public class Unit extends GameObject {
         {
 
 
-            if(yToMove>=standSpriteSheet.getSheet().getRaster().getHeight())
+
+
+
+            if(yToMove>moveSpriteSheet.getSheet().getRaster().getHeight()-yHeightToCrop)
                 yToMove=0;
             setIcon(new ImageIcon(moveSpriteSheet.crop(xToMove,yToMove,xWitdhToCrop,yHeightToCrop).getScaledInstance(getWidth(),getHeight(),4)));
             yToMove+=yHeightToCrop;
         }else if (objectIsStanding)
         {
             yToMove=0;
-            xToMove+=xWitdhToCrop;
-            if(xToMove>moveSpriteSheet.getSheet().getRaster().getWidth()-xWitdhToCrop)
+            if(xToMove>standSpriteSheet.getSheet().getRaster().getWidth()-xWitdhToCrop)
                 xToMove=0;
             setIcon(new ImageIcon(standSpriteSheet.crop(xToMove,yToMove,xWitdhToCrop,yHeightToCrop).getScaledInstance(getWidth(),getHeight(),4)));
-
+            xToMove+=xWitdhToCrop;
         }
 
 

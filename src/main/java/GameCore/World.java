@@ -1,40 +1,40 @@
 package GameCore;
 
-import ImageHandel.SpriteSheet;
 import ObjectPackege.Factory;
 import ObjectPackege.GameObject;
 import ObjectPackege.HumanUnit;
 import ObjectPackege.Unit;
 import Units.Factory.*;
 import Units.InfantryUnit.*;
+import Units.MechanicUnits.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
 import java.util.Random;
 
 public class World extends JPanel {
 
     private JLabel backGroundImage;
     private boolean isTesting;
-    public static ArrayList<HumanUnit> allUnit;
+    public static ArrayList<Unit> allUnit;
     public static ArrayList<GameObject>allObjects;
     public static ArrayList<Factory> infentryFactory;
+    public static ArrayList<Factory> tankFactory;
     public static ArrayList<Factory>allFactorys;
     private MiniMap miniMap;
     private BuildingMenu buildingMenu;
     private UnitTrainMenu unitTrainMenu;
+    private MechanicMenu mechanicMenu;
     public static Factory factoryPreesed;
     private HumanUnit human;
 
 
     public World(boolean isTesting) {
         this.isTesting = isTesting;
-        allUnit = new ArrayList<HumanUnit>();
-
+        allUnit = new ArrayList<Unit>();
+        tankFactory =new ArrayList<Factory>();
         allObjects=new ArrayList<GameObject>();
         infentryFactory =new ArrayList<Factory>();
         allFactorys=new ArrayList<Factory>();
@@ -86,9 +86,11 @@ public class World extends JPanel {
         getBackGroundImage().add(miniMap);
          buildingMenu =new BuildingMenu();
          unitTrainMenu=new UnitTrainMenu();
+         mechanicMenu=new MechanicMenu();
 
         getBackGroundImage().add(buildingMenu);
         getBackGroundImage().add(unitTrainMenu);
+        getBackGroundImage().add(mechanicMenu);
 
 
 
@@ -137,7 +139,7 @@ public class World extends JPanel {
 
                 break;
             case 4:
-                TankFactory tankFactory=new TankFactory();
+                TankFactory tankFactory=new TankFactory(true);
                 Factory.factory=tankFactory;
                 Factory.objectIsFlotingWorld=true;
                 tankFactory.setTheLocation();
@@ -241,11 +243,11 @@ public class World extends JPanel {
         return buildingMenu;
     }
 
-    public static ArrayList<HumanUnit> getAllUnit() {
+    public static ArrayList<Unit> getAllUnit() {
         return allUnit;
     }
 
-    public static void setAllUnit(ArrayList<HumanUnit> allUnit) {
+    public static void setAllUnit(ArrayList<Unit> allUnit) {
         World.allUnit = allUnit;
     }
 
@@ -267,6 +269,30 @@ public class World extends JPanel {
 
     public static Factory getFactoryPreesed() {
         return factoryPreesed;
+    }
+
+    public static ArrayList<Factory> getTankFactory() {
+        return tankFactory;
+    }
+
+    public static void setTankFactory(ArrayList<Factory> tankFactory) {
+        World.tankFactory = tankFactory;
+    }
+
+    public MechanicMenu getMechanicMenu() {
+        return mechanicMenu;
+    }
+
+    public void setMechanicMenu(MechanicMenu mechanicMenu) {
+        this.mechanicMenu = mechanicMenu;
+    }
+
+    public HumanUnit getHuman() {
+        return human;
+    }
+
+    public void setHuman(HumanUnit human) {
+        this.human = human;
     }
 
     public static void setFactoryPreesed(Factory factoryPreesed) {
@@ -293,12 +319,17 @@ public class World extends JPanel {
         this.miniMap = miniMap;
     }
 
-    public void addUnitToQuaqe(MouseEvent e) {
+    public void addUnitToQuaqe(MouseEvent e,int typeOfFactory) {
+
+
+        System.out.println(typeOfFactory);
+        System.out.println(factoryPreesed.getClass().getPackage());
+        if(typeOfFactory==0)
         switch (Integer.parseInt(e.getComponent().getName()))
         {
             case 0:
-                factoryPreesed.getQuaqe().setTheQueue(new ArmoredInfentry());
-                break;
+            factoryPreesed.getQuaqe().setTheQueue(new ArmoredInfentry());
+            break;
             case 1:
                 factoryPreesed.getQuaqe().setTheQueue(new Infantry());
                 break;
@@ -312,7 +343,25 @@ public class World extends JPanel {
                 factoryPreesed.getQuaqe().setTheQueue(new BazzokaUnit());
                 break;
         }
-
+        else if(typeOfFactory==1)
+            switch (Integer.parseInt(e.getComponent().getName()))
+            {
+                case 0:
+                    factoryPreesed.getQuaqe().setTheQueue(new Tank());
+                    break;
+                case 1:
+                    factoryPreesed.getQuaqe().setTheQueue(new MiniGun());
+                    break;
+                case 2:
+                    factoryPreesed.getQuaqe().setTheQueue(new SuperTank());
+                    break;
+                case 3:
+                    factoryPreesed.getQuaqe().setTheQueue(new AntiAirTank());
+                    break;
+                case 4:
+                    factoryPreesed.getQuaqe().setTheQueue(new BigBoss());
+                    break;
+            }
 
     }
 

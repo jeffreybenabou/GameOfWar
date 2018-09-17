@@ -24,5 +24,7 @@ public class LifeBar extends JProgressBar {
         setStringPainted(true);
         setMinimum(0);
         setValue(max);
+        setOpaque(true);
+        setVisible(true);
     }
 }

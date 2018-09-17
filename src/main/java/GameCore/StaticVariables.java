@@ -35,7 +35,7 @@ public  class StaticVariables {
 
 
     public static final int MECHANIC_SIZE_ON_SHEET = 230;
-    public static final int MECHANIC_SIZE_ON_SHEET_WIDTH = 230, MECHANIC_SIZE_ON_SHEET_HEIGHT = 190;
+    public static final int MECHANIC_SIZE_ON_SHEET_WIDTH = 225, MECHANIC_SIZE_ON_SHEET_HEIGHT = 190;
     public static final int MECHANIC_WORLD_SIZE_WIDTH = 120, MECHANIC_WORLD_SIZE_HEIGHT = 140;
 
 
