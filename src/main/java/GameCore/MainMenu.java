@@ -34,7 +34,7 @@ public class MainMenu  extends JPanel  {
     public MainMenu(MainFrame mainFrame){
         this.mainFrame=mainFrame;
 
-        sql=new Sql();
+//        sql=new Sql();
 
         fontOfMenuItems =new Font("SERIF", Font.PLAIN, (MainFrame.screenSize.width + MainFrame.screenSize.height) / 100);
         fontOfButtons=new Font("SERIF", Font.PLAIN, (MainFrame.screenSize.width + MainFrame.screenSize.height) / 150);
@@ -44,14 +44,14 @@ public class MainMenu  extends JPanel  {
         addTheImageBackGround();
         addTheUserMenu();
         addSignInWindows();
-        checkIfLogIn();
-        addListOfUsers();
+        /*checkIfLogIn();
+        addListOfUsers();*/
         addExitLisenersToProgram();
         setTheWaitForEnemyLabel();
     }
 
     public void setTheWaitForEnemyLabel(){
-        waitForEnemy=new JLabel("waiting for players to confirm the game..... ");
+        waitForEnemy=new JLabel("online isent working right now ..... ");
         waitForEnemy.setBounds(MainFrame.screenSize.width/2-(MainFrame.screenSize.width/5)/2,MainFrame.screenSize.height/4,MainFrame.screenSize.width/5,MainFrame.screenSize.height/10);
         waitForEnemy.setBackground(Color.BLUE);
         waitForEnemy.setOpaque(true);
