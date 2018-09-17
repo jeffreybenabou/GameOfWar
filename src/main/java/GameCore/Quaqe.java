@@ -200,6 +200,8 @@ public class Quaqe {
                     World.allUnit.add(unit);
                     World.allObjects.add(unit);
                 }
+                StaticVariables.unitHas++;
+                MainFrame.gamePanel.getPlaceHas().setText(""+StaticVariables.unitHas+"/"+StaticVariables.UNIT_LIMIT);
 
             }
         }).start();

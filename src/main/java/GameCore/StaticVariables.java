@@ -13,7 +13,7 @@ public  class StaticVariables {
     public static int powerHas = 300;
     public static final int UNIT_LIMIT = 100;
     public static int unitHas = 0;
-    public static int howMuchUnitCanBeBuild = 0;
+
 
 
     public static final int UNITS_SIZE_ON_PANEL = 50;

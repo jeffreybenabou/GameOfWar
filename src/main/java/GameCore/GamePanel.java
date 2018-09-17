@@ -10,21 +10,23 @@ public class GamePanel extends JPanel {
 
     private ImageLoader imageLoader;
     private JLabel power,money,place;
-    private Border border = BorderFactory.createLineBorder(Color.black, 3);
+    private JLabel moneyHas,powerHas,placeHas;
+    private Border border = BorderFactory.createLineBorder(Color.yellow, 3);
     private JButton showTheMap;
     private boolean isMapIsVisible=false;
 
     public GamePanel() {
 
         setBounds(0, 0, MainFrame.screenSize.width, MainFrame.screenSize.height / 12);
-        setBackground(Color.yellow);
+        setBackground(Color.black);
         imageLoader = new ImageLoader();
         setThePower();
         setTheMoney();
         setThePlace();
+        setTheString();
         setTheMapButton();
-        setBorder(border);
 
+        setBorder(border);
         setLayout(null);
 
 
@@ -33,6 +35,24 @@ public class GamePanel extends JPanel {
 
     }
 
+
+
+    private void setTheString() {
+        moneyHas= new JLabel(""+StaticVariables.sumOfMoney);
+        moneyHas.setBounds(money.getX()+money.getWidth(),money.getY()+getHeight()/4,getWidth()/10,getHeight()/3);
+        moneyHas.setForeground(Color.yellow);
+        add(moneyHas);
+
+        powerHas= new JLabel(""+StaticVariables.powerNeed+"/"+StaticVariables.powerHas);
+        powerHas.setBounds(power.getX()+power.getWidth(),power.getY()+getHeight()/4,getWidth()/10,getHeight()/3);
+        powerHas.setForeground(Color.yellow);
+        add(powerHas);
+
+        placeHas= new JLabel(""+StaticVariables.unitHas+"/"+StaticVariables.UNIT_LIMIT);
+        placeHas.setBounds(place.getX()+place.getWidth(),place.getY()+getHeight()/4,getWidth()/10,getHeight()/3);
+        placeHas.setForeground(Color.yellow);
+        add(placeHas);
+    }
 
 
     private void setTheMapButton() {
@@ -111,6 +131,30 @@ public class GamePanel extends JPanel {
     @Override
     public void setBorder(Border border) {
         this.border = border;
+    }
+
+    public JLabel getMoneyHas() {
+        return moneyHas;
+    }
+
+    public void setMoneyHas(JLabel moneyHas) {
+        this.moneyHas = moneyHas;
+    }
+
+    public JLabel getPowerHas() {
+        return powerHas;
+    }
+
+    public void setPowerHas(JLabel powerHas) {
+        this.powerHas = powerHas;
+    }
+
+    public JLabel getPlaceHas() {
+        return placeHas;
+    }
+
+    public void setPlaceHas(JLabel placeHas) {
+        this.placeHas = placeHas;
     }
 
     public JButton getShowTheMap() {
