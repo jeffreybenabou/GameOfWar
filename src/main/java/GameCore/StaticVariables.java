@@ -16,12 +16,6 @@ public  class StaticVariables {
 
 
 
-    public static final int UNITS_SIZE_ON_PANEL = 50;
-    public static final int UNITS_SIZE_ON_QUAQE = 100;
-
-
-
-
     public static final int FACTORY_SHEET_WIDTH = 285, FACTORY_SHEET_HEIGHT = 230;
     public static final int MAIN_FACTORY_WIDTH = 230, MAIN_FACTORY_HEIGHT = 195;
     public static final int POWER_FACTORY_WIDTH = 160, POWER_FACTORY_HEIGHT = 145;

@@ -160,6 +160,7 @@ public class MainFrame extends JFrame implements MouseListener {
                         world.getMechanicMenu().setLocation(-(world.getBackGroundImage().getLocation().x),-(world.getBackGroundImage().getLocation().y)+((screenSize.height-world.getBuildingMenu().getHeight())-screenSize.height/10));
                         world.getMiniMap().moveTheLocationOnMiniMap( world.getBackGroundImage().getX(),world.getBackGroundImage().getY());
 
+
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -393,11 +394,11 @@ public class MainFrame extends JFrame implements MouseListener {
 
         add(world);
 
-        world.getBackGroundImage().repaint();
+
 
 
         add(gamePanel);
-        gamePanel.repaint();
+
         repaint();
         moveTheWorld();
 
@@ -413,6 +414,7 @@ public class MainFrame extends JFrame implements MouseListener {
         getContentPane().setBackground(Color.BLUE);
 
         setVisible(true);
+        setLayout(null);
 
 
 

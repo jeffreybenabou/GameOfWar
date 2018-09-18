@@ -64,10 +64,21 @@ public class World extends JPanel {
 
                     for (int i = 0; i < World.allUnit.size(); i++) {
                         for (int j = 0; j <World.allObjects.size() ; j++) {
-                            while (World.allUnit.get(i).isObjectIsStanding()&&World.allUnit.get(i)!=World.allObjects.get(j)&&World.allUnit.get(i).calculateTheDistanceBetweenUnits(World.allObjects.get(j))<=30)
+                            while (World.allUnit.get(i).isObjectIsStanding()
+                                    &&World.allUnit.get(i)!=World.allObjects.get(j)
+                                    &&World.allUnit.get(i).calculateTheDistanceBetweenUnits(World.allObjects.get(j))<=30
+
+                                    ||World.allUnit.get(i).isObjectIsStanding()
+                                    &&World.allUnit.get(i)!=World.allObjects.get(j)
+                                    &&World.allObjects.get(j).getClass().getPackage().toString().contains("Factory")&&World.allUnit.get(i).getBounds().intersects(World.allObjects.get(j).getBounds()))
                             {
                                 World.allUnit.get(i).setBound(new Rectangle(World.allUnit.get(i).getX()+1,World.allUnit.get(i).getY(),World.allUnit.get(i).getWidth(),World.allUnit.get(i).getHeight()));
                                 World.allUnit.get(i).setBounds(World.allUnit.get(i).getBound());
+                                try {
+                                    Thread.sleep(1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
 
@@ -106,97 +117,156 @@ public class World extends JPanel {
 
     public void addFactoryToWorld(MouseEvent e)
     {
+
         switch (Integer.parseInt(e.getComponent().getName()))
         {
             case 0:
 
                 break;
             case 1:
-
                 Factory.factory=new PowerFactory();
-                Factory.objectIsFlotingWorld=true;
-                Factory.factory.setTheLocation();
-                backGroundImage.add( Factory.factory);
-                World.allObjects.add(Factory.factory);
+
+                if(checkEnoughMoney(Factory.factory))
+                {
+                    Factory.objectIsFlotingWorld=true;
+                    Factory.factory.setTheLocation();
+                    StaticVariables.sumOfMoney-=Factory.factory.getCostToBuild();
+                    backGroundImage.add( Factory.factory);
+                    World.allObjects.add(Factory.factory);
+                }
+
 
                 break;
            case 2:
                MoneyFactory factory=new MoneyFactory();
-               Factory.factory=factory;
-               Factory.objectIsFlotingWorld=true;
-               factory.setTheLocation();
-               backGroundImage.add(factory);
-               World.allObjects.add(factory);
-
+               if(checkEnoughMoney(factory)) {
+                   factory.gainMoney();
+                   Factory.factory = factory;
+                   StaticVariables.sumOfMoney -= Factory.factory.getCostToBuild();
+                   Factory.objectIsFlotingWorld = true;
+                   factory.setTheLocation();
+                   backGroundImage.add(factory);
+                   World.allObjects.add(factory);
+               }
                 break;
             case 3:
                 InfentryFactory infentryFactory=new InfentryFactory(true);
-                Factory.factory=infentryFactory;
-                Factory.objectIsFlotingWorld=true;
-                infentryFactory.setTheLocation();
-                backGroundImage.add(infentryFactory);
-                World.allObjects.add(infentryFactory);
+                if(checkEnoughMoney(infentryFactory))
+                {
+                    Factory.factory=infentryFactory;
+                    StaticVariables.sumOfMoney-=Factory.factory.getCostToBuild();
+                    Factory.objectIsFlotingWorld=true;
+                    infentryFactory.setTheLocation();
+                    backGroundImage.add(infentryFactory);
+                    World.allObjects.add(infentryFactory);
+                }
+
 
                 break;
             case 4:
                 TankFactory tankFactory=new TankFactory(true);
-                Factory.factory=tankFactory;
-                Factory.objectIsFlotingWorld=true;
-                tankFactory.setTheLocation();
-                backGroundImage.add(tankFactory);
-                World.allObjects.add(tankFactory);
+                if(checkEnoughMoney(tankFactory))
+                {
+                    Factory.factory=tankFactory;
+                    StaticVariables.sumOfMoney-=Factory.factory.getCostToBuild();
+                    Factory.objectIsFlotingWorld=true;
+                    tankFactory.setTheLocation();
+                    backGroundImage.add(tankFactory);
+                    World.allObjects.add(tankFactory);
+                }
+
 
                 break;
             case 5:
                 SateliteFactory sateliteFactory=new SateliteFactory();
-                Factory.factory=sateliteFactory;
-                Factory.objectIsFlotingWorld=true;
-                sateliteFactory.setTheLocation();
-                backGroundImage.add(sateliteFactory);
-                World.allObjects.add(sateliteFactory);
+                if(checkEnoughMoney(sateliteFactory))
+                {
+                    Factory.factory=sateliteFactory;
+                    StaticVariables.sumOfMoney-=Factory.factory.getCostToBuild();
+                    Factory.objectIsFlotingWorld=true;
+                    sateliteFactory.setTheLocation();
+                    backGroundImage.add(sateliteFactory);
+                    World.allObjects.add(sateliteFactory);
+                }
+
+
 
                 break;
             case 6:
                 AirForceFactory airForceFactory=new AirForceFactory();
-                Factory.factory=airForceFactory;
-                Factory.objectIsFlotingWorld=true;
-                airForceFactory.setTheLocation();
-                backGroundImage.add(airForceFactory);
-                World.allObjects.add(airForceFactory);
+                if(checkEnoughMoney(airForceFactory))
+                {
+                    Factory.factory=airForceFactory;
+                    StaticVariables.sumOfMoney-=Factory.factory.getCostToBuild();
+                    Factory.objectIsFlotingWorld=true;
+                    airForceFactory.setTheLocation();
+                    backGroundImage.add(airForceFactory);
+                    World.allObjects.add(airForceFactory);
+                }
+
 
 
                 break;
             case 7:
                 SuperWeponeFactory superWeponeFactory=new SuperWeponeFactory();
-                Factory.factory=superWeponeFactory;
-                Factory.objectIsFlotingWorld=true;
-                superWeponeFactory.setTheLocation();
-                backGroundImage.add(superWeponeFactory);
-                World.allObjects.add(superWeponeFactory);
+                if(checkEnoughMoney(superWeponeFactory))
+
+                {
+                    Factory.factory=superWeponeFactory;
+                    StaticVariables.sumOfMoney-=Factory.factory.getCostToBuild();
+                    Factory.objectIsFlotingWorld=true;
+                    superWeponeFactory.setTheLocation();
+                    backGroundImage.add(superWeponeFactory);
+                    World.allObjects.add(superWeponeFactory);
+                }
+
 
                 break;
             case 8:
                 SpacielOpsFactory spacielOpsFactory=new SpacielOpsFactory();
-                Factory.factory=spacielOpsFactory;
+                if(checkEnoughMoney(spacielOpsFactory))
 
-                Factory.objectIsFlotingWorld=true;
-                spacielOpsFactory.setTheLocation();
-                backGroundImage.add(spacielOpsFactory);
-                World.allObjects.add(spacielOpsFactory);
+                {
+                    Factory.factory=spacielOpsFactory;
+                    StaticVariables.sumOfMoney-=Factory.factory.getCostToBuild();
+                    Factory.objectIsFlotingWorld=true;
+                    spacielOpsFactory.setTheLocation();
+                    backGroundImage.add(spacielOpsFactory);
+                    World.allObjects.add(spacielOpsFactory);
+                }
+
                 break;
             case 9:
                 CloneFactory cloneFactory=new CloneFactory();
-                Factory.factory=cloneFactory;
-                Factory.objectIsFlotingWorld=true;
-                cloneFactory.setTheLocation();
-                backGroundImage.add(cloneFactory);
-                World.allObjects.add(cloneFactory);
+                if(checkEnoughMoney(cloneFactory))
+                {
+                    Factory.factory=cloneFactory;
+                    StaticVariables.sumOfMoney-=Factory.factory.getCostToBuild();
+                    Factory.objectIsFlotingWorld=true;
+                    cloneFactory.setTheLocation();
+                    backGroundImage.add(cloneFactory);
+                    World.allObjects.add(cloneFactory);
+                }
+
+
 
                 break;
 
 
         }
 
+
+    }
+
+    private boolean checkEnoughMoney(Factory factory) {
+        if(factory.getCostToBuild()<=StaticVariables.sumOfMoney)
+        return true;
+        else
+        {
+            JOptionPane.showMessageDialog(null,"not enough money");
+            return false;
+
+        }
     }
 
     private void setTheBackGroundWorld() {

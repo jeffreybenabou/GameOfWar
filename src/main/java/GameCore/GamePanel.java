@@ -52,6 +52,21 @@ public class GamePanel extends JPanel {
         placeHas.setBounds(place.getX()+place.getWidth(),place.getY()+getHeight()/4,getWidth()/10,getHeight()/3);
         placeHas.setForeground(Color.yellow);
         add(placeHas);
+
+        new Thread(new Runnable() {
+            public void run() {
+                while (true)
+                {
+                    getMoneyHas().setText(""+StaticVariables.sumOfMoney);
+
+                    try {
+                        Thread.sleep(40);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
 
 
