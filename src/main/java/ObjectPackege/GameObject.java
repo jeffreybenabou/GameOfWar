@@ -68,6 +68,7 @@ public class GameObject extends JLabel {
             public void run() {
                 while (getWidth()==0)
                 {
+                    System.out.println("safsafsafsaf");
                     try {
                         Thread.sleep(1);
                     } catch (InterruptedException e) {
@@ -84,6 +85,8 @@ public class GameObject extends JLabel {
     private void setTheLifeBar() {
         lifeBar=new LifeBar(life);
         add(lifeBar);
+        lifeBar.repaint();
+        lifeBar.revalidate();
 
     }
 
@@ -172,7 +175,7 @@ public class GameObject extends JLabel {
                 buildingNeed="<html>power factory<br>staelite factory<html>";
 
                 discription="<html>this is a Air Force factory.<br>you need this building in order to create air units.</html> ";
-
+                World.airFactory.add((Factory) this);
                 nameOfObject = "Air Force Factory";
 
                 life = 500;
@@ -423,7 +426,63 @@ public class GameObject extends JLabel {
                 life = 1500;
 
                 break;
+            case 20:
+//                anti air
+                nameOfObject="Anti air plane";
+                buildingNeed="<html>spaciel ops factory<html>";
+                discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
 
+                canShotAir = true;
+                objectIsLive = true;
+                objectCanMove = true;
+                rangeOfAttack=1000;
+                speedOfMove = 6;
+                speedOfAttack = 1300;
+                damageToEnemy = 200;
+                timeToTrain = 60;
+                powerNeedToBuild = 0;
+                costToBuild = 2500;
+                life = 1500;
+
+                break;
+            case 21:
+//                Chopper
+                nameOfObject="Chopper";
+                buildingNeed="<html>spaciel ops factory<html>";
+                discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
+
+                canShotAir = true;
+                objectIsLive = true;
+                objectCanMove = true;
+                rangeOfAttack=1000;
+                speedOfMove = 6;
+                speedOfAttack = 1300;
+                damageToEnemy = 200;
+                timeToTrain = 60;
+                powerNeedToBuild = 0;
+                costToBuild = 2500;
+                life = 1500;
+
+                break;
+            case 22:
+//                SpaceShip
+                nameOfObject="Space Ship";
+                buildingNeed="<html>spaciel ops factory<html>";
+                discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
+
+                canShotAir = true;
+                objectIsLive = true;
+                objectCanMove = true;
+                rangeOfAttack=1000;
+                speedOfMove = 10;
+                speedOfAttack = 1300;
+                damageToEnemy = 200;
+                timeToTrain = 60;
+                powerNeedToBuild = 0;
+                costToBuild = 2500;
+                life = 1500;
+
+                break;
         }
 
 

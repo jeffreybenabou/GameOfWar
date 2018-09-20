@@ -46,7 +46,7 @@ public class UnitTrainMenu extends JLabel {
 
 
 
-        for (int i = 0; i <5 ; i++) {
+        for (int i = 0; i <3 ; i++) {
             setTheBoxBackGround(i);
             setTheUnitIcon(i);
             boxBackGround.setName(""+i);

@@ -4,6 +4,8 @@ import ImageHandel.ImageLoader;
 import ObjectPackege.Factory;
 import ObjectPackege.Unit;
 import Units.AirUnits.AntiAir;
+import Units.AirUnits.Choper;
+import Units.AirUnits.SpaceShip;
 import Units.InfantryUnit.*;
 import Units.MechanicUnits.*;
 
@@ -32,6 +34,12 @@ public class Quaqe {
         timeToTrain=new JLabel("<html>next unit:<br> 0</html>");
         timeToTrain.setVisible(false);
         if(factory.getType()==3)
+        {
+            timeToTrain.setBounds(MainFrame.world.getUnitTrainMenu().getUnitQueue().getX()+MainFrame.world.getUnitTrainMenu().getUnitQueue().getX()/10,MainFrame.world.getUnitTrainMenu().getHeight()/2+MainFrame.world.getUnitTrainMenu().getHeight()/10,MainFrame.world.getUnitTrainMenu().getWidth()/10,MainFrame.world.getUnitTrainMenu().getHeight()/3);
+            MainFrame.world.getUnitTrainMenu().add(timeToTrain);
+
+        }
+        if(factory.getType()==4)
         {
             timeToTrain.setBounds(MainFrame.world.getUnitTrainMenu().getUnitQueue().getX()+MainFrame.world.getUnitTrainMenu().getUnitQueue().getX()/10,MainFrame.world.getUnitTrainMenu().getHeight()/2+MainFrame.world.getUnitTrainMenu().getHeight()/10,MainFrame.world.getUnitTrainMenu().getWidth()/10,MainFrame.world.getUnitTrainMenu().getHeight()/3);
             MainFrame.world.getUnitTrainMenu().add(timeToTrain);
@@ -88,6 +96,8 @@ public class Quaqe {
                             MainFrame.world.getUnitTrainMenu().getUnitQueue().setIcon(new ImageIcon(unitToAdd.getImage().getScaledInstance( MainFrame.world.getUnitTrainMenu().getUnitQueue().getWidth(), MainFrame.world.getUnitTrainMenu().getUnitQueue().getHeight(),4)));
                         else if(typeOfFactory.getType()==9)
                             MainFrame.world.getMechanicMenu().getUnitQueue().setIcon(new ImageIcon(unitToAdd.getImage().getScaledInstance( MainFrame.world.getMechanicMenu().getUnitQueue().getWidth(), MainFrame.world.getMechanicMenu().getUnitQueue().getHeight(),4)));
+                        else if(typeOfFactory.getType()==4)
+                            MainFrame.world.getAirUnitMenu().getUnitQueue().setIcon(new ImageIcon(unitToAdd.getImage().getScaledInstance( MainFrame.world.getAirUnitMenu().getUnitQueue().getWidth(), MainFrame.world.getAirUnitMenu().getUnitQueue().getHeight(),4)));
 
                         timeToTrain.setText("<html>next unit:<br> "+timeOfUnit+"</html>");
                         timeOfUnit--;
@@ -106,7 +116,8 @@ public class Quaqe {
                     {
                         ImageLoader imageLoader=new ImageLoader();
                         MainFrame.world.getUnitTrainMenu().getUnitQueue().setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(MainFrame.world.getUnitTrainMenu().getBoxBackGround().getWidth(),MainFrame.world.getUnitTrainMenu().getBoxBackGround().getHeight(),4)));
-                        MainFrame.world.getMechanicMenu().getUnitQueue().setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(MainFrame.world.getUnitTrainMenu().getBoxBackGround().getWidth(),MainFrame.world.getUnitTrainMenu().getBoxBackGround().getHeight(),4)));
+                        MainFrame.world.getMechanicMenu().getUnitQueue().setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(MainFrame.world.getMechanicMenu().getBoxBackGround().getWidth(),MainFrame.world.getMechanicMenu().getBoxBackGround().getHeight(),4)));
+                        MainFrame.world.getAirUnitMenu().getUnitQueue().setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(MainFrame.world.getAirUnitMenu().getBoxBackGround().getWidth(),MainFrame.world.getAirUnitMenu().getBoxBackGround().getHeight(),4)));
 
                         timeToTrain.setText("<html>next unit:<br> none</html>");
 
@@ -193,9 +204,27 @@ public class Quaqe {
                         World.allUnit.add(unit);
                         World.allObjects.add(unit);
                     }
-                    else if(unitToAdd.getNameOfObject().equals("Super tank"))
+                    else if(unitToAdd.getNameOfObject().equals("Anti air plane"))
                     {
-                        SuperTank unit=new SuperTank();
+                        AntiAir unit=new AntiAir();
+                        unit.setTheUnitMethod();
+                        unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
+                        MainFrame.world.getBackGroundImage().add(unit);
+                        World.allUnit.add(unit);
+                        World.allObjects.add(unit);
+                    }
+                    else if(unitToAdd.getNameOfObject().equals("Chopper"))
+                    {
+                        Choper unit=new Choper();
+                        unit.setTheUnitMethod();
+                        unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
+                        MainFrame.world.getBackGroundImage().add(unit,1,1);
+                        World.allUnit.add(unit);
+                        World.allObjects.add(unit);
+                    }
+                    else if(unitToAdd.getNameOfObject().equals("Space Ship"))
+                    {
+                        SpaceShip unit=new SpaceShip();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
                         MainFrame.world.getBackGroundImage().add(unit);

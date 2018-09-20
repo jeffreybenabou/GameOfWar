@@ -9,6 +9,7 @@ import ImageHandel.SpriteSheet;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.Random;
 
 
@@ -30,6 +31,8 @@ public class Unit extends GameObject {
     public Unit() {
         super();
         pointToMove=new Point();
+        setLayout(new GridLayout(6,1));
+
 
     }
 
@@ -91,14 +94,18 @@ public class Unit extends GameObject {
             }
 
             setLocation((int) ((getX() + directionX)), (int) ((getY() + directionY)));
+            if(!getClass().getPackage().toString().contains("Air"))
             changeTheImage();
 
 
         }
-        changeTheImage();
+        if(!getClass().getPackage().toString().contains("Air"))
+
+            changeTheImage();
 
 
     }
+
 
 
 
@@ -111,8 +118,10 @@ public class Unit extends GameObject {
 
 
 
+
         if(isObjectIsMoving())
         {
+
 
 
 

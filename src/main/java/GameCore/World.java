@@ -1,9 +1,9 @@
 package GameCore;
 
-import ObjectPackege.Factory;
-import ObjectPackege.GameObject;
-import ObjectPackege.HumanUnit;
-import ObjectPackege.Unit;
+import ObjectPackege.*;
+import Units.AirUnits.AntiAir;
+import Units.AirUnits.Choper;
+import Units.AirUnits.SpaceShip;
 import Units.Factory.*;
 import Units.InfantryUnit.*;
 import Units.MechanicUnits.*;
@@ -13,9 +13,11 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.PriorityBlockingQueue;
 
-public class World extends JPanel {
+public class World extends JLayeredPane  {
 
+    public static ArrayList<Factory> airFactory;
     private JLabel backGroundImage;
     private boolean isTesting;
     public static ArrayList<Unit> allUnit;
@@ -29,11 +31,13 @@ public class World extends JPanel {
     private MechanicMenu mechanicMenu;
     public static Factory factoryPreesed;
     private HumanUnit human;
+    private AirUnitsMenu airUnitMenu;
 
 
     public World(boolean isTesting) {
         this.isTesting = isTesting;
         allUnit = new ArrayList<Unit>();
+        airFactory=new ArrayList<Factory>();
         tankFactory =new ArrayList<Factory>();
         allObjects=new ArrayList<GameObject>();
         infentryFactory =new ArrayList<Factory>();
@@ -98,10 +102,12 @@ public class World extends JPanel {
          buildingMenu =new BuildingMenu();
          unitTrainMenu=new UnitTrainMenu();
          mechanicMenu=new MechanicMenu();
+         airUnitMenu=new AirUnitsMenu();
 
         getBackGroundImage().add(buildingMenu);
         getBackGroundImage().add(unitTrainMenu);
         getBackGroundImage().add(mechanicMenu);
+        getBackGroundImage().add(airUnitMenu);
 
 
 
@@ -193,7 +199,7 @@ public class World extends JPanel {
 
                 break;
             case 6:
-                AirForceFactory airForceFactory=new AirForceFactory();
+                AirForceFactory airForceFactory=new AirForceFactory(true);
                 if(checkEnoughMoney(airForceFactory))
                 {
                     Factory.factory=airForceFactory;
@@ -390,7 +396,15 @@ public class World extends JPanel {
         this.miniMap = miniMap;
     }
 
-    public void addUnitToQuaqe(MouseEvent e,int typeOfFactory) {
+    public AirUnitsMenu getAirUnitMenu() {
+        return airUnitMenu;
+    }
+
+    public void setAirUnitMenu(AirUnitsMenu airUnitMenu) {
+        this.airUnitMenu = airUnitMenu;
+    }
+
+    public void addUnitToQuaqe(MouseEvent e, int typeOfFactory) {
 
 
         if(typeOfFactory==0)
@@ -429,6 +443,19 @@ public class World extends JPanel {
                     break;
                 case 4:
                     factoryPreesed.getQuaqe().setTheQueue(new BigBoss(),factoryPreesed);
+                    break;
+            }
+        else if(typeOfFactory==2)
+            switch (Integer.parseInt(e.getComponent().getName()))
+            {
+                case 0:
+                    factoryPreesed.getQuaqe().setTheQueue(new AntiAir(),factoryPreesed);
+                    break;
+                case 1:
+                    factoryPreesed.getQuaqe().setTheQueue(new Choper(),factoryPreesed);
+                    break;
+                case 2:
+                    factoryPreesed.getQuaqe().setTheQueue(new SpaceShip(),factoryPreesed);
                     break;
             }
 
