@@ -207,6 +207,7 @@ public class Quaqe {
                     else if(unitToAdd.getNameOfObject().equals("Anti air plane"))
                     {
                         AntiAir unit=new AntiAir();
+                        unit.floatShip();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
                         MainFrame.world.getBackGroundImage().add(unit);
@@ -216,6 +217,7 @@ public class Quaqe {
                     else if(unitToAdd.getNameOfObject().equals("Chopper"))
                     {
                         Choper unit=new Choper();
+                        unit.floatShip();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
                         MainFrame.world.getBackGroundImage().add(unit,1,1);
@@ -226,6 +228,7 @@ public class Quaqe {
                     else if(unitToAdd.getNameOfObject().equals("Space Ship"))
                     {
                         SpaceShip unit=new SpaceShip();
+                        unit.floatShip();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
                         MainFrame.world.getBackGroundImage().add(unit);

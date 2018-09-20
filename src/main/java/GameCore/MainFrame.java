@@ -404,15 +404,6 @@ public class MainFrame extends JFrame implements MouseListener {
         gamePanel=new GamePanel();
         world=new World(true);
 
-        Infantry tempUnit=new Infantry();
-        AntiAir antiAir=new AntiAir();
-        antiAir.setTheUnitMethod();
-        tempUnit.setTheUnitMethod();
-        World.allUnit.add(tempUnit);
-        World.allObjects.add(tempUnit);
-        world.getBackGroundImage().add(tempUnit);
-        world.getBackGroundImage().add(antiAir);
-
         mainFactory=new MainFactory(true);
         World.allObjects.add(mainFactory);
         World.allFactorys.add(mainFactory);
@@ -424,12 +415,7 @@ public class MainFrame extends JFrame implements MouseListener {
 
 
         add(world);
-
-
-
-
         add(gamePanel);
-
         repaint();
         moveTheWorld();
 
