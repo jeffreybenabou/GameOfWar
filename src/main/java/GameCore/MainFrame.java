@@ -405,6 +405,9 @@ public class MainFrame extends JFrame implements MouseListener {
         world=new World(true);
 
         mainFactory=new MainFactory(true);
+
+        mainFactory.repaint();
+        mainFactory.revalidate();
         World.allObjects.add(mainFactory);
         World.allFactorys.add(mainFactory);
         world.getBackGroundImage().add(mainFactory);

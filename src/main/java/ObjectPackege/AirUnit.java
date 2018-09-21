@@ -8,6 +8,7 @@ public class AirUnit extends Unit {
     public AirUnit() {
         super();
         setLayout(new GridLayout(10,1));
+
     }
 
     public void floatShip(){

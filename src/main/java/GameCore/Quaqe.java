@@ -128,7 +128,7 @@ public class Quaqe {
                         ArmoredInfentry armoredInfentry=new ArmoredInfentry();
                         armoredInfentry.setTheUnitMethod();
                         armoredInfentry.setLocation((int)point.getX(),(int)point.getY()+armoredInfentry.getHeight()*5);
-                        MainFrame.world.getBackGroundImage().add(armoredInfentry);
+                        MainFrame.world.getBackGroundImage().add(armoredInfentry,7);
                         World.allUnit.add(armoredInfentry);
                         World.allObjects.add(armoredInfentry);
                     }
@@ -137,7 +137,7 @@ public class Quaqe {
                         Infantry infantry=new Infantry();
                         infantry.setTheUnitMethod();
                         infantry.setLocation((int)point.getX(),(int)point.getY()+infantry.getHeight()*5);
-                        MainFrame.world.getBackGroundImage().add(infantry);
+                        MainFrame.world.getBackGroundImage().add(infantry,7);
                         World.allUnit.add(infantry);
                         World.allObjects.add(infantry);
                     }
@@ -146,7 +146,7 @@ public class Quaqe {
                         Medic unit=new Medic();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*5);
-                        MainFrame.world.getBackGroundImage().add(unit);
+                        MainFrame.world.getBackGroundImage().add(unit,7);
                         World.allUnit.add(unit);
                         World.allObjects.add(unit);
                     }
@@ -155,7 +155,7 @@ public class Quaqe {
                         BazzokaUnit unit=new BazzokaUnit();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*5);
-                        MainFrame.world.getBackGroundImage().add(unit);
+                        MainFrame.world.getBackGroundImage().add(unit,7);
                         World.allUnit.add(unit);
                         World.allObjects.add(unit);
                     }
@@ -164,7 +164,7 @@ public class Quaqe {
                         Sniper unit=new Sniper();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*5);
-                        MainFrame.world.getBackGroundImage().add(unit);
+                        MainFrame.world.getBackGroundImage().add(unit,7);
                         World.allUnit.add(unit);
                         World.allObjects.add(unit);
                     }
@@ -173,7 +173,7 @@ public class Quaqe {
                         Tank unit=new Tank();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit);
+                        MainFrame.world.getBackGroundImage().add(unit,7);
                         World.allUnit.add(unit);
                         World.allObjects.add(unit);
                     }
@@ -182,7 +182,7 @@ public class Quaqe {
                         MiniGun unit=new MiniGun();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit);
+                        MainFrame.world.getBackGroundImage().add(unit,7);
                         World.allUnit.add(unit);
                         World.allObjects.add(unit);
                     }
@@ -191,7 +191,7 @@ public class Quaqe {
                         AntiAirTank unit=new AntiAirTank();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit);
+                        MainFrame.world.getBackGroundImage().add(unit,7);
                         World.allUnit.add(unit);
                         World.allObjects.add(unit);
                     }
@@ -200,7 +200,7 @@ public class Quaqe {
                         BigBoss unit=new BigBoss();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit);
+                        MainFrame.world.getBackGroundImage().add(unit,7);
                         World.allUnit.add(unit);
                         World.allObjects.add(unit);
                     }
@@ -210,7 +210,7 @@ public class Quaqe {
                         unit.floatShip();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit);
+                        MainFrame.world.getBackGroundImage().add(unit,5);
                         World.allUnit.add(unit);
                         World.allObjects.add(unit);
                     }
@@ -220,7 +220,7 @@ public class Quaqe {
                         unit.floatShip();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit,1,1);
+                        MainFrame.world.getBackGroundImage().add(unit,4);
                         World.allUnit.add(unit);
                         World.allObjects.add(unit);
                     }
@@ -231,7 +231,7 @@ public class Quaqe {
                         unit.floatShip();
                         unit.setTheUnitMethod();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit);
+                        MainFrame.world.getBackGroundImage().add(unit,6);
                         World.allUnit.add(unit);
                         World.allObjects.add(unit);
                     }

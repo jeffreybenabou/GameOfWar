@@ -51,42 +51,46 @@ public class GameObject extends JLabel {
         mainFrame=MainFrame.mainFrame;
         imageLoader=new ImageLoader();
 
-        addLife();
+
+
 
 
 
 
 
     }
+
+
     public double calculateTheDistanceBetweenUnits(GameObject gameObject){
         float xDistance = gameObject.getX() - getX();
         float yDistance = gameObject.getY() - getY();
         return Math.sqrt((xDistance*xDistance) + (yDistance*yDistance));
     }
-    protected void addLife() {
+
+
+    public void setTheLifeBar() {
         new Thread(new Runnable() {
             public void run() {
+
                 while (getWidth()==0)
                 {
-                    System.out.println("safsafsafsaf");
+
                     try {
-                        Thread.sleep(1);
+                        Thread.sleep(10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
 
-                setTheLifeBar();
+                    lifeBar=new LifeBar(life);
+                    add(lifeBar);
+                    lifeBar.repaint();
+                    lifeBar.revalidate();
+
+
             }
         }).start();
 
-    }
-
-    private void setTheLifeBar() {
-        lifeBar=new LifeBar(life);
-        add(lifeBar);
-        lifeBar.repaint();
-        lifeBar.revalidate();
 
     }
 
@@ -94,11 +98,12 @@ public class GameObject extends JLabel {
 
     protected void init(){
 
-
         setBounds(bound);
+
+
         addMouseListener(mainFrame);
         setTheUnitProperties();
-
+        setTheLifeBar();
 
 
     }

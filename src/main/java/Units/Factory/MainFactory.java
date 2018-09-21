@@ -1,5 +1,6 @@
 package Units.Factory;
 
+import GameCore.MainFrame;
 import GameCore.StaticVariables;
 import ImageHandel.SpriteSheet;
 import ObjectPackege.Factory;
@@ -12,10 +13,12 @@ import java.awt.image.BufferedImage;
 
 public class MainFactory extends Factory {
 
+    public static final int MAIN_FACTORY_WIDTH = MainFrame.world.getBackGroundImage().getWidth()/50, MAIN_FACTORY_HEIGHT = MainFrame.world.getBackGroundImage().getHeight()/70;
 
     public MainFactory(boolean addToWorld) {
         super();
         type=1;
+        bound=new Rectangle(0,0,MAIN_FACTORY_WIDTH,MAIN_FACTORY_HEIGHT);
 
 
         init();

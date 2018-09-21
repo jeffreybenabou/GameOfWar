@@ -17,15 +17,6 @@ public  class StaticVariables {
 
 
     public static final int FACTORY_SHEET_WIDTH = 285, FACTORY_SHEET_HEIGHT = 230;
-    public static final int MAIN_FACTORY_WIDTH = 230, MAIN_FACTORY_HEIGHT = 195;
-    public static final int POWER_FACTORY_WIDTH = 160, POWER_FACTORY_HEIGHT = 145;
-    public static final int MONEY_FACTORY_WIDTH = 200, MONEY_FACTORY_HEIGHT = 180;
-    public static final int INFENTRY_FACTORY_WIDTH = 230, INFENTRY_FACTORY_HEIGHT = 185;
-    public static final int TANK_FACTORY_WIDTH = 220, TANK_FACTORY_HIEGHT = 185;
-    public static final int SATELITE_FACTORY_WIDTH = 185, SATELITE_FACTORY_HEIGHT = 195;
-    public static final int AIRFIELD_FACTORY_WIDTH = 200, AIRFIELD_FACTORY_HEIGHT = 185;
-    public static final int SPECIALOPS_FACTORY_WIDTH = 200, SPECIALOPS_FACTORY_HEIGHT = 180;
-    public static final int SUPERWEPONE_FACTORY_WIDTH = 200, SUPERWEPONE_FACTORY_HEIGHT = 180;
 
 
     public static final int MECHANIC_SIZE_ON_SHEET = 230;

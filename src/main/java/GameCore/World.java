@@ -32,6 +32,7 @@ public class World extends JLayeredPane  {
     public static Factory factoryPreesed;
     private HumanUnit human;
     private AirUnitsMenu airUnitMenu;
+    private Thread thread;
 
 
     public World(boolean isTesting) {
@@ -58,7 +59,6 @@ public class World extends JLayeredPane  {
     public void checkIfIntersect(){
         new Thread(new Runnable() {
             public void run() {
-                Random  random=new Random();
                 while (true) {
                     try {
                         Thread.sleep(20);
@@ -66,28 +66,57 @@ public class World extends JLayeredPane  {
                         e.printStackTrace();
                     }
 
-                    for (int i = 0; i < World.allUnit.size(); i++) {
-                        for (int j = 0; j <World.allObjects.size() ; j++) {
-                            while (World.allUnit.get(i).isObjectIsStanding()
-                                    &&World.allUnit.get(i)!=World.allObjects.get(j)
-                                    &&World.allUnit.get(i).calculateTheDistanceBetweenUnits(World.allObjects.get(j))<=30
 
-                                    ||World.allUnit.get(i).isObjectIsStanding()
-                                    &&World.allUnit.get(i)!=World.allObjects.get(j)
-                                    &&World.allObjects.get(j).getClass().getPackage().toString().contains("Factory")&&World.allUnit.get(i).getBounds().intersects(World.allObjects.get(j).getBounds()))
-                            {
-                                World.allUnit.get(i).setBound(new Rectangle(World.allUnit.get(i).getX()+1,World.allUnit.get(i).getY(),World.allUnit.get(i).getWidth(),World.allUnit.get(i).getHeight()));
-                                World.allUnit.get(i).setBounds(World.allUnit.get(i).getBound());
-                                try {
-                                    Thread.sleep(1);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
+                            for (int i = 0; i < World.allUnit.size(); i++) {
+                                for (int j = 0; j <World.allObjects.size() ; j++) {
+                                    if(!World.allUnit.get(i).getClass().getPackage().toString().contains("Air"))
+                                        while (
+                                                (World.allUnit.get(i).isObjectIsStanding()
+                                                &&World.allUnit.get(i)!=World.allObjects.get(j)
+
+
+                                                ||World.allUnit.get(i).isObjectIsStanding()
+                                                &&World.allUnit.get(i)!=World.allObjects.get(j)
+                                                &&World.allObjects.get(j).getClass().getPackage().toString().contains("Factory")&&World.allUnit.get(i).getBounds().intersects(World.allObjects.get(j).getBounds()))&&
+                                                       ! World.allObjects.get(j).getClass().getPackage().getName().contains("Air"))
+                                        {
+
+                                            if(World.allUnit.get(i).getClass().getPackage().getName().contains("InfantryUnit"))
+                                            if(World.allUnit.get(i).calculateTheDistanceBetweenUnits(World.allObjects.get(j))>=30)
+                                                break;
+
+                                            if(World.allUnit.get(i).getClass().getPackage().getName().contains("MechanicUnits"))
+                                                if(World.allUnit.get(i).calculateTheDistanceBetweenUnits(World.allObjects.get(j))>=70)
+                                                    break;
+                                            World.allUnit.get(i).setBound(new Rectangle(World.allUnit.get(i).getX()+1,World.allUnit.get(i).getY(),World.allUnit.get(i).getWidth(),World.allUnit.get(i).getHeight()));
+                                            World.allUnit.get(i).setBounds(World.allUnit.get(i).getBound());
+                                            try {
+                                                Thread.sleep(1);
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                        else
+                                    {
+                                        while (World.allObjects.get(j).getClass().getPackage().getName().contains("Air")
+                                        &&World.allObjects.get(j)!=World.allUnit.get(i)&&
+                                                World.allUnit.get(i).calculateTheDistanceBetweenUnits(World.allObjects.get(j))<=70)
+                                        {
+                                            World.allUnit.get(i).setObjectIsMoving(false);
+                                            World.allUnit.get(i).setObjectIsStanding(true);
+                                            World.allUnit.get(i).setBound(new Rectangle(World.allUnit.get(i).getX()+1,World.allUnit.get(i).getY(),World.allUnit.get(i).getWidth(),World.allUnit.get(i).getHeight()));
+                                            World.allUnit.get(i).setBounds(World.allUnit.get(i).getBound());
+                                        }
+
+
+                                    }
+
                                 }
+
+
                             }
-                        }
 
 
-                    }
 
                 }
             }
@@ -98,17 +127,17 @@ public class World extends JLayeredPane  {
     public void addMiniMap()
     {
         miniMap =new MiniMap();
-        getBackGroundImage().add(miniMap);
+
          buildingMenu =new BuildingMenu();
          unitTrainMenu=new UnitTrainMenu();
          mechanicMenu=new MechanicMenu();
          airUnitMenu=new AirUnitsMenu();
 
-        getBackGroundImage().add(buildingMenu);
-        getBackGroundImage().add(unitTrainMenu);
-        getBackGroundImage().add(mechanicMenu);
-        getBackGroundImage().add(airUnitMenu);
-
+        getBackGroundImage().add(buildingMenu,0);
+        getBackGroundImage().add(unitTrainMenu,0);
+        getBackGroundImage().add(mechanicMenu,1);
+        getBackGroundImage().add(airUnitMenu,2);
+        getBackGroundImage().add(miniMap,3);
 
 
 

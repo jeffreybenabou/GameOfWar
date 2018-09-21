@@ -8,11 +8,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MoneyFactory extends Factory {
+    public static final int MONEY_FACTORY_WIDTH = MainFrame.world.getBackGroundImage().getWidth()/60, MONEY_FACTORY_HEIGHT = MainFrame.world.getBackGroundImage().getWidth()/70;
 
 
     public MoneyFactory() {
         super();
         type=8;
+        bound=new Rectangle(0,0, MONEY_FACTORY_WIDTH,MONEY_FACTORY_HEIGHT);
+
         init();
         setIcon(new ImageIcon(spriteSheet.crop(StaticVariables.FACTORY_SHEET_WIDTH*2,0, StaticVariables.FACTORY_SHEET_WIDTH,StaticVariables.FACTORY_SHEET_HEIGHT).getScaledInstance(getWidth(),getHeight(),4)));
         setImage();

@@ -28,7 +28,6 @@ public class Factory extends GameObject {
     public Factory() {
 
         super();
-        bound=new Rectangle(0,0, MainFrame.world.getBackGroundImage().getWidth()/50,MainFrame.world.getBackGroundImage().getHeight()/70);
         setLayout(new GridLayout(12,1));
 
 

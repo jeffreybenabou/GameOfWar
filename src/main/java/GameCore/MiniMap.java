@@ -137,6 +137,7 @@ public class MiniMap extends JLabel {
         setIcon(new ImageIcon(spriteSheet.crop(0,0,400,spriteSheet.getSheet().getRaster().getHeight()).getScaledInstance(getWidth(),getHeight(),4)));
         setVisible(false);
 
+
     }
 
 
