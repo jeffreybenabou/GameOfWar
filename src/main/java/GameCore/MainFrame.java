@@ -16,8 +16,9 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-public class MainFrame extends JFrame implements MouseListener {
+public class MainFrame extends JFrame implements MouseListener, MouseMotionListener {
 
 
     private MainFactory mainFactory;
@@ -27,8 +28,11 @@ public class MainFrame extends JFrame implements MouseListener {
     public static World world;
     public static GamePanel gamePanel;
     public static MainFrame mainFrame;
-    public static int xMousePosition = 0, yMousePosition = 0, xMouseLocation, yMouseLocation;
+    public static int xMousePosition = 0, yMousePosition = 0, xMouseLocation, yMouseLocation,xLocationToDragRectangle,yLocationToDragRectangle;
     public static Point locationOfFactory;
+    private   int xToStart=0;
+    private   int yToStart=0;
+    private int xWidth,yHeight;
 
 
     public MainFrame() {
@@ -81,6 +85,7 @@ public class MainFrame extends JFrame implements MouseListener {
     }
 
     private void removeTheUnitPickAndStopHim(MouseEvent e) {
+
         if(World.allUnit.contains(e.getComponent()))
         {
             Unit unit=(Unit)e.getComponent();
@@ -88,10 +93,11 @@ public class MainFrame extends JFrame implements MouseListener {
             unit.setObjectIsMoving(false);
             unit.setObjectIsStanding(true);
         }
-        else {
+        else if(world.getBackGroundImage().equals(e.getComponent())) {
             for (Unit unit:World.allUnit) {
                 if(unit.isObjectIsMoving())
                 {
+                    unit.setUnitHasBeenPick(false);
                     unit.setObjectIsMoving(false);
                     unit.setObjectIsStanding(true);
                 }
@@ -185,6 +191,9 @@ public class MainFrame extends JFrame implements MouseListener {
     private void checkIfComponentIsFromWorld(MouseEvent e) {
 
         if (world != null) {
+            xLocationToDragRectangle=e.getX();
+            yLocationToDragRectangle=e.getY();
+
             if (!Factory.objectIsFlotingWorld) {
                 checkIfUserPreesUnit(e);
                 checkIfUserWantsToMoveUnit(e);
@@ -671,20 +680,45 @@ public class MainFrame extends JFrame implements MouseListener {
     }
 
 
+    public void mouseDragged(MouseEvent e) {
+        if (e.getComponent().equals(world.getBackGroundImage()))
+        {
+            xWidth=e.getX()-xLocationToDragRectangle;
+            yHeight=e.getY()-yLocationToDragRectangle;
+            if(xWidth>0&&yHeight>0)
+                world.getUnitsPickRectangle().setBounds(xLocationToDragRectangle,yLocationToDragRectangle,xWidth,yHeight);
+            else if(xWidth<0&&yHeight<0)
+                world.getUnitsPickRectangle().setBounds(xLocationToDragRectangle+xWidth,yLocationToDragRectangle+yHeight,-xWidth,-yHeight);
+            else if (xWidth<0&&yHeight>0)
+                world.getUnitsPickRectangle().setBounds(xLocationToDragRectangle+xWidth,yLocationToDragRectangle,-xWidth,yHeight);
+            else if (xWidth>0&&yHeight<0)
+                world.getUnitsPickRectangle().setBounds(xLocationToDragRectangle,yLocationToDragRectangle+yHeight,xWidth,-yHeight);
 
 
 
 
+            world.getBackGroundImage().repaint();
+            world.getUnitsPickRectangle().setVisible(true);
 
+        }
 
+    }
 
+    public void mouseMoved(MouseEvent e) {
+        world.getUnitsPickRectangle().setVisible(false);
+        checkIfUnitIsIntersectWithPickArea();
 
+    }
 
+    private void checkIfUnitIsIntersectWithPickArea() {
 
+        for (Unit unit:World.allUnit) {
+            if(unit.getBounds().intersects(world.getUnitsPickRectangle().getBounds()))
+            {
+                unit.setUnitHasBeenPick(true);
+            }
 
-
-
-
-
-
+        }
+        world.getUnitsPickRectangle().setBounds(0,0,0,0);
+    }
 }

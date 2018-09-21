@@ -26,6 +26,7 @@ public class Unit extends GameObject {
     protected Double directionY,directionX;
     protected double angle;
     protected int xWitdhToCrop,yHeightToCrop;
+    protected boolean unitHasBeenCheckForIntersect=false;
 
 
     public Unit() {
@@ -73,7 +74,7 @@ public class Unit extends GameObject {
 
         while (objectIsMoving)
         {
-
+            setUnitHasBeenCheckForIntersect(false);
 
             try {
                 Thread.sleep(100);
@@ -121,6 +122,7 @@ public class Unit extends GameObject {
 
         if(isObjectIsMoving())
         {
+
 
 
 
@@ -274,6 +276,14 @@ public class Unit extends GameObject {
 
     public boolean isUnitHasBeenPick() {
         return unitHasBeenPick;
+    }
+
+    public boolean isUnitHasBeenCheckForIntersect() {
+        return unitHasBeenCheckForIntersect;
+    }
+
+    public void setUnitHasBeenCheckForIntersect(boolean unitHasBeenCheckForIntersect) {
+        this.unitHasBeenCheckForIntersect = unitHasBeenCheckForIntersect;
     }
 
     public void setUnitHasBeenPick(boolean unitHasBeenPick) {

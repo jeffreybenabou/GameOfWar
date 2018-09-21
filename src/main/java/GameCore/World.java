@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.PriorityBlockingQueue;
 
 public class World extends JLayeredPane  {
 
@@ -32,11 +31,13 @@ public class World extends JLayeredPane  {
     public static Factory factoryPreesed;
     private HumanUnit human;
     private AirUnitsMenu airUnitMenu;
-    private Thread thread;
+    public JLabel unitsPickRectangle;
 
 
     public World(boolean isTesting) {
         this.isTesting = isTesting;
+
+
         allUnit = new ArrayList<Unit>();
         airFactory=new ArrayList<Factory>();
         tankFactory =new ArrayList<Factory>();
@@ -48,7 +49,9 @@ public class World extends JLayeredPane  {
         }
         setBounds(0, MainFrame.gamePanel.getHeight(), MainFrame.screenSize.width, MainFrame.screenSize.height);
         setTheBackGroundWorld();
+
         addMiniMap();
+        setTheUnitPickRectangle();
         setBackground(Color.cyan);
         setLayout(null);
         checkIfIntersect();
@@ -56,71 +59,139 @@ public class World extends JLayeredPane  {
 
     }
 
+    private void setTheUnitPickRectangle() {
+
+        unitsPickRectangle=new JLabel();
+        unitsPickRectangle.setOpaque(true);
+        unitsPickRectangle.setBorder(        BorderFactory.createLineBorder(Color.yellow, 1));
+        unitsPickRectangle.setBackground(new Color(0,0,0,100));
+        unitsPickRectangle.setVisible(false);
+        backGroundImage.add(unitsPickRectangle,0);
+    }
+
     public void checkIfIntersect(){
+
+
         new Thread(new Runnable() {
             public void run() {
-                while (true) {
+                while (true)
+                {
                     try {
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    for (int i=0;i<allUnit.size();i++) {
+                        if(!allUnit.get(i).isUnitHasBeenCheckForIntersect()&&allUnit.get(i).isObjectIsStanding())
+                        {
+                            if(allUnit.get(i).getClass().getPackage().getName().contains("Air"))
+                            checkTheAirUnitsIntersection(allUnit.get(i));
+                            else
+                                checkTheGroundUnitsIntersection(allUnit.get(i));
 
 
-                            for (int i = 0; i < World.allUnit.size(); i++) {
-                                for (int j = 0; j <World.allObjects.size() ; j++) {
-                                    if(!World.allUnit.get(i).getClass().getPackage().toString().contains("Air"))
-                                        while (
-                                                (World.allUnit.get(i).isObjectIsStanding()
-                                                &&World.allUnit.get(i)!=World.allObjects.get(j)
+                        }
+                    }
+                }
+            }
+        }).start();
 
 
-                                                ||World.allUnit.get(i).isObjectIsStanding()
-                                                &&World.allUnit.get(i)!=World.allObjects.get(j)
-                                                &&World.allObjects.get(j).getClass().getPackage().toString().contains("Factory")&&World.allUnit.get(i).getBounds().intersects(World.allObjects.get(j).getBounds()))&&
-                                                       ! World.allObjects.get(j).getClass().getPackage().getName().contains("Air"))
-                                        {
-
-                                            if(World.allUnit.get(i).getClass().getPackage().getName().contains("InfantryUnit"))
-                                            if(World.allUnit.get(i).calculateTheDistanceBetweenUnits(World.allObjects.get(j))>=30)
-                                                break;
-
-                                            if(World.allUnit.get(i).getClass().getPackage().getName().contains("MechanicUnits"))
-                                                if(World.allUnit.get(i).calculateTheDistanceBetweenUnits(World.allObjects.get(j))>=70)
-                                                    break;
-                                            World.allUnit.get(i).setBound(new Rectangle(World.allUnit.get(i).getX()+1,World.allUnit.get(i).getY(),World.allUnit.get(i).getWidth(),World.allUnit.get(i).getHeight()));
-                                            World.allUnit.get(i).setBounds(World.allUnit.get(i).getBound());
-                                            try {
-                                                Thread.sleep(1);
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                        else
-                                    {
-                                        while (World.allObjects.get(j).getClass().getPackage().getName().contains("Air")
-                                        &&World.allObjects.get(j)!=World.allUnit.get(i)&&
-                                                World.allUnit.get(i).calculateTheDistanceBetweenUnits(World.allObjects.get(j))<=70)
-                                        {
-                                            World.allUnit.get(i).setObjectIsMoving(false);
-                                            World.allUnit.get(i).setObjectIsStanding(true);
-                                            World.allUnit.get(i).setBound(new Rectangle(World.allUnit.get(i).getX()+1,World.allUnit.get(i).getY(),World.allUnit.get(i).getWidth(),World.allUnit.get(i).getHeight()));
-                                            World.allUnit.get(i).setBounds(World.allUnit.get(i).getBound());
-                                        }
 
 
-                                    }
 
+
+
+
+
+    }
+
+            private void checkTheGroundUnitsIntersection(final Unit unit) {
+
+                new Thread(new Runnable() {
+                    public void run() {
+
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        for (int i = 0; i < World.allObjects.size(); i++) {
+                            if (!World.allObjects.get(i).getClass().getPackage().getName().contains("Air")
+                                    && World.allObjects.get(i) != unit)
+
+                            {
+
+
+                                Random random=new Random();
+                                int num2=random.nextInt(1)+30;
+                                int num=1;
+                                if(random.nextBoolean())
+                                {
+                                    num*=-1;
+                                    num2*=-1;
                                 }
 
 
+
+                                if (World.allObjects.get(i).getClass().getPackage().getName().contains("InfantryUnit"))
+                                    if (World.allObjects.get(i).calculateTheDistanceBetweenUnits(unit) <= 30) {
+                                        unit.setBound(new Rectangle(unit.getX() + 30*num, unit.getY() + num2, unit.getWidth(), unit.getHeight()));
+                                        unit.setBounds(unit.getBound());
+                                    }
+
+                                if (World.allObjects.get(i).getClass().getPackage().getName().contains("MechanicUnits"))
+                                    if (World.allObjects.get(i).calculateTheDistanceBetweenUnits(unit) <= 70) {
+                                        unit.setBound(new Rectangle(unit.getX()  + 70*num, unit.getY() + num2, unit.getWidth(), unit.getHeight()));
+                                        unit.setBounds(unit.getBound());
+                                    }
+
+                                if (World.allObjects.get(i).getClass().getPackage().getName().contains("Factory"))
+                                    if (World.allObjects.get(i).calculateTheDistanceBetweenUnits(unit) <= World.allObjects.get(i).getWidth()) {
+                                        unit.setBound(new Rectangle(unit.getX() + World.allObjects.get(i).getWidth(), unit.getY(), unit.getWidth(), unit.getHeight()));
+                                        unit.setBounds(unit.getBound());
+                                    }
                             }
 
 
 
-                }
+
+                        }
+
+
+                    }
+                }).start();
+
+
             }
+
+                private void checkTheAirUnitsIntersection(final Unit unit) {
+        new Thread(new Runnable() {
+            public void run() {
+
+                    for (int b = 0; b < World.allUnit.size(); b++) {
+
+                            if (World.allUnit.get(b).getClass().getPackage().getName().contains("Air")
+                                    && World.allUnit.get(b) != unit
+                                    && World.allUnit.get(b).calculateTheDistanceBetweenUnits(unit) <= 50
+                                    ) {
+
+                                Random random = new Random();
+                                if (random.nextBoolean())
+                                    unit.setBound(new Rectangle(unit.getX() + 70, unit.getY() + random.nextInt(10) + 40, unit.getWidth(), unit.getHeight()));
+                                else
+                                    unit.setBound(new Rectangle(unit.getX() - 70, unit.getY() - random.nextInt(10) + 40, unit.getWidth(), unit.getHeight()));
+
+
+                                unit.setBounds(unit.getBound());
+                            }
+
+                    }
+                unit.setUnitHasBeenCheckForIntersect(true);
+                }
+
         }).start();
+
 
     }
 
@@ -311,11 +382,68 @@ public class World extends JLayeredPane  {
                 backGroundImage.setBackground(Color.black);
                 backGroundImage.setOpaque(true);
                 backGroundImage.addMouseListener(MainFrame.mainFrame);
+        backGroundImage.addMouseMotionListener(MainFrame.mainFrame);
 
                 add(backGroundImage);
 
 
 
+
+    }
+    public void addUnitToQuaqe(MouseEvent e, int typeOfFactory) {
+
+
+        if(typeOfFactory==0)
+            switch (Integer.parseInt(e.getComponent().getName()))
+            {
+                case 0:
+                    factoryPreesed.getQuaqe().setTheQueue(new ArmoredInfentry(),factoryPreesed);
+                    break;
+                case 1:
+                    factoryPreesed.getQuaqe().setTheQueue(new Infantry(),factoryPreesed);
+                    break;
+                case 2:
+                    factoryPreesed.getQuaqe().setTheQueue(new Medic(),factoryPreesed);
+                    break;
+                case 3:
+                    factoryPreesed.getQuaqe().setTheQueue(new Sniper(),factoryPreesed);
+                    break;
+                case 4:
+                    factoryPreesed.getQuaqe().setTheQueue(new BazzokaUnit(),factoryPreesed);
+                    break;
+            }
+        else if(typeOfFactory==1)
+            switch (Integer.parseInt(e.getComponent().getName()))
+            {
+                case 0:
+                    factoryPreesed.getQuaqe().setTheQueue(new Tank(),factoryPreesed);
+                    break;
+                case 1:
+                    factoryPreesed.getQuaqe().setTheQueue(new MiniGun(),factoryPreesed);
+                    break;
+                case 2:
+                    factoryPreesed.getQuaqe().setTheQueue(new SuperTank(),factoryPreesed);
+                    break;
+                case 3:
+                    factoryPreesed.getQuaqe().setTheQueue(new AntiAirTank(),factoryPreesed);
+                    break;
+                case 4:
+                    factoryPreesed.getQuaqe().setTheQueue(new BigBoss(),factoryPreesed);
+                    break;
+            }
+        else if(typeOfFactory==2)
+            switch (Integer.parseInt(e.getComponent().getName()))
+            {
+                case 0:
+                    factoryPreesed.getQuaqe().setTheQueue(new AntiAir(),factoryPreesed);
+                    break;
+                case 1:
+                    factoryPreesed.getQuaqe().setTheQueue(new Choper(),factoryPreesed);
+                    break;
+                case 2:
+                    factoryPreesed.getQuaqe().setTheQueue(new SpaceShip(),factoryPreesed);
+                    break;
+            }
 
     }
 
@@ -433,62 +561,20 @@ public class World extends JLayeredPane  {
         this.airUnitMenu = airUnitMenu;
     }
 
-    public void addUnitToQuaqe(MouseEvent e, int typeOfFactory) {
-
-
-        if(typeOfFactory==0)
-        switch (Integer.parseInt(e.getComponent().getName()))
-        {
-            case 0:
-            factoryPreesed.getQuaqe().setTheQueue(new ArmoredInfentry(),factoryPreesed);
-            break;
-            case 1:
-                factoryPreesed.getQuaqe().setTheQueue(new Infantry(),factoryPreesed);
-                break;
-            case 2:
-                factoryPreesed.getQuaqe().setTheQueue(new Medic(),factoryPreesed);
-                break;
-            case 3:
-                factoryPreesed.getQuaqe().setTheQueue(new Sniper(),factoryPreesed);
-                break;
-            case 4:
-                factoryPreesed.getQuaqe().setTheQueue(new BazzokaUnit(),factoryPreesed);
-                break;
-        }
-        else if(typeOfFactory==1)
-            switch (Integer.parseInt(e.getComponent().getName()))
-            {
-                case 0:
-                    factoryPreesed.getQuaqe().setTheQueue(new Tank(),factoryPreesed);
-                    break;
-                case 1:
-                    factoryPreesed.getQuaqe().setTheQueue(new MiniGun(),factoryPreesed);
-                    break;
-                case 2:
-                    factoryPreesed.getQuaqe().setTheQueue(new SuperTank(),factoryPreesed);
-                    break;
-                case 3:
-                    factoryPreesed.getQuaqe().setTheQueue(new AntiAirTank(),factoryPreesed);
-                    break;
-                case 4:
-                    factoryPreesed.getQuaqe().setTheQueue(new BigBoss(),factoryPreesed);
-                    break;
-            }
-        else if(typeOfFactory==2)
-            switch (Integer.parseInt(e.getComponent().getName()))
-            {
-                case 0:
-                    factoryPreesed.getQuaqe().setTheQueue(new AntiAir(),factoryPreesed);
-                    break;
-                case 1:
-                    factoryPreesed.getQuaqe().setTheQueue(new Choper(),factoryPreesed);
-                    break;
-                case 2:
-                    factoryPreesed.getQuaqe().setTheQueue(new SpaceShip(),factoryPreesed);
-                    break;
-            }
-
+    public static ArrayList<Factory> getAirFactory() {
+        return airFactory;
     }
 
+    public static void setAirFactory(ArrayList<Factory> airFactory) {
+        World.airFactory = airFactory;
+    }
 
+    public JLabel getUnitsPickRectangle() {
+        return unitsPickRectangle;
+    }
+
+    public void setUnitsPickRectangle(JLabel unitsPickRectangle) {
+        this.unitsPickRectangle = unitsPickRectangle;
+    }
 }
+
