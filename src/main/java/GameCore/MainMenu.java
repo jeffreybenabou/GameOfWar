@@ -34,7 +34,7 @@ public class MainMenu  extends JPanel  {
     public MainMenu(MainFrame mainFrame){
         this.mainFrame=mainFrame;
 
-//        sql=new Sql();
+        sql=new Sql();
 
         fontOfMenuItems =new Font("SERIF", Font.PLAIN, (MainFrame.screenSize.width + MainFrame.screenSize.height) / 100);
         fontOfButtons=new Font("SERIF", Font.PLAIN, (MainFrame.screenSize.width + MainFrame.screenSize.height) / 150);

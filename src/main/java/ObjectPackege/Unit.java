@@ -2,15 +2,12 @@ package ObjectPackege;
 
 
 
-import GameCore.StaticVariables;
-import GameCore.World;
-import ImageHandel.ImageLoader;
-import ImageHandel.SpriteSheet;
 
+import ImageHandel.SpriteSheet;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.util.Random;
+
 
 
 public class Unit extends GameObject {
@@ -29,10 +26,12 @@ public class Unit extends GameObject {
     protected boolean unitHasBeenCheckForIntersect=false;
 
 
+
     public Unit() {
         super();
         pointToMove=new Point();
         setLayout(new GridLayout(6,1));
+
 
 
     }

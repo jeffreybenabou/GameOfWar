@@ -13,10 +13,15 @@ import Units.MechanicUnits.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
 
 public class MainFrame extends JFrame implements MouseListener, MouseMotionListener {
 
@@ -44,10 +49,13 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
     }
 
     private void setTheMenu() {
+
         mainMenu = new MainMenu(this);
         add(mainMenu);
     }
-    private void removeTheFactoryFromWorld(MouseEvent e) {
+
+
+            private void removeTheFactoryFromWorld(MouseEvent e) {
 
         Factory factory=null;
 
@@ -92,11 +100,14 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
             unit.setUnitHasBeenPick(false);
             unit.setObjectIsMoving(false);
             unit.setObjectIsStanding(true);
+            unit.setBorder( null);
+
         }
         else if(world.getBackGroundImage().equals(e.getComponent())) {
             for (Unit unit:World.allUnit) {
                 if(unit.isObjectIsMoving())
                 {
+                    unit.setBorder( null);
                     unit.setUnitHasBeenPick(false);
                     unit.setObjectIsMoving(false);
                     unit.setObjectIsStanding(true);
@@ -108,12 +119,17 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
     private void checkIfUserPreesUnit(MouseEvent e) {
 
 
+        Unit unit = null;
 
         if(World.allUnit.contains(e.getComponent()))
         {
-            Unit unit=(Unit)e.getComponent();
+             unit=(Unit)e.getComponent();
             unit.setUnitHasBeenPick(true);
+            unit.setBorder( new LineBorder(Color.blue, 2, true));
+
         }
+
+
     }
 
     private void moveTheWorld() {
@@ -683,6 +699,7 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
     public void mouseDragged(MouseEvent e) {
         if (e.getComponent().equals(world.getBackGroundImage()))
         {
+
             xWidth=e.getX()-xLocationToDragRectangle;
             yHeight=e.getY()-yLocationToDragRectangle;
             if(xWidth>0&&yHeight>0)
@@ -716,7 +733,10 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
             if(unit.getBounds().intersects(world.getUnitsPickRectangle().getBounds()))
             {
                 unit.setUnitHasBeenPick(true);
+                unit.setBorder( new LineBorder(Color.blue, 2, true));
+
             }
+
 
         }
         world.getUnitsPickRectangle().setBounds(0,0,0,0);

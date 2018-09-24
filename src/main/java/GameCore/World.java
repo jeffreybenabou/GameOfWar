@@ -14,10 +14,10 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class World extends JLayeredPane  {
+public class World extends JPanel  {
 
     public static ArrayList<Factory> airFactory;
-    private JLabel backGroundImage;
+    private JLayeredPane backGroundImage;
     private boolean isTesting;
     public static ArrayList<Unit> allUnit;
     public static ArrayList<GameObject>allObjects;
@@ -67,6 +67,7 @@ public class World extends JLayeredPane  {
         unitsPickRectangle.setBackground(new Color(0,0,0,100));
         unitsPickRectangle.setVisible(false);
         backGroundImage.add(unitsPickRectangle,0);
+
     }
 
     public void checkIfIntersect(){
@@ -206,9 +207,11 @@ public class World extends JLayeredPane  {
 
         getBackGroundImage().add(buildingMenu,0);
         getBackGroundImage().add(unitTrainMenu,0);
-        getBackGroundImage().add(mechanicMenu,1);
-        getBackGroundImage().add(airUnitMenu,2);
-        getBackGroundImage().add(miniMap,3);
+        getBackGroundImage().add(mechanicMenu,0);
+        getBackGroundImage().add(airUnitMenu,0);
+        getBackGroundImage().add(miniMap,0);
+
+
 
 
 
@@ -377,7 +380,7 @@ public class World extends JLayeredPane  {
 
     private void setTheBackGroundWorld() {
 
-                backGroundImage=new JLabel();
+                backGroundImage=new JLayeredPane();
                 backGroundImage.setBounds(0,0,MainFrame.screenSize.width*10,MainFrame.screenSize.height*20);
                 backGroundImage.setBackground(Color.black);
                 backGroundImage.setOpaque(true);
@@ -448,11 +451,11 @@ public class World extends JLayeredPane  {
     }
 
 
-    public JLabel getBackGroundImage() {
+    public JLayeredPane getBackGroundImage() {
         return backGroundImage;
     }
 
-    public void setBackGroundImage(JLabel backGroundImage) {
+    public void setBackGroundImage(JLayeredPane backGroundImage) {
         this.backGroundImage = backGroundImage;
     }
 
