@@ -74,7 +74,7 @@ public class Sql {
     public static String [] addAllOnlineUsers(String user) {
         try {
 
-            ArrayList<String >temp=new ArrayList<String>();
+            ArrayList<String >temp=new ArrayList<>();
             PreparedStatement statement = connect.prepareStatement("SELECT * FROM users");
 
             ResultSet result = statement.executeQuery();
@@ -158,6 +158,7 @@ return list;
 
     public  static void setTheUserOnline(String online,String username)
     {
+
 
 
         String sqlInsert =  "UPDATE users SET isonline = '"+online+"'  WHERE username = '"+username+"'";

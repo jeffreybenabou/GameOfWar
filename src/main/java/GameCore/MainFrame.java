@@ -364,7 +364,7 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
         }
         else if(e.getComponent().equals(mainMenu.getStartGame()))
         {
-
+            mainMenu.addListOfUsers();
             mainMenu.getUserMenu().setVisible(true);
 
         }

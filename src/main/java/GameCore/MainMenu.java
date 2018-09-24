@@ -44,8 +44,8 @@ public class MainMenu  extends JPanel  {
         addTheImageBackGround();
         addTheUserMenu();
         addSignInWindows();
-        /*checkIfLogIn();
-        addListOfUsers();*/
+        checkIfLogIn();
+
         addExitLisenersToProgram();
         setTheWaitForEnemyLabel();
     }
@@ -178,7 +178,7 @@ public class MainMenu  extends JPanel  {
     }
 
 
-    private void addListOfUsers() {
+    public void addListOfUsers() {
         String[] data = Sql.addAllOnlineUsers(_userName);
          Jlist = new JList(data);
         Jlist.setBounds(0,50,userMenu.getWidth(),userMenu.getHeight());
