@@ -30,7 +30,7 @@ public class MainMenu  extends JPanel  {
 
     private Sql sql;
 
-    private JButton startGame,startTutorial,exitButton,signUpButton,cancelTheGame;
+    private JButton startGame,startTutorial,exitButton,signUpButton,cancelTheGame,pickTheRightEnamy;
     public MainMenu(MainFrame mainFrame){
         this.mainFrame=mainFrame;
 
@@ -47,14 +47,17 @@ public class MainMenu  extends JPanel  {
         checkIfLogIn();
 
         addExitLisenersToProgram();
-        setTheWaitForEnemyLabel();
+
+
     }
 
     public void setTheWaitForEnemyLabel(){
-        waitForEnemy=new JLabel("online isent working right now ..... ");
+        waitForEnemy=new JLabel("wait for enemy to confirm the game ..... ");
         waitForEnemy.setBounds(MainFrame.screenSize.width/2-(MainFrame.screenSize.width/5)/2,MainFrame.screenSize.height/4,MainFrame.screenSize.width/5,MainFrame.screenSize.height/10);
-        waitForEnemy.setBackground(Color.BLUE);
+        waitForEnemy.setBackground(Color.black);
+        waitForEnemy.setForeground(Color.red);
         waitForEnemy.setOpaque(true);
+        waitForEnemy.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
         imageLabel.add(waitForEnemy);
         cancelTheGame=new JButton("cancel the game");
         cancelTheGame.setSize(waitForEnemy.getWidth()/2,waitForEnemy.getHeight()/3);
@@ -124,6 +127,12 @@ public class MainMenu  extends JPanel  {
         userMenu.setVisible(false);
         userPick.setBounds(0,0,userMenu.getWidth(),userMenu.getHeight()/10);
 
+        pickTheRightEnamy=new JButton("confirm");
+        pickTheRightEnamy.addMouseListener(MainFrame.mainFrame);
+        pickTheRightEnamy.setBounds(userMenu.getWidth()-userMenu.getWidth()/2,userMenu.getHeight()/35,userMenu.getWidth()/3,userMenu.getHeight()/10);
+        pickTheRightEnamy.setOpaque(true);
+
+        userMenu.add(pickTheRightEnamy);
         userMenu.add(userPick);
         imageLabel.add(userMenu);
         imageLabel.add(userNameShow);
@@ -487,6 +496,38 @@ public class MainMenu  extends JPanel  {
 
     public void setSignIn(JMenuItem signIn) {
         this.signIn = signIn;
+    }
+
+    public JPanel getMenuPanel() {
+        return menuPanel;
+    }
+
+    public void setMenuPanel(JPanel menuPanel) {
+        this.menuPanel = menuPanel;
+    }
+
+    public JLabel getWaitForEnemy() {
+        return waitForEnemy;
+    }
+
+    public void setWaitForEnemy(JLabel waitForEnemy) {
+        this.waitForEnemy = waitForEnemy;
+    }
+
+    public JButton getCancelTheGame() {
+        return cancelTheGame;
+    }
+
+    public void setCancelTheGame(JButton cancelTheGame) {
+        this.cancelTheGame = cancelTheGame;
+    }
+
+    public JButton getPickTheRightEnamy() {
+        return pickTheRightEnamy;
+    }
+
+    public void setPickTheRightEnamy(JButton pickTheRightEnamy) {
+        this.pickTheRightEnamy = pickTheRightEnamy;
     }
 
     public JMenuItem getSignOut() {

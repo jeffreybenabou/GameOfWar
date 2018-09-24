@@ -80,7 +80,8 @@ public class Sql {
             ResultSet result = statement.executeQuery();
             while (result.next()) {
 
-                if (!result.getString(1).equals(user)&&result.getString(3).equals("true")) {
+                if (!result.getString(1).equals(user)&&result.getString(3).equals("true"))
+                {
 
                     temp.add(result.getString(1));
 

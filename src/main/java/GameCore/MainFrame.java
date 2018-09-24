@@ -368,6 +368,11 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
             mainMenu.getUserMenu().setVisible(true);
 
         }
+        else if (e.getComponent().equals(mainMenu.getPickTheRightEnamy()))
+        {
+            mainMenu.setTheWaitForEnemyLabel();
+            mainMenu.getUserMenu().setVisible(false);
+        }
         else
             mainMenu.getUserMenu().setVisible(false);
 
