@@ -29,14 +29,12 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
     private MainFactory mainFactory;
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private MainMenu mainMenu;
-    private Border border = BorderFactory.createLineBorder(Color.black, 3);
     public static World world;
     public static GamePanel gamePanel;
     public static MainFrame mainFrame;
     public static int xMousePosition = 0, yMousePosition = 0, xMouseLocation, yMouseLocation,xLocationToDragRectangle,yLocationToDragRectangle;
     public static Point locationOfFactory;
-    private   int xToStart=0;
-    private   int yToStart=0;
+
     private int xWidth,yHeight;
 
 
@@ -435,7 +433,11 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
         world=new World(true);
 
         mainFactory=new MainFactory(true);
-
+        BigBoss bigBoss=new BigBoss();
+        bigBoss.setGroup("not friendly");
+        world.getBackGroundImage().add(bigBoss);
+        bigBoss.setLocation(3000,3000);
+        World.allEnemyObjects.add(bigBoss);
         mainFactory.repaint();
         mainFactory.revalidate();
         World.allObjects.add(mainFactory);

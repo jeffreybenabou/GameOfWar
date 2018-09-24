@@ -3,6 +3,7 @@ package ObjectPackege;
 
 
 
+import GameCore.World;
 import ImageHandel.SpriteSheet;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -54,6 +55,7 @@ public class Unit extends GameObject {
                     }
 
                         moveTheUnit();
+                    checkIfUnitInRangeOfEnemy();
 
 
 
@@ -61,6 +63,42 @@ public class Unit extends GameObject {
             }
         }).start();
     }
+
+    private void checkIfUnitInRangeOfEnemy() {
+        // TODO: 25/09/2018 keep continue on this
+        for (int i = 0; i < World.allEnemyObjects.size(); i++) {
+            System.out.println(calculateTheDistanceBetweenUnits(World.allEnemyObjects.get(i)));
+            if(calculateTheDistanceBetweenUnits(World.allEnemyObjects.get(i))<=rangeOfAttack)
+            {
+                objectIsStanding=false;
+                objectIsMoving=false;
+                objectIsAttacking=true;
+                while (objectIsAttacking&&!objectIsMoving&&!objectIsStanding)
+                {
+
+
+                    try {
+                        Thread.sleep(speedOfAttack);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    if(!World.allEnemyObjects.get(i).isObjectIsLive())
+                        break;
+
+                    World.allEnemyObjects.get(i).setLife( World.allEnemyObjects.get(i).getLife()-damageToEnemy);
+
+                    World.allEnemyObjects.get(i).getLifeBar().setString(""+World.allEnemyObjects.get(i).getLife());
+                    World.allEnemyObjects.get(i).getLifeBar().setValue(World.allEnemyObjects.get(i).getLife());
+                }
+
+            }
+
+        }
+
+    }
+
     private void calculateTheDistance(){
         float xDistance = pointToMove.x - getX();
         float yDistance = pointToMove.y - getY();

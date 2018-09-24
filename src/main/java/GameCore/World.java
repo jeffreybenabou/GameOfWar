@@ -20,7 +20,9 @@ public class World extends JPanel  {
     private JLayeredPane backGroundImage;
     private boolean isTesting;
     public static ArrayList<Unit> allUnit;
+
     public static ArrayList<GameObject>allObjects;
+    public static ArrayList<GameObject>allEnemyObjects;
     public static ArrayList<Factory> infentryFactory;
     public static ArrayList<Factory> tankFactory;
     public static ArrayList<Factory>allFactorys;
@@ -37,7 +39,7 @@ public class World extends JPanel  {
     public World(boolean isTesting) {
         this.isTesting = isTesting;
 
-
+        allEnemyObjects=new ArrayList<>();
         allUnit = new ArrayList<Unit>();
         airFactory=new ArrayList<Factory>();
         tankFactory =new ArrayList<Factory>();

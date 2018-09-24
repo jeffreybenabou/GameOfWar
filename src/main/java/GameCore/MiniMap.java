@@ -78,7 +78,28 @@ public class MiniMap extends JLabel {
                         try
                         {
 
+
                             lables.get(i).setBounds(getWidth()/15+World.allObjects.get(i).getX()/73,getHeight()/5+World.allObjects.get(i).getY()/100,3,3);
+                            lables.get(i).setBackground(Color.blue);
+                        }catch (Exception e)
+                        {
+                            e.printStackTrace();
+                            running=false;
+
+
+                        }
+
+                    }
+                    int j=0;
+                    for (int i = 0; i < getLables().size()-1; i++) {
+                        try
+                        {
+
+                            if( getLables().get(i).getName().equals("enemy")) {
+                                lables.get(j).setBounds(getWidth() / 15 + World.allEnemyObjects.get(j).getX() / 73, getHeight() / 5 + World.allEnemyObjects.get(j).getY() / 100, 3, 3);
+                                lables.get(j).setBackground(Color.red);
+                                j++;
+                            }
 
                         }catch (Exception e)
                         {
@@ -107,7 +128,14 @@ public class MiniMap extends JLabel {
         {
             for (GameObject g:World.allObjects) {
                 if (!g.isAddedToMiniMap()) {
-                    addAllObjectFromArrayListToTheMap(g);
+                    addAllObjectFromArrayListToTheMap(g,false);
+                    g.setAddedToMiniMap(true);
+                }
+
+            }
+            for (GameObject g:World.allEnemyObjects) {
+                if (!g.isAddedToMiniMap()) {
+                    addAllObjectFromArrayListToTheMap(g,true);
                     g.setAddedToMiniMap(true);
                 }
 
@@ -119,13 +147,23 @@ public class MiniMap extends JLabel {
 
     }
 
-    public  void addAllObjectFromArrayListToTheMap(GameObject g) {
+    public  void addAllObjectFromArrayListToTheMap(GameObject g,boolean enemy) {
         JLabel k=new JLabel();
         k.setBounds(getWidth()/15+g.getX()/73,getHeight()/5+g.getY()/100,3,3);
-        // TODO: 15/09/2018 add here if team != team colour blue
 
-        k.setBackground(Color.red);
 
+
+        if(!enemy)
+        {
+            k.setName("friendly");
+            k.setBackground(Color.blue);
+
+        }
+        else
+        {
+            k.setName("enemy");
+            k.setBackground(Color.red);
+        }
 
         k.setOpaque(true);
         add(k);

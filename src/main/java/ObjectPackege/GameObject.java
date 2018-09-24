@@ -28,6 +28,7 @@ public class GameObject extends JLabel {
     protected int powerNeedToBuild;
     protected int costToBuild;
     protected int rangeOfAttack;
+    protected String group;
 
 
 
@@ -35,6 +36,7 @@ public class GameObject extends JLabel {
     protected boolean objectIsOnWorld;
     protected boolean objectIsMoving=false;
     protected boolean objectIsStanding=true;
+    protected boolean objectIsAttacking=false;
     protected boolean enoughPower = true, enoughMoney = true, enoughUnitPlace=true;
 
     protected boolean canShotAir;
@@ -50,7 +52,7 @@ public class GameObject extends JLabel {
     protected GameObject(){
         mainFrame=MainFrame.mainFrame;
         imageLoader=new ImageLoader();
-
+        group="friendly";
 
 
 
@@ -128,11 +130,12 @@ public class GameObject extends JLabel {
                 objectIsLive = true;
                 objectCanMove = true;
 
-                rangeOfAttack = 200;
-                speedOfMove = 10;
-                speedOfAttack = 2000;
+                rangeOfAttack = MainFrame.screenSize.width/7;
+
+                speedOfMove = 9;
+                speedOfAttack = 1500;
                 damageToEnemy = 15;
-                timeToTrain = 1;
+                timeToTrain = 15;
                 powerNeedToBuild = 0;
                 costToBuild = 300;
                 life = 150;
@@ -142,11 +145,11 @@ public class GameObject extends JLabel {
             case 1:
 //main factory
                 buildingNeed="none";
-                discription="<html>this is a main factory. <br>with this building you can build any other building you want. </html>";
+                discription="<html>this is a main factory. <br>with this building you can build any other building you want.<br>can be build only once </html>";
                 nameOfObject = "Main Factory";
 
                 powerNeedToBuild = 0;
-                costToBuild = 3000;
+                costToBuild = 0;
                 life = 3000;
 
                 break;
@@ -158,34 +161,34 @@ public class GameObject extends JLabel {
                 nameOfObject = "Power Factory";
 
                 powerNeedToBuild = 0;
-                costToBuild = 300;
+                costToBuild = 500;
                 life = 1000;
 
                 break;
             case 3:
 //InfentryFactory
                 buildingNeed="power factory.";
-                discription="<html>this is a Infentry factory. <br>you need this building in order to create infantry units.</html> ";
+                discription="<html>this is an Infantry factory. <br>this building create infantry units.</html> ";
                 World.infentryFactory.add((Factory) this);
                 nameOfObject = "Infentry Factory";
 
-                powerNeedToBuild = 40;
-                costToBuild = 1000;
+                powerNeedToBuild = 20;
+                costToBuild = 1500;
                 life = 1500;
 
                 break;
 
             case 4:
 //AirForceFactory
-                buildingNeed="<html>power factory<br>staelite factory<html>";
+                buildingNeed="<html>staelite factory<html>";
 
-                discription="<html>this is a Air Force factory.<br>you need this building in order to create air units.</html> ";
+                discription="<html>this is a Air Force factory.<br>this building create powerful air units.</html> ";
                 World.airFactory.add((Factory) this);
                 nameOfObject = "Air Force Factory";
 
-                life = 500;
-                powerNeedToBuild = 0;
-                costToBuild = 500;
+                life = 2000;
+                powerNeedToBuild = 40;
+                costToBuild = 3000;
 
                 break;
 
@@ -197,33 +200,33 @@ public class GameObject extends JLabel {
 
                 nameOfObject = "Clone Factory";
 
-                life = 500;
-                powerNeedToBuild = 0;
-                costToBuild = 500;
+                life = 1000;
+                powerNeedToBuild = 80;
+                costToBuild = 4000;
 
                 break;
             case 6:
                 //SpacielOpsFactory
                 buildingNeed="<html>staelite factory<html>";
 
-                discription="<html>this is a Spacial Ops factory.<br>it give you the access to very strong units.</html> ";
+                discription="<html>this is a Spacial Ops factory.<br>it give you the access to very strong units and tech.</html> ";
 
                 nameOfObject = "Spaciel Ops Factory";
-                life = 500;
-                powerNeedToBuild = 0;
-                costToBuild = 500;
+                life = 3000;
+                powerNeedToBuild = 50;
+                costToBuild = 3500;
 
                 break;
             case 7:
                 //SuperWeponeFactory
-                buildingNeed="<html>Spaciel Ops Factory <html>";
+                buildingNeed="<html>Spacial Ops Factory <html>";
 
-                discription="<html>this is a Super Weapon factory.<br>lets make the enemy blow away.</html> ";
+                discription="<html>this is a Super Weapon factory.<br>'lets make the enemy blow away'.</html> ";
 
                 nameOfObject = "Super Wepone Factory";
-                life = 500;
-                powerNeedToBuild = 0;
-                costToBuild = 500;
+                life = 5000;
+                powerNeedToBuild = 100;
+                costToBuild = 5000;
 
                 break;
             case 8:
@@ -232,31 +235,31 @@ public class GameObject extends JLabel {
                 discription="<html>this is a Money factory.<br>give us a strong economy.</html> ";
 
                 nameOfObject = "Money Factory";
-                life = 500;
-                powerNeedToBuild = 0;
-                costToBuild = 500;
+                life = 2000;
+                powerNeedToBuild = 30;
+                costToBuild = 2000;
 
                 break;
             case 9:
-                buildingNeed="<html>power factory<br>infentry factory,<br>money factory<html>";
+                buildingNeed="<html>money factory<html>";
                 //tankFactory
                 discription="<html>this is a tank factory.<br>lets shot the big guns and roll over the enemy .</html> ";
                 World.tankFactory.add((Factory) this);
                 nameOfObject = "Tank Factory";
-                life = 500;
-                powerNeedToBuild = 0;
-                costToBuild = 500;
+                life = 2000;
+                powerNeedToBuild = 35;
+                costToBuild = 2500;
 
                 break;
             case 10:
                 //SateliteFactory
-                buildingNeed="<html>power factory<br>tank factory,<br>money factory<html>";
-                discription="<html>this is a Satellite factory.<br>see the enemy in the map.</html> ";
+                buildingNeed="<html>tank factory<html>";
+                discription="<html>this is a Satellite factory.<br>it let you see the enemy in the map.</html> ";
 
                 nameOfObject = "Satellite Factory";
-                life = 500;
-                powerNeedToBuild = 0;
-                costToBuild = 500;
+                life = 1000;
+                powerNeedToBuild = 50;
+                costToBuild = 1500;
 
                 break;
             case 11:
@@ -268,11 +271,11 @@ public class GameObject extends JLabel {
                 canShotAir = false;
                 objectIsLive = true;
                 objectCanMove = true;
-                rangeOfAttack=300;
+                rangeOfAttack= MainFrame.screenSize.width/6;
                 speedOfMove = 8;
-                speedOfAttack = 1500;
-                damageToEnemy = 35;
-                timeToTrain = 10;
+                speedOfAttack = 2000;
+                damageToEnemy = 45;
+                timeToTrain = 25;
                 powerNeedToBuild = 0;
                 costToBuild = 650;
                 life = 400;
@@ -286,14 +289,14 @@ public class GameObject extends JLabel {
                 canShotAir = true;
                 objectIsLive = true;
                 objectCanMove = true;
-                rangeOfAttack=300;
+                rangeOfAttack= MainFrame.screenSize.width/9;
                 speedOfMove = 7;
                 speedOfAttack = 2000;
-                damageToEnemy = 150;
-                timeToTrain = 25;
+                damageToEnemy = 200;
+                timeToTrain = 30;
                 powerNeedToBuild = 0;
                 costToBuild = 850;
-                life = 200;
+                life = 350;
 
                 break;
             case 13:
@@ -305,14 +308,15 @@ public class GameObject extends JLabel {
                 canShotAir = false;
                 objectIsLive = true;
                 objectCanMove = true;
-                rangeOfAttack=150;
+                rangeOfAttack= MainFrame.screenSize.width/3;
+
                 speedOfMove = 10;
                 speedOfAttack = 500;
-                damageToEnemy = 15;
+                damageToEnemy = 5;
                 timeToTrain = 45;
                 powerNeedToBuild = 0;
                 costToBuild = 1500;
-                life = 1000;
+                life = 500;
 
                 break;
             case 14:
@@ -324,52 +328,52 @@ public class GameObject extends JLabel {
                 canShotAir = false;
                 objectIsLive = true;
                 objectCanMove = true;
-                rangeOfAttack=500;
-                speedOfMove = 6;
-                speedOfAttack = 1500;
-                damageToEnemy = 50;
+                rangeOfAttack= MainFrame.screenSize.width/2;
+                speedOfMove = 10;
+                speedOfAttack = 1000;
+                damageToEnemy = 25;
                 timeToTrain = 60;
                 powerNeedToBuild = 0;
-                costToBuild = 1000;
-                life = 200;
+                costToBuild = 1500;
+                life = 350;
 
                 break;
             case 15:
 //                tank
                 nameOfObject="tank";
-                buildingNeed="<html>spaciel ops factory<html>";
-                discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
+                buildingNeed="<html>none<html>";
+                discription="<html>'lets rool them'-this unit deal a massive damage to enemy .<html>";
 
                 canShotAir = false;
                 objectIsLive = true;
                 objectCanMove = true;
-                rangeOfAttack=1000;
-                speedOfMove = 8;
-                speedOfAttack = 1300;
+                rangeOfAttack= MainFrame.screenSize.width/4;
+                speedOfMove = 9;
+                speedOfAttack = 3000;
                 damageToEnemy = 200;
-                timeToTrain = 60;
+                timeToTrain = 35;
                 powerNeedToBuild = 0;
-                costToBuild = 2500;
-                life = 1500;
+                costToBuild = 1500;
+                life = 2000;
 
                 break;
             case 16:
 //                mini gun
                 nameOfObject="mini gun";
-                buildingNeed="<html>spaciel ops factory<html>";
-                discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
+                buildingNeed="<html>none<html>";
+                discription="<html>deal massive damage to infantry units<html>";
 
                 canShotAir = false;
                 objectIsLive = true;
                 objectCanMove = true;
-                rangeOfAttack=1000;
+                rangeOfAttack= MainFrame.screenSize.width/3;
                 speedOfMove = 10;
-                speedOfAttack = 1300;
-                damageToEnemy = 200;
-                timeToTrain = 60;
+                speedOfAttack = 300;
+                damageToEnemy = 3;
+                timeToTrain = 35;
                 powerNeedToBuild = 0;
-                costToBuild = 2500;
-                life = 1500;
+                costToBuild = 1500;
+                life = 400;
 
                 break;
 
@@ -382,14 +386,14 @@ public class GameObject extends JLabel {
                 canShotAir = true;
                 objectIsLive = true;
                 objectCanMove = true;
-                rangeOfAttack=1000;
+                rangeOfAttack= MainFrame.screenSize.width/6;
                 speedOfMove = 12;
-                speedOfAttack = 1300;
-                damageToEnemy = 200;
-                timeToTrain = 60;
+                speedOfAttack = 300;
+                damageToEnemy = 4;
+                timeToTrain = 50;
                 powerNeedToBuild = 0;
-                costToBuild = 2500;
-                life = 1500;
+                costToBuild = 1400;
+                life = 1000;
 
                 break;
 
@@ -402,14 +406,14 @@ public class GameObject extends JLabel {
                 canShotAir = false;
                 objectIsLive = true;
                 objectCanMove = true;
-                rangeOfAttack=1000;
-                speedOfMove = 6;
-                speedOfAttack = 1300;
-                damageToEnemy = 200;
+                rangeOfAttack= MainFrame.screenSize.width/3;
+                speedOfMove = 7;
+                speedOfAttack = 1000;
+                damageToEnemy = 150;
                 timeToTrain = 60;
                 powerNeedToBuild = 0;
                 costToBuild = 2500;
-                life = 1500;
+                life = 2500;
 
                 break;
             case 19:
@@ -421,14 +425,14 @@ public class GameObject extends JLabel {
                 canShotAir = true;
                 objectIsLive = true;
                 objectCanMove = true;
-                rangeOfAttack=1000;
+                rangeOfAttack= MainFrame.screenSize.width/2;
                 speedOfMove = 6;
-                speedOfAttack = 1300;
-                damageToEnemy = 200;
+                speedOfAttack = 2000;
+                damageToEnemy = 300;
                 timeToTrain = 60;
                 powerNeedToBuild = 0;
-                costToBuild = 2500;
-                life = 1500;
+                costToBuild = 1800;
+                life = 1800;
 
                 break;
             case 20:
@@ -440,14 +444,14 @@ public class GameObject extends JLabel {
                 canShotAir = true;
                 objectIsLive = true;
                 objectCanMove = true;
-                rangeOfAttack=1000;
-                speedOfMove = 6;
-                speedOfAttack = 1300;
-                damageToEnemy = 200;
-                timeToTrain = 60;
+                rangeOfAttack= MainFrame.screenSize.width/4;
+                speedOfMove = 12;
+                speedOfAttack = 200;
+                damageToEnemy = 5;
+                timeToTrain = 30;
                 powerNeedToBuild = 0;
-                costToBuild = 2500;
-                life = 1500;
+                costToBuild = 1500;
+                life = 800;
 
                 break;
             case 21:
@@ -456,17 +460,17 @@ public class GameObject extends JLabel {
                 buildingNeed="<html>spaciel ops factory<html>";
                 discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
 
-                canShotAir = true;
+                canShotAir = false;
                 objectIsLive = true;
                 objectCanMove = true;
-                rangeOfAttack=1000;
-                speedOfMove = 6;
-                speedOfAttack = 1300;
-                damageToEnemy = 200;
-                timeToTrain = 60;
+                rangeOfAttack= MainFrame.screenSize.width/8;
+                speedOfMove = 12;
+                speedOfAttack = 1500;
+                damageToEnemy = 100;
+                timeToTrain = 40;
                 powerNeedToBuild = 0;
-                costToBuild = 2500;
-                life = 1500;
+                costToBuild = 1000;
+                life = 1000;
 
                 break;
             case 22:
@@ -478,14 +482,14 @@ public class GameObject extends JLabel {
                 canShotAir = true;
                 objectIsLive = true;
                 objectCanMove = true;
-                rangeOfAttack=1000;
-                speedOfMove = 10;
-                speedOfAttack = 1300;
-                damageToEnemy = 200;
+                rangeOfAttack= MainFrame.screenSize.width/3;
+                speedOfMove = 12;
+                speedOfAttack = 800;
+                damageToEnemy = 15;
                 timeToTrain = 60;
                 powerNeedToBuild = 0;
-                costToBuild = 2500;
-                life = 1500;
+                costToBuild = 3000;
+                life = 3000;
 
                 break;
         }
@@ -631,6 +635,14 @@ public class GameObject extends JLabel {
 
     public boolean isEnoughMoney() {
         return enoughMoney;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public void setEnoughMoney(boolean enoughMoney) {

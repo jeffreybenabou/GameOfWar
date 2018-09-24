@@ -225,6 +225,7 @@ public class Quaqe {
                         World.allUnit.add(unit);
                         World.allObjects.add(unit);
 
+
                     }
 
                     else if(unitToAdd.getNameOfObject().equals("Space Ship"))
