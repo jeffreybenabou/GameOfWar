@@ -3,10 +3,11 @@ package ObjectPackege;
 
 
 
+import GameCore.MainFrame;
+import GameCore.UnitAttackLabel;
 import GameCore.World;
 import ImageHandel.SpriteSheet;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 
 
@@ -17,6 +18,7 @@ public class Unit extends GameObject {
 
     protected SpriteSheet standSpriteSheet, moveSpriteSheet;
 
+    protected UnitAttackLabel unitAttackLabel;
     protected int xToMove=0,yToMove=0;
     protected Point pointToMove;
     protected boolean unitHasBeenPick=false;
@@ -25,7 +27,8 @@ public class Unit extends GameObject {
     protected double angle;
     protected int xWitdhToCrop,yHeightToCrop;
     protected boolean unitHasBeenCheckForIntersect=false;
-
+    protected boolean canAttackThisType=false;
+    private int dirOfUnit=0;
 
 
     public Unit() {
@@ -48,6 +51,7 @@ public class Unit extends GameObject {
                 while (objectIsLive)
                 {
 
+
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -67,35 +71,68 @@ public class Unit extends GameObject {
     private void checkIfUnitInRangeOfEnemy() {
         // TODO: 25/09/2018 keep continue on this
         for (int i = 0; i < World.allEnemyObjects.size(); i++) {
-            System.out.println(calculateTheDistanceBetweenUnits(World.allEnemyObjects.get(i)));
-            if(calculateTheDistanceBetweenUnits(World.allEnemyObjects.get(i))<=rangeOfAttack)
-            {
-                objectIsStanding=false;
-                objectIsMoving=false;
-                objectIsAttacking=true;
-                while (objectIsAttacking&&!objectIsMoving&&!objectIsStanding)
-                {
-
-
-                    try {
-                        Thread.sleep(speedOfAttack);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    if(!World.allEnemyObjects.get(i).isObjectIsLive())
-                        break;
-
-                    World.allEnemyObjects.get(i).setLife( World.allEnemyObjects.get(i).getLife()-damageToEnemy);
-
-                    World.allEnemyObjects.get(i).getLifeBar().setString(""+World.allEnemyObjects.get(i).getLife());
-                    World.allEnemyObjects.get(i).getLifeBar().setValue(World.allEnemyObjects.get(i).getLife());
-                }
-
-            }
+            checkWhatUnitCanShotAt(i);
+            attackTheEnemy(i);
 
         }
+
+    }
+
+    private void attackTheEnemy(int i) {
+        if(calculateTheDistanceBetweenUnits(World.allEnemyObjects.get(i))<=rangeOfAttack&&canAttackThisType)
+        {
+            objectIsStanding=false;
+            objectIsMoving=false;
+            objectIsAttacking=true;
+
+            MainFrame.world.getBackGroundImage().add(unitAttackLabel=new UnitAttackLabel(this));
+            changeTheImage();
+            while (objectIsAttacking&&!objectIsMoving&&!objectIsStanding)
+            {
+
+
+
+
+
+
+                try {
+                    Thread.sleep(speedOfAttack);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+                if(!World.allEnemyObjects.get(i).isObjectIsLive())
+                    break;
+
+                World.allEnemyObjects.get(i).setLife( World.allEnemyObjects.get(i).getLife()-damageToEnemy);
+
+                World.allEnemyObjects.get(i).getLifeBar().setString(""+World.allEnemyObjects.get(i).getLife());
+                World.allEnemyObjects.get(i).getLifeBar().setValue(World.allEnemyObjects.get(i).getLife());
+            }
+            objectIsAttacking=false;
+        }
+
+    }
+
+    private void checkWhatUnitCanShotAt(int index) {
+        if(canShotAir&&!canShotGround&&World.allEnemyObjects.get(index).getClass().getPackage().getName().contains("Air"))
+        {
+            canAttackThisType=true;
+//            only attack air
+        }
+        else if (!canShotAir&&canShotGround&&!World.allEnemyObjects.get(index).getClass().getPackage().getName().contains("Air"))
+        {
+//            only ground
+            canAttackThisType=true;
+        }
+
+        else if (type==13)
+        {
+//            medic
+        }
+        else //            all the rest can attack normal
+            canAttackThisType = canShotAir&&canShotGround;
 
     }
 
@@ -160,12 +197,6 @@ public class Unit extends GameObject {
         if(isObjectIsMoving())
         {
 
-
-
-
-
-
-
             if(yToMove>moveSpriteSheet.getSheet().getRaster().getHeight()-yHeightToCrop)
                 yToMove=0;
             setIcon(new ImageIcon(moveSpriteSheet.crop(xToMove,yToMove,xWitdhToCrop,yHeightToCrop).getScaledInstance(getWidth(),getHeight(),4)));
@@ -174,10 +205,26 @@ public class Unit extends GameObject {
         {
             yToMove=0;
             if(xToMove>standSpriteSheet.getSheet().getRaster().getWidth()-xWitdhToCrop)
-                xToMove=0;
+            {
+                dirOfUnit=0;
+                        xToMove=0;
+            }
+
             setIcon(new ImageIcon(standSpriteSheet.crop(xToMove,yToMove,xWitdhToCrop,yHeightToCrop).getScaledInstance(getWidth(),getHeight(),4)));
             xToMove+=xWitdhToCrop;
+
+
+
+        }else if (objectIsAttacking)
+        {
+            xToMove=dirOfUnit*xWitdhToCrop;
+            if(getClass().getPackage().getName().contains("Air"))
+            setIcon(new ImageIcon(standSpriteSheet.crop(0,0,xWitdhToCrop,yHeightToCrop).getScaledInstance(getWidth(),getHeight(),4)));
+            else
+                setIcon(new ImageIcon(moveSpriteSheet.crop(xToMove,yToMove,xWitdhToCrop,yHeightToCrop).getScaledInstance(getWidth(),getHeight(),4)));
+
         }
+
 
 
 
@@ -185,29 +232,63 @@ public class Unit extends GameObject {
 
     }
 
+
+
     public void setTheRightIcon() {
         angle=calculateTheAngle();
         if(angle>=170&&angle<190)
-        xToMove=2;
+        {
+            xToMove=2;
+            dirOfUnit=2;
+        }
+
         else if(angle>=190&&angle<250)
+        {
             xToMove=6;
+            dirOfUnit=6;
+        }
+
 
         else if(angle>=250&&angle<290)
+        {
+            dirOfUnit=1;
             xToMove=1;
+        }
+
 
         else if(angle>=290&&angle<340)
+        {
+            dirOfUnit=7;
             xToMove=7;
+        }
+
 
         else if(angle>=340||angle<20)
+        {
+            dirOfUnit=3;
             xToMove=3;
+        }
+
         else if(angle>=20&&angle<70)
+        {
+            dirOfUnit=5;
             xToMove=5;
+        }
+
 
         else if(angle>=70&&angle<110)
+        {
+            dirOfUnit=0;
             xToMove=0;
+        }
+
 
         else if(angle>=110&&angle<170)
+        {
+            dirOfUnit=4;
             xToMove=4;
+        }
+
 
         xToMove*=xWitdhToCrop;
     }
@@ -325,6 +406,22 @@ public class Unit extends GameObject {
 
     public void setUnitHasBeenPick(boolean unitHasBeenPick) {
         this.unitHasBeenPick = unitHasBeenPick;
+    }
+
+    public boolean isCanAttackThisType() {
+        return canAttackThisType;
+    }
+
+    public void setCanAttackThisType(boolean canAttackThisType) {
+        this.canAttackThisType = canAttackThisType;
+    }
+
+    public int getDirOfUnit() {
+        return dirOfUnit;
+    }
+
+    public void setDirOfUnit(int dirOfUnit) {
+        this.dirOfUnit = dirOfUnit;
     }
 }
 

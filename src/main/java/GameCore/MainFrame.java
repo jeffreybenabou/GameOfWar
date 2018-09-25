@@ -40,6 +40,7 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
 
     public MainFrame() {
         mainFrame=this;
+
         setTheJFrame();
         setTheMenu();
 
@@ -436,7 +437,7 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
         BigBoss bigBoss=new BigBoss();
         bigBoss.setGroup("not friendly");
         world.getBackGroundImage().add(bigBoss);
-        bigBoss.setLocation(3000,3000);
+        bigBoss.setLocation(1000,1000);
         World.allEnemyObjects.add(bigBoss);
         mainFactory.repaint();
         mainFactory.revalidate();
@@ -463,7 +464,6 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
         setUndecorated(true);
         setBounds(0, 0, screenSize.width, screenSize.height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setBackground(Color.BLUE);
 
         setVisible(true);
         setLayout(null);

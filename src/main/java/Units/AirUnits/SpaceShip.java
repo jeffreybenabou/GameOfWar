@@ -11,6 +11,7 @@ import java.awt.*;
 
 public class SpaceShip extends AirUnit {
 
+    public static SpriteSheet standSpriteSheetSpaceShip =new SpriteSheet(imageLoader.loadImage("image/air/user/space ship/stand.png"));
     public static SpriteSheet moveSpriteSheetSpaceShip =new SpriteSheet(imageLoader.loadImage("image/air/user/airUnit.png"));
 
     public SpaceShip() {
@@ -18,7 +19,7 @@ public class SpaceShip extends AirUnit {
         xWitdhToCrop = StaticVariables.SPACE_SHIP_WIDTH_SPRITE_SHEET_SIZE;
         yHeightToCrop = StaticVariables.SPACE_SHIP_HEIGHT_SPRITE_SHEET_SIZE;
 
-        standSpriteSheet = moveSpriteSheetSpaceShip;
+        standSpriteSheet = standSpriteSheetSpaceShip;
         moveSpriteSheet = moveSpriteSheetSpaceShip;
         type = 22;
         bound = new Rectangle(500, 500, MainFrame.world.getBackGroundImage().getWidth() / 100, MainFrame.world.getBackGroundImage().getWidth() / 100);

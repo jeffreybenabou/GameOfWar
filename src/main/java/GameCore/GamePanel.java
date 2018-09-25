@@ -6,29 +6,29 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JLabel {
 
     private ImageLoader imageLoader;
     private JLabel power,money,place;
     private JLabel moneyHas,powerHas,placeHas;
-    private Border border = BorderFactory.createLineBorder(Color.yellow, 3);
     private JButton showTheMap;
     private boolean isMapIsVisible=false;
 
     public GamePanel() {
 
-        setBounds(0, 0, MainFrame.screenSize.width, MainFrame.screenSize.height / 12);
-        setBackground(Color.black);
+        setBounds(0, 0, MainFrame.screenSize.width, MainFrame.screenSize.height / 10);
         imageLoader = new ImageLoader();
+        setIcon(new ImageIcon(imageLoader.loadImage("image/panel/gamePanel.png").getScaledInstance(getWidth(),getHeight(),4)));
+
+        setBackground(Color.black);
+
         setThePower();
         setTheMoney();
         setThePlace();
         setTheString();
         setTheMapButton();
-
-        setBorder(border);
         setLayout(null);
-
+setOpaque(true);
 
 
 
@@ -72,7 +72,14 @@ public class GamePanel extends JPanel {
 
     private void setTheMapButton() {
         showTheMap=new JButton("show the Map");
-        showTheMap.setBounds(getWidth()/20,5,getWidth()/10,getHeight()/2+getHeight()/5);
+        showTheMap.setVerticalTextPosition(JButton.CENTER);
+        showTheMap.setHorizontalAlignment(JButton.CENTER);
+        showTheMap.setHorizontalTextPosition(JButton.CENTER);
+        showTheMap.setBounds(getWidth()/20,getHeight()/6,getWidth()/10,getHeight()/2+getHeight()/5);
+        showTheMap.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/mapButton.png").getScaledInstance(showTheMap.getWidth(),showTheMap.getHeight(),4)));
+        showTheMap.setBackground(new Color(0,0,0,0));
+        showTheMap.setContentAreaFilled(false);
+        showTheMap.setBorder(null);
         showTheMap.addMouseListener(MainFrame.mainFrame);
         add(showTheMap);
 
@@ -80,8 +87,9 @@ public class GamePanel extends JPanel {
 
     private void setThePlace() {
         place=new JLabel();
-        place.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/unit.png")));
-        place.setBounds(getWidth()-getWidth()/3,5,power.getIcon().getIconWidth(),power.getIcon().getIconHeight());
+        place.setBounds(getWidth()-getWidth()/3+getWidth()/40,5,getWidth()/25,getHeight()-getHeight()/5);
+        place.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/unit.png").getScaledInstance(place.getWidth(),place.getHeight(),4)));
+
         place.setVerticalAlignment(JLabel.CENTER);
         place.setHorizontalAlignment(JLabel.CENTER);
         add(place);
@@ -89,8 +97,9 @@ public class GamePanel extends JPanel {
 
     private void setTheMoney() {
         money=new JLabel();
-        money.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/money.png")));
-        money.setBounds(getWidth()-getWidth()/10,0,power.getIcon().getIconWidth(),power.getIcon().getIconHeight());
+
+        money.setBounds(getWidth()-getWidth()/8,5,getWidth()/30,getHeight()-getHeight()/4);
+        money.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/money.png").getScaledInstance(money.getWidth(),money.getHeight(),4)));
         money.setVerticalAlignment(JLabel.CENTER);
         money.setHorizontalAlignment(JLabel.CENTER);
         add(money);
@@ -98,8 +107,10 @@ public class GamePanel extends JPanel {
 
     private void setThePower() {
         power=new JLabel();
-        power.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/power.png")));
-        power.setBounds(getWidth()-getWidth()/5,5,power.getIcon().getIconWidth(),power.getIcon().getIconHeight());
+
+        power.setBounds(getWidth()-getWidth()/3+getWidth()/8,5,getWidth()/25,getHeight()-getHeight()/5);
+        power.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/power.png").getScaledInstance(power.getWidth(),power.getHeight(),4)));
+
         power.setVerticalAlignment(JLabel.CENTER);
         power.setHorizontalAlignment(JLabel.CENTER);
         add(power);
@@ -138,15 +149,6 @@ public class GamePanel extends JPanel {
         this.place = place;
     }
 
-    @Override
-    public Border getBorder() {
-        return border;
-    }
-
-    @Override
-    public void setBorder(Border border) {
-        this.border = border;
-    }
 
     public JLabel getMoneyHas() {
         return moneyHas;

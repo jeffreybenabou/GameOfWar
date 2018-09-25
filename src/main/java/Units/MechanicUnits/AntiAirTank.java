@@ -9,8 +9,8 @@ import javax.swing.*;
 public class AntiAirTank extends MechanicUnit {
 
 
-    public static SpriteSheet moveSpriteSheetAntiAir =new SpriteSheet(imageLoader.loadImage("image/mechanic/user unit/minigun/minigun.png"));
-    public static SpriteSheet standSpriteSheetAntiAir =new SpriteSheet(imageLoader.loadImage("image/mechanic/user unit/minigun/minigun.png"));
+    public static SpriteSheet moveSpriteSheetAntiAir =new SpriteSheet(imageLoader.loadImage("image/mechanic/user unit/anti air/stand.png"));
+    public static SpriteSheet standSpriteSheetAntiAir =new SpriteSheet(imageLoader.loadImage("image/mechanic/user unit/anti air/stand.png"));
 
     public AntiAirTank() {
         super();

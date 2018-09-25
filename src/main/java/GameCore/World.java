@@ -54,7 +54,6 @@ public class World extends JPanel  {
 
         addMiniMap();
         setTheUnitPickRectangle();
-        setBackground(Color.cyan);
         setLayout(null);
         checkIfIntersect();
 
@@ -111,8 +110,7 @@ public class World extends JPanel  {
 
             private void checkTheGroundUnitsIntersection(final Unit unit) {
 
-                new Thread(new Runnable() {
-                    public void run() {
+
 
                         try {
                             Thread.sleep(10);
@@ -162,15 +160,11 @@ public class World extends JPanel  {
                         }
 
 
-                    }
-                }).start();
 
 
             }
 
                 private void checkTheAirUnitsIntersection(final Unit unit) {
-        new Thread(new Runnable() {
-            public void run() {
 
                     for (int b = 0; b < World.allUnit.size(); b++) {
 
@@ -191,9 +185,8 @@ public class World extends JPanel  {
 
                     }
                 unit.setUnitHasBeenCheckForIntersect(true);
-                }
 
-        }).start();
+
 
 
     }

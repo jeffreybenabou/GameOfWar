@@ -11,7 +11,7 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
-public class MainMenu  extends JPanel  {
+public class MainMenu  extends JLabel  {
 
     public static Font fontOfMenuItems,fontOfButtons;
     private JMenuItem exitFromPanel, statics,load,register,signIn,signOut;
@@ -19,10 +19,10 @@ public class MainMenu  extends JPanel  {
     private MainFrame mainFrame;
     private JPanel menuPanel;
 
-    private String _userName,_password;
+    public static String _userName,_password;
     private JLabel imageLabel, buttonLabel,userMenu,signInMenu,writeUserInformation,userNameShow,waitForEnemy;
 
-    private         Border border = BorderFactory.createLineBorder(Color.black, 3);
+    private         Border border = BorderFactory.createLineBorder(new Color(155,77,45,150),3,true);
 
     private HintTextField idName,password;
 
@@ -96,13 +96,12 @@ public class MainMenu  extends JPanel  {
         try
         {
             ImageLoader imageLoader=new ImageLoader();
-            BufferedImage bufferedImage=imageLoader.loadImage("image/mechanic/user unit/tank1.png");
+            BufferedImage bufferedImage=imageLoader.loadImage("image/panel/menu.png");
             imageLabel.setIcon(new ImageIcon(bufferedImage.getScaledInstance(MainFrame.screenSize.width,MainFrame.screenSize.height,4)));
-
+            imageLabel.setBounds(0,0,MainFrame.screenSize.width,MainFrame.screenSize.height);
 
         }catch (NullPointerException e)
         {
-            imageLabel.setBackground(Color.red);
 
             e.printStackTrace();
         }
@@ -115,9 +114,10 @@ public class MainMenu  extends JPanel  {
         userNameShow.setBounds(MainFrame.screenSize.width/2-(MainFrame.screenSize.width/10)/2,MainFrame.screenSize.height/10,MainFrame.screenSize.width/10,MainFrame.screenSize.height/10);
         userNameShow.setFont(fontOfMenuItems);
         userNameShow.setBackground(Color.GRAY);
-        userNameShow.setForeground(Color.black);
+        userNameShow.setForeground(Color.red);
         userNameShow.setBorder(border);
         userNameShow.setHorizontalAlignment(JLabel.CENTER);
+        userNameShow.setBackground(new Color(0,0,0,0));
         userNameShow.setOpaque(true);
 
         JLabel userPick=new JLabel("pick User");
@@ -214,6 +214,7 @@ public class MainMenu  extends JPanel  {
         startGame.setEnabled(false);
         startGame.setFont(fontOfButtons);
 
+
         startTutorial=new JButton("start tutorial");
         startTutorial.setFont(fontOfButtons);
         startTutorial.addMouseListener(mainFrame);
@@ -277,12 +278,23 @@ public class MainMenu  extends JPanel  {
         signIn.setFont(fontOfMenuItems);
         signOut.setFont(fontOfMenuItems);
 
+        exitFromPanel.setBackground(new Color(0,0,0,0));
+        statics.setBackground(new Color(0,0,0,0));
+        load.setBackground(new Color(0,0,0,0));
+        register.setBackground(new Color(0,0,0,0));
+        signIn.setBackground(new Color(0,0,0,0));
+        signOut.setBackground(new Color(0,0,0,0));
+
+
+
         register.addMouseListener(mainFrame);
         exitFromPanel.addMouseListener(mainFrame);
 
 
         jMenu=new JMenuBar();
         jMenu.setLayout(new GridLayout());
+        jMenu.setForeground(Color.red);
+
         jMenu.add(exitFromPanel);
         jMenu.add(statics);
         jMenu.add(signIn);
@@ -291,9 +303,14 @@ public class MainMenu  extends JPanel  {
         jMenu.add(load);
 
         menuPanel=new JPanel();
+
         menuPanel.add(jMenu);
         menuPanel.setOpaque(true);
-        menuPanel.setBorder(border);
+        menuPanel.setBackground(new Color(0,0,0,0));
+        jMenu.setBorder(border);
+        jMenu.setBackground(new Color(0,0,0,0));
+        jMenu.setOpaque(true);
+        menuPanel.setBounds(MainFrame.screenSize.width/4,0,MainFrame.screenSize.width/2,MainFrame.screenSize.height/10);
         add(menuPanel);
 
 
@@ -301,7 +318,7 @@ public class MainMenu  extends JPanel  {
 
     private void  setTheProperties() {
         setBounds(0,0,MainFrame.screenSize.width,MainFrame.screenSize.height);
-        setBackground(Color.red);
+//        setBackground(Color.red);
 
 
 

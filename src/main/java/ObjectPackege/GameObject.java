@@ -3,6 +3,7 @@ package ObjectPackege;
 
 import GameCore.LifeBar;
 import GameCore.MainFrame;
+import GameCore.MainMenu;
 import GameCore.World;
 import ImageHandel.ImageLoader;
 
@@ -39,7 +40,8 @@ public class GameObject extends JLabel {
     protected boolean objectIsAttacking=false;
     protected boolean enoughPower = true, enoughMoney = true, enoughUnitPlace=true;
 
-    protected boolean canShotAir;
+    protected boolean canShotAir=false;
+    protected boolean canShotGround=true;
     protected boolean isFloatOnPanel;
     protected boolean objectIsPressed = false;
     protected boolean objectIsLive=true;
@@ -52,7 +54,7 @@ public class GameObject extends JLabel {
     protected GameObject(){
         mainFrame=MainFrame.mainFrame;
         imageLoader=new ImageLoader();
-        group="friendly";
+        group=""+ MainMenu._userName;
 
 
 
@@ -127,14 +129,15 @@ public class GameObject extends JLabel {
                 nameOfObject = "Infantry";
                 discription="<html>the infentry unit is great against  air and land units.<br>its cheep and fast to create<html>";
                 canShotAir = true;
+                canShotGround=true;
                 objectIsLive = true;
                 objectCanMove = true;
 
                 rangeOfAttack = MainFrame.screenSize.width/7;
 
                 speedOfMove = 9;
-                speedOfAttack = 1500;
-                damageToEnemy = 15;
+                speedOfAttack = 100;
+                damageToEnemy = 2;
                 timeToTrain = 15;
                 powerNeedToBuild = 0;
                 costToBuild = 300;
@@ -287,6 +290,7 @@ public class GameObject extends JLabel {
                 buildingNeed="<html>none<html>";
                 discription="<html>the Bazooka unit is powerful against  air and land units.<br>its not cheep and also slow move but when hit it deal a great damage<html>";
                 canShotAir = true;
+                canShotGround=true;
                 objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/9;
@@ -305,7 +309,8 @@ public class GameObject extends JLabel {
                 buildingNeed="<html>Tank Factory<html>";
                 discription="<html>this unit is unique with is power -its heal only solider that are injured.<br>its take time to train but worth the life <br>of your units<html>";
 
-                canShotAir = false;
+                canShotAir = true;
+
                 objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/3;
@@ -383,6 +388,7 @@ public class GameObject extends JLabel {
                 buildingNeed="<html>spaciel ops factory<html>";
                 discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
 
+                canShotGround=false;
                 canShotAir = true;
                 objectIsLive = true;
                 objectCanMove = true;
@@ -403,7 +409,7 @@ public class GameObject extends JLabel {
                 buildingNeed="<html>spaciel ops factory<html>";
                 discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
 
-                canShotAir = false;
+                canShotAir = true;
                 objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/3;
@@ -422,7 +428,7 @@ public class GameObject extends JLabel {
                 buildingNeed="<html>spaciel ops factory<html>";
                 discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
 
-                canShotAir = true;
+                canShotAir = false;
                 objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/2;
@@ -442,6 +448,7 @@ public class GameObject extends JLabel {
                 discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
 
                 canShotAir = true;
+                canShotGround=false;
                 objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/4;
@@ -463,7 +470,7 @@ public class GameObject extends JLabel {
                 canShotAir = false;
                 objectIsLive = true;
                 objectCanMove = true;
-                rangeOfAttack= MainFrame.screenSize.width/8;
+                rangeOfAttack= MainFrame.screenSize.width/3;
                 speedOfMove = 12;
                 speedOfAttack = 1500;
                 damageToEnemy = 100;
@@ -479,13 +486,14 @@ public class GameObject extends JLabel {
                 buildingNeed="<html>spaciel ops factory<html>";
                 discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
 
+
                 canShotAir = true;
                 objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/3;
                 speedOfMove = 12;
-                speedOfAttack = 800;
-                damageToEnemy = 15;
+                speedOfAttack = 80;
+                damageToEnemy = 8;
                 timeToTrain = 60;
                 powerNeedToBuild = 0;
                 costToBuild = 3000;
@@ -755,5 +763,21 @@ public class GameObject extends JLabel {
 
     public void setAddedToMiniMap(boolean addedToMiniMap) {
         this.addedToMiniMap = addedToMiniMap;
+    }
+
+    public boolean isObjectIsAttacking() {
+        return objectIsAttacking;
+    }
+
+    public void setObjectIsAttacking(boolean objectIsAttacking) {
+        this.objectIsAttacking = objectIsAttacking;
+    }
+
+    public boolean isCanShotGround() {
+        return canShotGround;
+    }
+
+    public void setCanShotGround(boolean canShotGround) {
+        this.canShotGround = canShotGround;
     }
 }

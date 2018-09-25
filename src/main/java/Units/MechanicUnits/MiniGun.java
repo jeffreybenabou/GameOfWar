@@ -13,7 +13,7 @@ public class MiniGun extends MechanicUnit {
 
     public MiniGun() {
         super();
-        type=17;
+        type=16;
         moveSpriteSheet = moveSpriteSheetMiniGun;
         standSpriteSheet = standSpriteSheetMiniGun;
         init();
