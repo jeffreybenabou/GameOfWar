@@ -25,7 +25,6 @@ public class Sql {
 
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -46,7 +45,6 @@ public class Sql {
 
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -65,7 +63,6 @@ public class Sql {
 
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -95,7 +92,6 @@ public class Sql {
             names = temp.toArray(names);
             return names;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -171,7 +167,6 @@ return list;
 
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -198,7 +193,6 @@ return list;
             }
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;
@@ -222,7 +216,6 @@ return list;
             }
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 return false;
@@ -244,7 +237,6 @@ return false;
             }
 
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -264,7 +256,6 @@ return false;
 
         } catch (Exception e) {
 
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

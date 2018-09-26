@@ -3,7 +3,6 @@ package ObjectPackege;
 
 
 
-import GameCore.GamePanel;
 import GameCore.MainFrame;
 import GameCore.UnitAttackLabel;
 import GameCore.World;
@@ -53,6 +52,7 @@ public class Unit extends GameObject {
                 {
 
 
+                    if(!objectIsAttacking)
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -70,7 +70,6 @@ public class Unit extends GameObject {
     }
 
     private void checkIfUnitInRangeOfEnemy() {
-        // TODO: 25/09/2018 keep continue on this
 
         if(getGroup().equals("friendly"))
         for (int i = 0; i < World.allEnemyObjects.size(); i++) {
@@ -87,9 +86,50 @@ public class Unit extends GameObject {
 
     }
 
+    public void addLifeToUnit(){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true)
+                {
+                    checkUnitToHeal();
+                    try {
+                        Thread.sleep(speedOfAttack);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            }
+        }).start();
+
+
+
+    }
+
+    private void checkUnitToHeal() {
+
+        for (int i = 0; i <World.allUnit.size() ; i++) {
+            if(World.allUnit.get(i).calculateTheDistanceBetweenUnits(this)<=rangeOfAttack&&
+                    World.allUnit.get(i)!=this&&
+                    World.allUnit.get(i).getLife()<World.allUnit.get(i).getLifeBar().getMaximum())
+            {
+                World.allUnit.get(i).setLife(World.allUnit.get(i).getLife()+damageToEnemy);
+                World.allUnit.get(i).getLifeBar().setValue(World.allUnit.get(i).getLife()+damageToEnemy);
+                World.allUnit.get(i).getLifeBar().setString(""+World.allUnit.get(i).getLife());
+
+
+
+            }
+        }
+    }
+
     private void attackTheEnemy(int i,ArrayList<GameObject>arrayList) {
         try
         {
+
             if(calculateTheDistanceBetweenUnits(arrayList.get(i))<=rangeOfAttack&&canAttackThisType)
             {
                 objectIsStanding=false;
@@ -98,7 +138,7 @@ public class Unit extends GameObject {
 
                 MainFrame.world.getBackGroundImage().add(unitAttackLabel=new UnitAttackLabel(this),0);
                 changeTheImage();
-                while (objectIsAttacking&&!objectIsMoving&&!objectIsStanding&&i<arrayList.size()&&arrayList.get(i).isObjectIsLive()&&isObjectIsLive())
+                while (calculateTheDistanceBetweenUnits(arrayList.get(i))<=rangeOfAttack&&objectIsAttacking&&!objectIsMoving&&!objectIsStanding&&i<arrayList.size()&&arrayList.get(i).isObjectIsLive()&&isObjectIsLive())
                 {
 
 
@@ -181,10 +221,8 @@ public class Unit extends GameObject {
             canAttackThisType=true;
         }
 
-        else if (type==13)
-        {
-//            medic
-        }
+
+
         else //            all the rest can attack normal
             canAttackThisType = canShotAir&&canShotGround;
 

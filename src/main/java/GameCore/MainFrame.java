@@ -169,7 +169,7 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
                         else
                             yMousePosition=0;
 
-                        // TODO: 08/09/2018 make sure that its not null
+
 
 
 

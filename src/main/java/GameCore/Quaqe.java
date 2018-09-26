@@ -145,6 +145,7 @@ public class Quaqe {
                     {
                         Medic unit=new Medic();
                         unit.setTheUnitMethod();
+                        unit.addLifeToUnit();
                         unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*5);
                         MainFrame.world.getBackGroundImage().add(unit,14);
                         World.allUnit.add(unit);

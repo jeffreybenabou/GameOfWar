@@ -207,7 +207,6 @@ public class GameObject extends JLabel {
 
 
 
-        // TODO: 26/09/2018 need to remove the object from all relevante arraylist
     }
 
     protected void init(){
@@ -426,7 +425,7 @@ public class GameObject extends JLabel {
                 rangeOfAttack= MainFrame.screenSize.width/3;
 
                 speedOfMove = 10;
-                speedOfAttack = 100;
+                speedOfAttack = 50;
                 damageToEnemy = 1;
                 timeToTrain = 45;
                 powerNeedToBuild = 0;
