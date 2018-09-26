@@ -3,13 +3,14 @@ package ObjectPackege;
 
 
 
+import GameCore.GamePanel;
 import GameCore.MainFrame;
 import GameCore.UnitAttackLabel;
 import GameCore.World;
 import ImageHandel.SpriteSheet;
 import javax.swing.*;
 import java.awt.*;
-
+import java.util.ArrayList;
 
 
 public class Unit extends GameObject {
@@ -70,58 +71,113 @@ public class Unit extends GameObject {
 
     private void checkIfUnitInRangeOfEnemy() {
         // TODO: 25/09/2018 keep continue on this
+
+        if(getGroup().equals("friendly"))
         for (int i = 0; i < World.allEnemyObjects.size(); i++) {
-            checkWhatUnitCanShotAt(i);
-            attackTheEnemy(i);
+            checkWhatUnitCanShotAt(i,World.allEnemyObjects);
+            attackTheEnemy(i,World.allEnemyObjects);
 
         }
+        else
+            for (int i = 0; i < World.allObjects.size(); i++) {
+                checkWhatUnitCanShotAt(i, World.allObjects);
+                attackTheEnemy(i,World.allObjects);
 
-    }
-
-    private void attackTheEnemy(int i) {
-        if(calculateTheDistanceBetweenUnits(World.allEnemyObjects.get(i))<=rangeOfAttack&&canAttackThisType)
-        {
-            objectIsStanding=false;
-            objectIsMoving=false;
-            objectIsAttacking=true;
-
-            MainFrame.world.getBackGroundImage().add(unitAttackLabel=new UnitAttackLabel(this));
-            changeTheImage();
-            while (objectIsAttacking&&!objectIsMoving&&!objectIsStanding)
-            {
-
-
-
-
-
-
-                try {
-                    Thread.sleep(speedOfAttack);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-
-                if(!World.allEnemyObjects.get(i).isObjectIsLive())
-                    break;
-
-                World.allEnemyObjects.get(i).setLife( World.allEnemyObjects.get(i).getLife()-damageToEnemy);
-
-                World.allEnemyObjects.get(i).getLifeBar().setString(""+World.allEnemyObjects.get(i).getLife());
-                World.allEnemyObjects.get(i).getLifeBar().setValue(World.allEnemyObjects.get(i).getLife());
             }
-            objectIsAttacking=false;
+
+    }
+
+    private void attackTheEnemy(int i,ArrayList<GameObject>arrayList) {
+        try
+        {
+            if(calculateTheDistanceBetweenUnits(arrayList.get(i))<=rangeOfAttack&&canAttackThisType)
+            {
+                objectIsStanding=false;
+                objectIsMoving=false;
+                objectIsAttacking=true;
+
+                MainFrame.world.getBackGroundImage().add(unitAttackLabel=new UnitAttackLabel(this));
+                changeTheImage();
+                while (objectIsAttacking&&!objectIsMoving&&!objectIsStanding&&arrayList.get(i).isObjectIsLive())
+                {
+
+
+
+
+
+
+                    try {
+                        Thread.sleep(speedOfAttack);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    if(arrayList.size()>0&&!arrayList.get(i).isObjectIsLive())
+                    {
+                        synchronized (arrayList.get(i))
+                        {
+                            arrayList.get(i).setVisible(false);
+                            MainFrame.world.getBackGroundImage().remove(arrayList.get(i));
+                            arrayList.remove(arrayList.get(i));
+                        }
+
+                        break;
+                    }else
+                        try
+                        {
+                            decreaseLifeOfUnit(arrayList.get(i));
+
+                        }catch (Exception e)
+                        {
+                            break;
+                        }
+
+
+
+
+                }
+                objectIsAttacking=false;
+                objectIsStanding=true;
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void decreaseLifeOfUnit(GameObject unit) {
+        if( checkIfObjectIsAlive(unit))
+        {
+
+            unit.setLife(unit.getLife()-damageToEnemy);
+            unit.getLifeBar().setString(""+unit.getLife());
+            unit.getLifeBar().setValue(unit.getLife());
+
+
         }
 
     }
 
-    private void checkWhatUnitCanShotAt(int index) {
-        if(canShotAir&&!canShotGround&&World.allEnemyObjects.get(index).getClass().getPackage().getName().contains("Air"))
+    private boolean checkIfObjectIsAlive(GameObject unit) {
+        if(unit.getLife()<=0)
+        {
+
+            unit.setObjectIsLive(false);
+            return false;
+        }
+        return true;
+    }
+
+    private void checkWhatUnitCanShotAt(int index, ArrayList<GameObject >arrayList) {
+        if(canShotAir&&!canShotGround&&arrayList.get(index).getClass().getPackage().getName().contains("Air"))
         {
             canAttackThisType=true;
 //            only attack air
         }
-        else if (!canShotAir&&canShotGround&&!World.allEnemyObjects.get(index).getClass().getPackage().getName().contains("Air"))
+        else if (!canShotAir&&canShotGround&&!arrayList.get(index).getClass().getPackage().getName().contains("Air"))
         {
 //            only ground
             canAttackThisType=true;

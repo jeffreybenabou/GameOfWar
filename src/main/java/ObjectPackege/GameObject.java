@@ -54,8 +54,8 @@ public class GameObject extends JLabel {
     protected GameObject(){
         mainFrame=MainFrame.mainFrame;
         imageLoader=new ImageLoader();
-        group=""+ MainMenu._userName;
-
+//        group=""+ MainMenu._userName;
+        group="friendly";
 
 
 
@@ -276,7 +276,7 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/6;
                 speedOfMove = 8;
-                speedOfAttack = 2000;
+                speedOfAttack = 200;
                 damageToEnemy = 45;
                 timeToTrain = 25;
                 powerNeedToBuild = 0;
@@ -295,7 +295,7 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/9;
                 speedOfMove = 7;
-                speedOfAttack = 2000;
+                speedOfAttack = 500;
                 damageToEnemy = 200;
                 timeToTrain = 30;
                 powerNeedToBuild = 0;
@@ -316,8 +316,8 @@ public class GameObject extends JLabel {
                 rangeOfAttack= MainFrame.screenSize.width/3;
 
                 speedOfMove = 10;
-                speedOfAttack = 500;
-                damageToEnemy = 5;
+                speedOfAttack = 100;
+                damageToEnemy = 1;
                 timeToTrain = 45;
                 powerNeedToBuild = 0;
                 costToBuild = 1500;
@@ -335,8 +335,8 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/2;
                 speedOfMove = 10;
-                speedOfAttack = 1000;
-                damageToEnemy = 25;
+                speedOfAttack = 400;
+                damageToEnemy = 50;
                 timeToTrain = 60;
                 powerNeedToBuild = 0;
                 costToBuild = 1500;
@@ -354,8 +354,8 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/4;
                 speedOfMove = 9;
-                speedOfAttack = 3000;
-                damageToEnemy = 200;
+                speedOfAttack = 400;
+                damageToEnemy = 100;
                 timeToTrain = 35;
                 powerNeedToBuild = 0;
                 costToBuild = 1500;
@@ -415,7 +415,7 @@ public class GameObject extends JLabel {
                 rangeOfAttack= MainFrame.screenSize.width/3;
                 speedOfMove = 7;
                 speedOfAttack = 1000;
-                damageToEnemy = 150;
+                damageToEnemy = 350;
                 timeToTrain = 60;
                 powerNeedToBuild = 0;
                 costToBuild = 2500;
@@ -428,12 +428,12 @@ public class GameObject extends JLabel {
                 buildingNeed="<html>spaciel ops factory<html>";
                 discription="<html>'fast dead'-this unit deal a massive damage to enemy .<br>worth the effort<html>";
 
-                canShotAir = false;
+                canShotAir = true;
                 objectIsLive = true;
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/2;
                 speedOfMove = 6;
-                speedOfAttack = 2000;
+                speedOfAttack = 900;
                 damageToEnemy = 300;
                 timeToTrain = 60;
                 powerNeedToBuild = 0;
@@ -472,8 +472,8 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/3;
                 speedOfMove = 12;
-                speedOfAttack = 1500;
-                damageToEnemy = 100;
+                speedOfAttack = 500;
+                damageToEnemy = 85;
                 timeToTrain = 40;
                 powerNeedToBuild = 0;
                 costToBuild = 1000;

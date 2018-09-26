@@ -12,13 +12,14 @@ import java.awt.*;
 public class Choper extends AirUnit {
 
     public static SpriteSheet moveSpriteSheetChoper=new SpriteSheet(imageLoader.loadImage("image/air/user/airUnit.png"));
+    public static SpriteSheet standSpriteSheetAntiAir=new SpriteSheet(imageLoader.loadImage("image/air/user/chopper/move.png"));
 
     public Choper() {
         super();
         xWitdhToCrop= StaticVariables.CHOPPER_WIDTH_SPRITE_SHEET_SIZE;
         yHeightToCrop=StaticVariables.CHOPPER_HEIGHT_SPRITE_SHEET_SIZE;
 
-        standSpriteSheet=moveSpriteSheetChoper;
+        standSpriteSheet=standSpriteSheetAntiAir;
         moveSpriteSheet=moveSpriteSheetChoper;
         type=21;
         bound = new Rectangle(500, 500, MainFrame.world.getBackGroundImage().getWidth() / 100, MainFrame.world.getBackGroundImage().getWidth() / 100);

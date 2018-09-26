@@ -46,7 +46,7 @@ public class MainMenu  extends JLabel  {
         addSignInWindows();
         checkIfLogIn();
 
-        addExitLisenersToProgram();
+        addExitListenersToProgram();
 
 
     }
@@ -144,7 +144,7 @@ public class MainMenu  extends JLabel  {
 
     }
 
-    private void addExitLisenersToProgram(){
+    private void addExitListenersToProgram(){
        mainFrame.addWindowListener(new WindowListener() {
            public void windowOpened(WindowEvent e) {
 
@@ -206,27 +206,38 @@ public class MainMenu  extends JLabel  {
         imageLabel=new JLabel();
         GridLayout    flowLayout=new GridLayout(4,0,4,50);
         buttonLabel =new JLabel();
-        buttonLabel.setBounds(0,MainFrame.screenSize.height/10,MainFrame.screenSize.width/7,MainFrame.screenSize.height);
+        buttonLabel.setBounds(MainFrame.screenSize.width/30,MainFrame.screenSize.height/10,MainFrame.screenSize.width/7,MainFrame.screenSize.height);
         buttonLabel.setLayout(flowLayout);
 
 
-        startGame=new JButton("start game");
+
+
+        startGame=addNewButton("start game");
         startGame.setEnabled(false);
-        startGame.setFont(fontOfButtons);
+        startTutorial=addNewButton("start tutorial");
+        exitButton=addNewButton("exit from the game");
 
 
-        startTutorial=new JButton("start tutorial");
-        startTutorial.setFont(fontOfButtons);
-        startTutorial.addMouseListener(mainFrame);
-
-        exitButton=new JButton("exit from the game");
-        exitButton.setFont(fontOfButtons);
-        exitButton.addMouseListener(mainFrame);
-        buttonLabel.add(startGame);
-        buttonLabel.add(startTutorial);
-        buttonLabel.add(exitButton);
         imageLabel.add(buttonLabel);
 
+    }
+
+    private JButton addNewButton(String s) {
+        ImageLoader ima=new ImageLoader();
+        JButton button = new JButton("" + s);
+        button.setPreferredSize(new Dimension(getWidth()/6,getHeight()/6));
+        button.setBackground(new Color(0,0,0,0));
+        button.setOpaque(true);
+        button.addMouseListener(mainFrame);
+        button.setContentAreaFilled(false);
+        button.setFont(fontOfButtons);
+        button.setIcon(new ImageIcon(ima.loadImage("image/panel/mapButton.png").getScaledInstance(button.getPreferredSize().width, button.getPreferredSize().height,4)));
+        button.setHorizontalTextPosition(JLabel.CENTER);
+        buttonLabel.add(button);
+        button.setBorderPainted(false);
+        button.setPressedIcon(new ImageIcon(ima.loadImage("image/panel/mapButton.png").getScaledInstance(button.getPreferredSize().width+ button.getPreferredSize().width/25, button.getPreferredSize().height+ button.getPreferredSize().height/25,4)));
+
+        return button;
     }
 
 

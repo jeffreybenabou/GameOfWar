@@ -6,24 +6,24 @@ import ObjectPackege.GameObject;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class MiniMap extends JLabel {
 
+    private final ArrayList<JLabel> enemyLabel;
     private ImageLoader imageLoader;
     private SpriteSheet spriteSheet;
     private JLabel map,location;
-    private ArrayList<JLabel>lables;
+    private ArrayList<JLabel> userLabel;
     private volatile boolean running = true;
 
     public MiniMap(){
         imageLoader = new ImageLoader();
         spriteSheet=new SpriteSheet(imageLoader.loadImage("image/panel/grid.png"));
-        lables=new ArrayList<JLabel>();
+        userLabel =new ArrayList<>();
+        enemyLabel =new ArrayList<>();
         setTheMap();
         showTheObjectsOnMiniMap();
         addLocationOfUserOnMiniMap();
@@ -74,30 +74,30 @@ public class MiniMap extends JLabel {
                 while (running)
                 {
 
-                    for (int i = 0; i < getLables().size()-1; i++) {
+                    for (int i = 0; i < getUserLabel().size()-1; i++) {
                         try
                         {
 
 
-                            lables.get(i).setBounds(getWidth()/15+World.allObjects.get(i).getX()/73,getHeight()/5+World.allObjects.get(i).getY()/100,3,3);
-                            lables.get(i).setBackground(Color.blue);
+                            userLabel.get(i).setBounds(getWidth()/15+World.allObjects.get(i).getX()/73,getHeight()/5+World.allObjects.get(i).getY()/100,3,3);
+                            userLabel.get(i).setBackground(Color.blue);
                         }catch (Exception e)
                         {
                             e.printStackTrace();
                             running=false;
-
+                            break;
 
                         }
 
                     }
                     int j=0;
-                    for (int i = 0; i < getLables().size()-1; i++) {
+                    for (int i = 0; i < getEnemyLabel().size()-1; i++) {
                         try
                         {
 
-                            if( getLables().get(i).getName().equals("enemy")) {
-                                lables.get(j).setBounds(getWidth() / 15 + World.allEnemyObjects.get(j).getX() / 73, getHeight() / 5 + World.allEnemyObjects.get(j).getY() / 100, 3, 3);
-                                lables.get(j).setBackground(Color.red);
+                            if( getUserLabel().get(i).getName().equals("enemy")) {
+                                enemyLabel.get(j).setBounds(getWidth() / 15 + World.allEnemyObjects.get(j).getX() / 73, getHeight() / 5 + World.allEnemyObjects.get(j).getY() / 100, 3, 3);
+                                enemyLabel.get(j).setBackground(Color.red);
                                 j++;
                             }
 
@@ -105,6 +105,7 @@ public class MiniMap extends JLabel {
                         {
                             e.printStackTrace();
                             running=false;
+                            break;
 
 
                         }
@@ -126,23 +127,27 @@ public class MiniMap extends JLabel {
     public void setTheMiniMapObjects (){
         try
         {
-            for (GameObject g:World.allObjects) {
-                if (!g.isAddedToMiniMap()) {
-                    addAllObjectFromArrayListToTheMap(g,false);
-                    g.setAddedToMiniMap(true);
+            for (int i=0;i<World.allObjects.size();i++) {
+                if (!World.allObjects.get(i).isAddedToMiniMap()) {
+                    addAllObjectFromArrayListToTheMap(World.allObjects.get(i),false);
+                    World.allObjects.get(i).setAddedToMiniMap(true);
                 }
 
             }
-            for (GameObject g:World.allEnemyObjects) {
-                if (!g.isAddedToMiniMap()) {
-                    addAllObjectFromArrayListToTheMap(g,true);
-                    g.setAddedToMiniMap(true);
-                }
+            for (int i=0;i<World.allEnemyObjects.size();i++) {
+
+                    if (!World.allEnemyObjects.get(i).isAddedToMiniMap()) {
+                        addAllObjectFromArrayListToTheMap(World.allEnemyObjects.get(i),true);
+                        World.allEnemyObjects.get(i).setAddedToMiniMap(true);
+                    }
 
             }
-        }catch (Exception e)
+        }
+
+        catch (Exception e)
         {
             e.printStackTrace();
+
         }
 
     }
@@ -157,17 +162,18 @@ public class MiniMap extends JLabel {
         {
             k.setName("friendly");
             k.setBackground(Color.blue);
-
+            userLabel.add(k);
         }
         else
         {
             k.setName("enemy");
             k.setBackground(Color.red);
+            enemyLabel.add(k);
         }
 
         k.setOpaque(true);
         add(k);
-        lables.add(k);
+
     }
 
     private void setTheMap() {
@@ -199,18 +205,22 @@ public class MiniMap extends JLabel {
         return map;
     }
 
+    public ArrayList<JLabel> getEnemyLabel() {
+        return enemyLabel;
+    }
+
 
 
     public void setLocation(JLabel location) {
         this.location = location;
     }
 
-    public ArrayList<JLabel> getLables() {
-        return lables;
+    public ArrayList<JLabel> getUserLabel() {
+        return userLabel;
     }
 
-    public void setLables(ArrayList<JLabel> lables) {
-        this.lables = lables;
+    public void setUserLabel(ArrayList<JLabel> userLabel) {
+        this.userLabel = userLabel;
     }
 
     public boolean isRunning() {

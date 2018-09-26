@@ -170,7 +170,7 @@ return list;
 
 
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -197,7 +197,7 @@ return list;
 
             }
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -262,7 +262,7 @@ return false;
         try {
             connect = DriverManager.getConnection(host, username, password);
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
 
             // TODO Auto-generated catch block
             e.printStackTrace();

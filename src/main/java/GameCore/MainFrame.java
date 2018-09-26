@@ -436,6 +436,8 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
         mainFactory=new MainFactory(true);
         BigBoss bigBoss=new BigBoss();
         bigBoss.setGroup("not friendly");
+        bigBoss.setTheUnitMethod();
+
         world.getBackGroundImage().add(bigBoss);
         bigBoss.setLocation(1000,1000);
         World.allEnemyObjects.add(bigBoss);

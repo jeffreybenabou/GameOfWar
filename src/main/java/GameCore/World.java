@@ -377,7 +377,7 @@ public class World extends JPanel  {
 
                 backGroundImage=new JLayeredPane();
                 backGroundImage.setBounds(0,0,MainFrame.screenSize.width*10,MainFrame.screenSize.height*20);
-                backGroundImage.setBackground(Color.black);
+                backGroundImage.setBackground(Color.GRAY);
                 backGroundImage.setOpaque(true);
                 backGroundImage.addMouseListener(MainFrame.mainFrame);
         backGroundImage.addMouseMotionListener(MainFrame.mainFrame);

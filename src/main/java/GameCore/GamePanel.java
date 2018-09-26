@@ -81,6 +81,8 @@ setOpaque(true);
         showTheMap.setContentAreaFilled(false);
         showTheMap.setBorder(null);
         showTheMap.addMouseListener(MainFrame.mainFrame);
+        showTheMap.setPressedIcon(new ImageIcon(imageLoader.loadImage("image/panel/mapButton.png").getScaledInstance(showTheMap.getWidth()+showTheMap.getWidth()/10,showTheMap.getHeight()+showTheMap.getHeight()/10,4)));
+
         add(showTheMap);
 
     }

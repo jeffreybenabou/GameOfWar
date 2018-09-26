@@ -55,7 +55,7 @@ public class Quaqe {
     }
     public  void setTheQueue(final Unit unitToAdd, final Factory typeOfFactory){
 
-        if(StaticVariables.sumOfMoney>=unitToAdd.getCostToBuild())
+        if(StaticVariables.sumOfMoney>=unitToAdd.getCostToBuild()&&StaticVariables.unitHas<StaticVariables.UNIT_LIMIT)
         {
             setTheQuaqeVisible();
             StaticVariables.sumOfMoney-=unitToAdd.getCostToBuild();
