@@ -12,18 +12,19 @@ import java.util.ArrayList;
 
 public class MiniMap extends JLabel {
 
-    private final ArrayList<JLabel> enemyLabel;
+    public static final ArrayList<JLabel> enemyLabel=new ArrayList<>();
     private ImageLoader imageLoader;
     private SpriteSheet spriteSheet;
     private JLabel map,location;
-    private ArrayList<JLabel> userLabel;
+    public static ArrayList<JLabel> userLabel;
     private volatile boolean running = true;
 
     public MiniMap(){
         imageLoader = new ImageLoader();
         spriteSheet=new SpriteSheet(imageLoader.loadImage("image/panel/grid.png"));
         userLabel =new ArrayList<>();
-        enemyLabel =new ArrayList<>();
+
+
         setTheMap();
         showTheObjectsOnMiniMap();
         addLocationOfUserOnMiniMap();
@@ -74,13 +75,17 @@ public class MiniMap extends JLabel {
                 while (running)
                 {
 
-                    for (int i = 0; i < getUserLabel().size()-1; i++) {
+                    for (int i = 0; i < getUserLabel().size(); i++) {
                         try
                         {
 
 
-                            userLabel.get(i).setBounds(getWidth()/15+World.allObjects.get(i).getX()/73,getHeight()/5+World.allObjects.get(i).getY()/100,3,3);
-                            userLabel.get(i).setBackground(Color.blue);
+                            if(Integer.parseInt(userLabel.get(i).getName())==World.allObjects.get(i).hashCode())
+                            {
+                                userLabel.get(i).setBounds(getWidth()/15+World.allObjects.get(i).getX()/73,getHeight()/5+World.allObjects.get(i).getY()/100,3,3);
+                                userLabel.get(i).setBackground(Color.blue);
+                            }
+
                         }catch (Exception e)
                         {
                             e.printStackTrace();
@@ -90,16 +95,19 @@ public class MiniMap extends JLabel {
                         }
 
                     }
-                    int j=0;
+
                     for (int i = 0; i < getEnemyLabel().size()-1; i++) {
                         try
                         {
 
-                            if( getUserLabel().get(i).getName().equals("enemy")) {
-                                enemyLabel.get(j).setBounds(getWidth() / 15 + World.allEnemyObjects.get(j).getX() / 73, getHeight() / 5 + World.allEnemyObjects.get(j).getY() / 100, 3, 3);
-                                enemyLabel.get(j).setBackground(Color.red);
-                                j++;
+                            if(Integer.parseInt(enemyLabel.get(i).getName())==World.allEnemyObjects.get(i).hashCode())
+                            {
+                                enemyLabel.get( i).setBounds(getWidth() / 15 + World.allEnemyObjects.get( i).getX() / 73, getHeight() / 5 + World.allEnemyObjects.get( i).getY() / 100, 3, 3);
+                                enemyLabel.get( i).setBackground(Color.red);
                             }
+
+
+
 
                         }catch (Exception e)
                         {
@@ -160,13 +168,14 @@ public class MiniMap extends JLabel {
 
         if(!enemy)
         {
-            k.setName("friendly");
+
+            k.setName(""+g.hashCode());
             k.setBackground(Color.blue);
             userLabel.add(k);
         }
         else
         {
-            k.setName("enemy");
+            k.setName(""+g.hashCode());
             k.setBackground(Color.red);
             enemyLabel.add(k);
         }

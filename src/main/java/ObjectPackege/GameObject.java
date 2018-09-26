@@ -1,16 +1,14 @@
 package ObjectPackege;
 
 
-import GameCore.LifeBar;
-import GameCore.MainFrame;
-import GameCore.MainMenu;
-import GameCore.World;
+import GameCore.*;
 import ImageHandel.ImageLoader;
 
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class GameObject extends JLabel {
 
@@ -99,6 +97,118 @@ public class GameObject extends JLabel {
     }
 
 
+    protected  void removeTheObject(ArrayList<GameObject> arrayList,int index){
+        synchronized(arrayList.get(index))
+        {
+            boolean notFound=true;
+            if(index<arrayList.size())
+            arrayList.get(index).setVisible(false);
+            int hash=arrayList.get(index).hashCode();
+
+
+            for (int i = 0; i <MiniMap.userLabel .size(); i++) {
+                if(arrayList.get(index).hashCode()== Integer.parseInt(MiniMap.userLabel.get(i).getName()))
+                {
+
+
+                    MainFrame.world.getMiniMap().remove(MiniMap.userLabel.get(i));
+                    MainFrame.world.getBackGroundImage().remove(arrayList.get(index));
+                    MiniMap.userLabel.remove(i);
+                    notFound=false;
+                    break;
+                }
+
+            }
+            if(notFound)
+            {
+                synchronized (MiniMap.enemyLabel)
+                {
+                    for (int i = 0; i <MiniMap.enemyLabel .size(); i++) {
+                        if(arrayList.get(index).hashCode()== Integer.parseInt(MiniMap.enemyLabel.get(i).getName()))
+                        {
+                            MainFrame.world.getMiniMap().remove(MiniMap.enemyLabel.get(i));
+                            MainFrame.world.getBackGroundImage().remove(arrayList.get(index));
+                            MiniMap.enemyLabel.remove(i);
+                            break;
+                        }
+
+                    }
+                }
+
+            }
+
+
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i <World.allUnit.size() ; i++) {
+                        if(World.allUnit.get(i).hashCode()==hash)
+                        {
+                            StaticVariables.unitHas--;
+                            MainFrame.gamePanel.changeTheText();
+                            World.allUnit.remove(i);
+                            break;
+                        }
+                    }
+                }
+            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i <World.airFactory.size() ; i++) {
+                        if(World.airFactory.get(i).hashCode()==hash)
+                        {
+                            World.airFactory.remove(i);
+                            break;
+                        }
+                    }
+                }
+            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i <World.tankFactory.size() ; i++) {
+                        if(World.tankFactory.get(i).hashCode()==hash)
+                        {
+                            World.tankFactory.remove(i);
+                            break;
+                        }
+                    }
+                }
+            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i <World.allFactorys.size() ; i++) {
+                        if(World.allFactorys.get(i).hashCode()==hash)
+                        {
+                            World.allFactorys.remove(i);
+                            break;
+                        }
+                    }
+                }
+            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i <World.infentryFactory.size() ; i++) {
+                        if(World.infentryFactory.get(i).hashCode()==hash)
+                        {
+                            World.infentryFactory.remove(i);
+                            break;
+                        }
+                    }
+                }
+            }).start();
+
+            arrayList.remove(index);
+        }
+
+
+
+        // TODO: 26/09/2018 need to remove the object from all relevante arraylist
+    }
 
     protected void init(){
 

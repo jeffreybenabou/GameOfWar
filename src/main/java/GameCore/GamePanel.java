@@ -191,4 +191,9 @@ setOpaque(true);
     public void setShowTheMap(JButton showTheMap) {
         this.showTheMap = showTheMap;
     }
+
+    public void changeTheText() {
+        MainFrame.gamePanel.getPlaceHas().setText(""+StaticVariables.unitHas+"/"+StaticVariables.UNIT_LIMIT);
+
+    }
 }

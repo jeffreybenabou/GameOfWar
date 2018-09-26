@@ -1,6 +1,7 @@
 package GameCore;
 
 import ObjectPackege.Factory;
+import ObjectPackege.GameObject;
 import ObjectPackege.Unit;
 import Server.Sql;
 import Units.AirUnits.AntiAir;
@@ -12,16 +13,11 @@ import Units.MechanicUnits.*;
 
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Scanner;
 
 public class MainFrame extends JFrame implements MouseListener, MouseMotionListener {
 
@@ -216,6 +212,7 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
                 checkIfUserPressBuildingMenu(e);
                 checkIfUserPreesUnitToBuild(e);
                 checkIfUserSelectFactoryToBuild(e);
+                checkIfUnitIsPressingEnemy(e);
             } else {
                 addTheFactoryToWorld(e);
             }
@@ -438,9 +435,16 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
         bigBoss.setGroup("not friendly");
         bigBoss.setTheUnitMethod();
 
+        BigBoss bigBoss2=new BigBoss();
+        bigBoss2.setGroup("not friendly");
+        bigBoss2.setTheUnitMethod();
+
         world.getBackGroundImage().add(bigBoss);
+        world.getBackGroundImage().add(bigBoss2);
         bigBoss.setLocation(1000,1000);
+        bigBoss2.setLocation(500,1000);
         World.allEnemyObjects.add(bigBoss);
+        World.allEnemyObjects.add(bigBoss2);
         mainFactory.repaint();
         mainFactory.revalidate();
         World.allObjects.add(mainFactory);
@@ -474,6 +478,18 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
 
 
 
+    }
+
+    private void checkIfUnitIsPressingEnemy(MouseEvent e){
+
+
+        if (e.getComponent().getClass().getPackage().getName().contains("Units")) {
+            GameObject gameObject=(GameObject)e.getComponent();
+            if(gameObject.getGroup().contains("not"))
+            {
+
+            }
+        }
     }
 
     public static void main(String[] args) {

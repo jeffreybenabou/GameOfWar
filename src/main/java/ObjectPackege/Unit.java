@@ -96,9 +96,9 @@ public class Unit extends GameObject {
                 objectIsMoving=false;
                 objectIsAttacking=true;
 
-                MainFrame.world.getBackGroundImage().add(unitAttackLabel=new UnitAttackLabel(this));
+                MainFrame.world.getBackGroundImage().add(unitAttackLabel=new UnitAttackLabel(this),0);
                 changeTheImage();
-                while (objectIsAttacking&&!objectIsMoving&&!objectIsStanding&&arrayList.get(i).isObjectIsLive())
+                while (objectIsAttacking&&!objectIsMoving&&!objectIsStanding&&i<arrayList.size()&&arrayList.get(i).isObjectIsLive()&&isObjectIsLive())
                 {
 
 
@@ -112,16 +112,8 @@ public class Unit extends GameObject {
                         e.printStackTrace();
                     }
 
-
-                    if(arrayList.size()>0&&!arrayList.get(i).isObjectIsLive())
+                    if(arrayList.size()>0&&i<arrayList.size()&&!arrayList.get(i).isObjectIsLive())
                     {
-                        synchronized (arrayList.get(i))
-                        {
-                            arrayList.get(i).setVisible(false);
-                            MainFrame.world.getBackGroundImage().remove(arrayList.get(i));
-                            arrayList.remove(arrayList.get(i));
-                        }
-
                         break;
                     }else
                         try
@@ -135,6 +127,12 @@ public class Unit extends GameObject {
 
 
 
+
+                }
+                if(arrayList.size()>0&&i<arrayList.size()&&!arrayList.get(i).isObjectIsLive())
+                {
+
+                        removeTheObject(arrayList,i);
 
                 }
                 objectIsAttacking=false;

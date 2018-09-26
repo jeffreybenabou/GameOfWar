@@ -240,7 +240,7 @@ public class Quaqe {
 
                     }
                     StaticVariables.unitHas++;
-                    MainFrame.gamePanel.getPlaceHas().setText(""+StaticVariables.unitHas+"/"+StaticVariables.UNIT_LIMIT);
+                    MainFrame.gamePanel.changeTheText();
 
                 }
             }).start();
