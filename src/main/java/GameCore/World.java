@@ -117,47 +117,53 @@ public class World extends JPanel  {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        for (int i = 0; i < World.allObjects.size(); i++) {
-                            if (!World.allObjects.get(i).getClass().getPackage().getName().contains("Air")
-                                    && World.allObjects.get(i) != unit)
+                        try {
+                            for (int i = 0; i < World.allObjects.size(); i++) {
+                                if (!World.allObjects.get(i).getClass().getPackage().getName().contains("Air")
+                                        && World.allObjects.get(i) != unit)
 
-                            {
-
-
-                                Random random=new Random();
-                                int num2=random.nextInt(1)+30;
-                                int num=1;
-                                if(random.nextBoolean())
                                 {
-                                    num*=-1;
-                                    num2*=-1;
+
+
+                                    Random random=new Random();
+                                    int num2=random.nextInt(1)+30;
+                                    int num=1;
+                                    if(random.nextBoolean())
+                                    {
+                                        num*=-1;
+                                        num2*=-1;
+                                    }
+
+
+
+                                    if (World.allObjects.get(i).getClass().getPackage().getName().contains("InfantryUnit"))
+                                        if (World.allObjects.get(i).calculateTheDistanceBetweenUnits(unit) <= 30) {
+                                            unit.setBound(new Rectangle(unit.getX() + 30*num, unit.getY() + num2, unit.getWidth(), unit.getHeight()));
+                                            unit.setBounds(unit.getBound());
+                                        }
+
+                                    if (World.allObjects.get(i).getClass().getPackage().getName().contains("MechanicUnits"))
+                                        if (World.allObjects.get(i).calculateTheDistanceBetweenUnits(unit) <= 70) {
+                                            unit.setBound(new Rectangle(unit.getX()  + 70*num, unit.getY() + num2, unit.getWidth(), unit.getHeight()));
+                                            unit.setBounds(unit.getBound());
+                                        }
+
+                                    if (World.allObjects.get(i).getClass().getPackage().getName().contains("Factory"))
+                                        if (World.allObjects.get(i).calculateTheDistanceBetweenUnits(unit) <= World.allObjects.get(i).getWidth()) {
+                                            unit.setBound(new Rectangle(unit.getX() + World.allObjects.get(i).getWidth(), unit.getY(), unit.getWidth(), unit.getHeight()));
+                                            unit.setBounds(unit.getBound());
+                                        }
                                 }
 
 
 
-                                if (World.allObjects.get(i).getClass().getPackage().getName().contains("InfantryUnit"))
-                                    if (World.allObjects.get(i).calculateTheDistanceBetweenUnits(unit) <= 30) {
-                                        unit.setBound(new Rectangle(unit.getX() + 30*num, unit.getY() + num2, unit.getWidth(), unit.getHeight()));
-                                        unit.setBounds(unit.getBound());
-                                    }
 
-                                if (World.allObjects.get(i).getClass().getPackage().getName().contains("MechanicUnits"))
-                                    if (World.allObjects.get(i).calculateTheDistanceBetweenUnits(unit) <= 70) {
-                                        unit.setBound(new Rectangle(unit.getX()  + 70*num, unit.getY() + num2, unit.getWidth(), unit.getHeight()));
-                                        unit.setBounds(unit.getBound());
-                                    }
-
-                                if (World.allObjects.get(i).getClass().getPackage().getName().contains("Factory"))
-                                    if (World.allObjects.get(i).calculateTheDistanceBetweenUnits(unit) <= World.allObjects.get(i).getWidth()) {
-                                        unit.setBound(new Rectangle(unit.getX() + World.allObjects.get(i).getWidth(), unit.getY(), unit.getWidth(), unit.getHeight()));
-                                        unit.setBounds(unit.getBound());
-                                    }
                             }
-
-
-
-
+                        }catch (Exception e)
+                        {
+                            e.printStackTrace();
                         }
+
 
 
 

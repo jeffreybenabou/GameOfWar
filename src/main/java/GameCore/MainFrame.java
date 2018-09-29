@@ -427,33 +427,28 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
 
     private void startTheTutorial() {
         remove(mainMenu);
-        gamePanel=new GamePanel();
-        world=new World(true);
+        gamePanel = new GamePanel();
+        world = new World(true);
 
-        mainFactory=new MainFactory(true);
-        BigBoss bigBoss=new BigBoss();
-        bigBoss.setGroup("not friendly");
-        bigBoss.setTheUnitMethod();
+        mainFactory = new MainFactory(true);
+        mainFactory.setTheFactoryMethod();
 
-        BigBoss bigBoss2=new BigBoss();
-        bigBoss2.setGroup("not friendly");
-        bigBoss2.setTheUnitMethod();
 
-        world.getBackGroundImage().add(bigBoss);
-        world.getBackGroundImage().add(bigBoss2);
-        bigBoss.setLocation(1000,1000);
-        bigBoss2.setLocation(500,1000);
-        World.allEnemyObjects.add(bigBoss);
-        World.allEnemyObjects.add(bigBoss2);
+        for (int i = 0; i < 10; i++) {
+            BigBoss bigBoss2 = new BigBoss();
+            bigBoss2.setGroup("not friendly");
+            bigBoss2.setTheUnitMethod();
+            bigBoss2.setLocation(getX() + i * 100, getY() + 2000);
+            world.getBackGroundImage().add(bigBoss2);
+            World.allEnemyObjects.add(bigBoss2);
+        }
+
+
         mainFactory.repaint();
         mainFactory.revalidate();
         World.allObjects.add(mainFactory);
         World.allFactorys.add(mainFactory);
         world.getBackGroundImage().add(mainFactory);
-
-
-
-
 
 
         add(world);

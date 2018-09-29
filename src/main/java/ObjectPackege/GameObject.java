@@ -3,6 +3,7 @@ package ObjectPackege;
 
 import GameCore.*;
 import ImageHandel.ImageLoader;
+import ImageHandel.SpriteSheet;
 
 
 import javax.swing.*;
@@ -31,7 +32,7 @@ public class GameObject extends JLabel {
 
 
 
-    protected boolean objectCanMove;
+    protected boolean objectCanMove=true;
     protected boolean objectIsOnWorld;
     protected boolean objectIsMoving=false;
     protected boolean objectIsStanding=true;
@@ -64,9 +65,17 @@ public class GameObject extends JLabel {
 
 
     public double calculateTheDistanceBetweenUnits(GameObject gameObject){
-        float xDistance = gameObject.getX() - getX();
-        float yDistance = gameObject.getY() - getY();
-        return Math.sqrt((xDistance*xDistance) + (yDistance*yDistance));
+        try
+        {
+            float xDistance = gameObject.getX() - getX();
+            float yDistance = gameObject.getY() - getY();
+            return Math.sqrt((xDistance*xDistance) + (yDistance*yDistance));
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return 90000;
+        }
+
     }
 
 
@@ -97,113 +106,173 @@ public class GameObject extends JLabel {
     }
 
 
-    protected  void removeTheObject(ArrayList<GameObject> arrayList,int index){
-        synchronized(arrayList.get(index))
-        {
-            boolean notFound=true;
-            if(index<arrayList.size())
-            arrayList.get(index).setVisible(false);
-            int hash=arrayList.get(index).hashCode();
-
-
-            for (int i = 0; i <MiniMap.userLabel .size(); i++) {
-                if(arrayList.get(index).hashCode()== Integer.parseInt(MiniMap.userLabel.get(i).getName()))
-                {
-
-
-                    MainFrame.world.getMiniMap().remove(MiniMap.userLabel.get(i));
-                    MainFrame.world.getBackGroundImage().remove(arrayList.get(index));
-                    MiniMap.userLabel.remove(i);
-                    notFound=false;
-                    break;
-                }
-
-            }
-            if(notFound)
+    protected void addExplotionLabel(){
+        SpriteSheet spriteSheet=new SpriteSheet(imageLoader.loadImage("image/attack/explosion.png"));
+        JLabel jLabel=new JLabel(new ImageIcon(imageLoader.loadImage("image/panel/explotion.gif")));
+        MainFrame.world.getBackGroundImage().add(jLabel,0);
+        int width=0, height=0;
+        for (int i = 0; i < 19; i++) {
+            jLabel.setBounds(getX(),getY(),getWidth(),getHeight());
+            jLabel.setIcon(new ImageIcon(spriteSheet.crop(width,height,170,225).getScaledInstance(getWidth(),getHeight(),4)));
+            jLabel.setOpaque(true);
+            jLabel.setBackground(new Color(0,0,0,0));
+            width+=170;
+            if(width>spriteSheet.getSheet().getRaster().getWidth()-170)
             {
-                synchronized (MiniMap.enemyLabel)
-                {
-                    for (int i = 0; i <MiniMap.enemyLabel .size(); i++) {
-                        if(arrayList.get(index).hashCode()== Integer.parseInt(MiniMap.enemyLabel.get(i).getName()))
-                        {
-                            MainFrame.world.getMiniMap().remove(MiniMap.enemyLabel.get(i));
-                            MainFrame.world.getBackGroundImage().remove(arrayList.get(index));
-                            MiniMap.enemyLabel.remove(i);
-                            break;
-                        }
-
-                    }
-                }
-
+                height+=225;
+                width=0;
             }
 
+            if(height>=spriteSheet.getSheet().getRaster().getHeight())
+                height=0;
 
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0; i <World.allUnit.size() ; i++) {
-                        if(World.allUnit.get(i).hashCode()==hash)
-                        {
-                            StaticVariables.unitHas--;
-                            MainFrame.gamePanel.changeTheText();
-                            World.allUnit.remove(i);
-                            break;
-                        }
-                    }
-                }
-            }).start();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0; i <World.airFactory.size() ; i++) {
-                        if(World.airFactory.get(i).hashCode()==hash)
-                        {
-                            World.airFactory.remove(i);
-                            break;
-                        }
-                    }
-                }
-            }).start();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0; i <World.tankFactory.size() ; i++) {
-                        if(World.tankFactory.get(i).hashCode()==hash)
-                        {
-                            World.tankFactory.remove(i);
-                            break;
-                        }
-                    }
-                }
-            }).start();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0; i <World.allFactorys.size() ; i++) {
-                        if(World.allFactorys.get(i).hashCode()==hash)
-                        {
-                            World.allFactorys.remove(i);
-                            break;
-                        }
-                    }
-                }
-            }).start();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0; i <World.infentryFactory.size() ; i++) {
-                        if(World.infentryFactory.get(i).hashCode()==hash)
-                        {
-                            World.infentryFactory.remove(i);
-                            break;
-                        }
-                    }
-                }
-            }).start();
 
-            arrayList.remove(index);
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            repaint();
         }
+        MainFrame.world.getBackGroundImage().remove(jLabel);
+        setVisible(false);
+
+
+
+    }
+    protected void removeTheObject(GameObject gameObject,ArrayList<GameObject> arrayList) {
+
+        synchronized (gameObject)
+        {
+            try
+            {
+                boolean notFound = true;
+                int hash ;
+                final int[] counter = {0};
+                hash = gameObject.hashCode();
+
+                for (int i = 0; i < MiniMap.userLabel.size(); i++) {
+                    if (gameObject.hashCode() == Integer.parseInt(MiniMap.userLabel.get(i).getName())) {
+
+
+                        MainFrame.world.getMiniMap().remove(MiniMap.userLabel.get(i));
+                        MainFrame.world.getBackGroundImage().remove(gameObject);
+                        MiniMap.userLabel.remove(i);
+                        notFound = false;
+                        break;
+                    }
+
+                }
+                if (notFound) {
+                    synchronized (MiniMap.enemyLabel) {
+                        for (int i = 0; i < MiniMap.enemyLabel.size(); i++) {
+                            if (gameObject.hashCode() == Integer.parseInt(MiniMap.enemyLabel.get(i).getName())) {
+                                MainFrame.world.getMiniMap().remove(MiniMap.enemyLabel.get(i));
+                                MainFrame.world.getBackGroundImage().remove(gameObject);
+                                MiniMap.enemyLabel.remove(i);
+                                break;
+                            }
+
+                        }
+                    }
+
+                }
+
+
+                int finalHash = hash;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < World.allUnit.size(); i++) {
+                            if (World.allUnit.get(i).hashCode() == finalHash) {
+                                StaticVariables.unitHas--;
+                                MainFrame.gamePanel.changeTheText();
+                                World.allUnit.remove(i);
+
+                                break;
+                            }
+                        }
+                        counter[0]++;
+                    }
+                }).start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < World.airFactory.size(); i++) {
+                            if (World.airFactory.get(i).hashCode() == finalHash) {
+                                World.airFactory.remove(i);
+                                break;
+                            }
+                        }
+                        counter[0]++;
+                    }
+                }).start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < World.tankFactory.size(); i++) {
+                            if (World.tankFactory.get(i).hashCode() == finalHash) {
+                                World.tankFactory.remove(i);
+                                break;
+                            }
+                        }
+                        counter[0]++;
+                    }
+                }).start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < World.allFactorys.size(); i++) {
+                            if (World.allFactorys.get(i).hashCode() == finalHash) {
+                                World.allFactorys.remove(i);
+                                break;
+                            }
+                        }
+                        counter[0]++;
+                    }
+                }).start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < World.infentryFactory.size(); i++) {
+                            if (World.infentryFactory.get(i).hashCode() == finalHash) {
+                                World.infentryFactory.remove(i);
+                                break;
+                            }
+                        }
+                        counter[0]++;
+                    }
+                }).start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < arrayList.size(); i++) {
+                            if (arrayList.get(i).hashCode() == finalHash) {
+                                arrayList.remove(i);
+                                break;
+                            }
+                        }
+                        counter[0]++;
+                    }
+                }).start();
+                while (counter[0]<6)
+                {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+                }
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
 
 
 
@@ -259,7 +328,7 @@ public class GameObject extends JLabel {
                 buildingNeed="none";
                 discription="<html>this is a main factory. <br>with this building you can build any other building you want.<br>can be build only once </html>";
                 nameOfObject = "Main Factory";
-
+                objectCanMove=false;
                 powerNeedToBuild = 0;
                 costToBuild = 0;
                 life = 3000;
@@ -269,7 +338,7 @@ public class GameObject extends JLabel {
 //power factory
                 buildingNeed="none";
                 discription="<html>this is a power factory. <br>you need this building in order to get enough power to build building .</html> ";
-
+                objectCanMove=false;
                 nameOfObject = "Power Factory";
 
                 powerNeedToBuild = 0;
@@ -283,7 +352,7 @@ public class GameObject extends JLabel {
                 discription="<html>this is an Infantry factory. <br>this building create infantry units.</html> ";
                 World.infentryFactory.add((Factory) this);
                 nameOfObject = "Infentry Factory";
-
+                objectCanMove=false;
                 powerNeedToBuild = 20;
                 costToBuild = 1500;
                 life = 1500;
@@ -293,7 +362,7 @@ public class GameObject extends JLabel {
             case 4:
 //AirForceFactory
                 buildingNeed="<html>staelite factory<html>";
-
+                objectCanMove=false;
                 discription="<html>this is a Air Force factory.<br>this building create powerful air units.</html> ";
                 World.airFactory.add((Factory) this);
                 nameOfObject = "Air Force Factory";
@@ -309,7 +378,7 @@ public class GameObject extends JLabel {
                 buildingNeed="<html>Spaciel Ops Factory <html>";
 
                 discription="<html>this is a clone factory.<br>the clone factory give you extra 2 units on each one you build.</html> ";
-
+                objectCanMove=false;
                 nameOfObject = "Clone Factory";
 
                 life = 1000;
@@ -320,7 +389,7 @@ public class GameObject extends JLabel {
             case 6:
                 //SpacielOpsFactory
                 buildingNeed="<html>staelite factory<html>";
-
+                objectCanMove=false;
                 discription="<html>this is a Spacial Ops factory.<br>it give you the access to very strong units and tech.</html> ";
 
                 nameOfObject = "Spaciel Ops Factory";
@@ -332,7 +401,7 @@ public class GameObject extends JLabel {
             case 7:
                 //SuperWeponeFactory
                 buildingNeed="<html>Spacial Ops Factory <html>";
-
+                objectCanMove=false;
                 discription="<html>this is a Super Weapon factory.<br>'lets make the enemy blow away'.</html> ";
 
                 nameOfObject = "Super Wepone Factory";
@@ -345,7 +414,7 @@ public class GameObject extends JLabel {
                 buildingNeed="power factory";
                 //MoneyFactory
                 discription="<html>this is a Money factory.<br>give us a strong economy.</html> ";
-
+                objectCanMove=false;
                 nameOfObject = "Money Factory";
                 life = 2000;
                 powerNeedToBuild = 30;
@@ -361,13 +430,13 @@ public class GameObject extends JLabel {
                 life = 2000;
                 powerNeedToBuild = 35;
                 costToBuild = 2500;
-
+                objectCanMove=false;
                 break;
             case 10:
                 //SateliteFactory
                 buildingNeed="<html>tank factory<html>";
                 discription="<html>this is a Satellite factory.<br>it let you see the enemy in the map.</html> ";
-
+                objectCanMove=false;
                 nameOfObject = "Satellite Factory";
                 life = 1000;
                 powerNeedToBuild = 50;
@@ -385,8 +454,8 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/6;
                 speedOfMove = 8;
-                speedOfAttack = 200;
-                damageToEnemy = 45;
+                speedOfAttack = 20;
+                damageToEnemy = 2;
                 timeToTrain = 25;
                 powerNeedToBuild = 0;
                 costToBuild = 650;
@@ -404,8 +473,8 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/9;
                 speedOfMove = 7;
-                speedOfAttack = 500;
-                damageToEnemy = 200;
+                speedOfAttack = 1000;
+                damageToEnemy = 110;
                 timeToTrain = 30;
                 powerNeedToBuild = 0;
                 costToBuild = 850;
@@ -425,7 +494,7 @@ public class GameObject extends JLabel {
                 rangeOfAttack= MainFrame.screenSize.width/3;
 
                 speedOfMove = 10;
-                speedOfAttack = 50;
+                speedOfAttack = 150;
                 damageToEnemy = 1;
                 timeToTrain = 45;
                 powerNeedToBuild = 0;
@@ -444,8 +513,8 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/2;
                 speedOfMove = 10;
-                speedOfAttack = 400;
-                damageToEnemy = 50;
+                speedOfAttack = 500;
+                damageToEnemy = 130;
                 timeToTrain = 60;
                 powerNeedToBuild = 0;
                 costToBuild = 1500;
@@ -463,8 +532,8 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/4;
                 speedOfMove = 9;
-                speedOfAttack = 400;
-                damageToEnemy = 100;
+                speedOfAttack = 40;
+                damageToEnemy = 10;
                 timeToTrain = 35;
                 powerNeedToBuild = 0;
                 costToBuild = 1500;
@@ -482,8 +551,8 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/3;
                 speedOfMove = 10;
-                speedOfAttack = 300;
-                damageToEnemy = 3;
+                speedOfAttack = 50;
+                damageToEnemy = 1;
                 timeToTrain = 35;
                 powerNeedToBuild = 0;
                 costToBuild = 1500;
@@ -523,8 +592,8 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/3;
                 speedOfMove = 7;
-                speedOfAttack = 1000;
-                damageToEnemy = 350;
+                speedOfAttack = 20;
+                damageToEnemy = 3;
                 timeToTrain = 60;
                 powerNeedToBuild = 0;
                 costToBuild = 2500;
@@ -542,8 +611,8 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/2;
                 speedOfMove = 6;
-                speedOfAttack = 900;
-                damageToEnemy = 300;
+                speedOfAttack = 50;
+                damageToEnemy = 5;
                 timeToTrain = 60;
                 powerNeedToBuild = 0;
                 costToBuild = 1800;
@@ -562,7 +631,7 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/4;
                 speedOfMove = 12;
-                speedOfAttack = 200;
+                speedOfAttack = 100;
                 damageToEnemy = 5;
                 timeToTrain = 30;
                 powerNeedToBuild = 0;
@@ -581,8 +650,8 @@ public class GameObject extends JLabel {
                 objectCanMove = true;
                 rangeOfAttack= MainFrame.screenSize.width/3;
                 speedOfMove = 12;
-                speedOfAttack = 500;
-                damageToEnemy = 85;
+                speedOfAttack = 60;
+                damageToEnemy = 5;
                 timeToTrain = 40;
                 powerNeedToBuild = 0;
                 costToBuild = 1000;
@@ -615,7 +684,23 @@ public class GameObject extends JLabel {
     }
 
 
+    protected boolean checkIfObjectIsAlive(GameObject unit) {
+        try
+        {
+            if(unit.getLife()<=0)
+            {
 
+                unit.setObjectIsLive(false);
+                return false;
+            }
+            return true;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
 
 
 

@@ -45,26 +45,27 @@ public class Unit extends GameObject {
 
     public void setTheUnitMethod() {
 
-
+        final GameObject gameObject = this;
         new Thread(new Runnable() {
             public void run() {
-                while (objectIsLive)
-                {
+                while (checkIfObjectIsAlive(gameObject)) {
 
 
-                    if(!objectIsAttacking)
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                        moveTheUnit();
+                    if (!objectIsAttacking)
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    moveTheUnit();
                     checkIfUnitInRangeOfEnemy();
-
-
-
                 }
+                addExplotionLabel();
+                if (getGroup().contains("not"))
+                    removeTheObject(gameObject, World.allEnemyObjects);
+                else
+                    removeTheObject(gameObject, World.allObjects);
+
             }
         }).start();
     }
@@ -87,11 +88,11 @@ public class Unit extends GameObject {
     }
 
     public void addLifeToUnit(){
-
+GameObject gameObject=this;
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true)
+                while (checkIfObjectIsAlive(gameObject))
                 {
                     checkUnitToHeal();
                     try {
@@ -111,18 +112,23 @@ public class Unit extends GameObject {
 
     private void checkUnitToHeal() {
 
-        for (int i = 0; i <World.allUnit.size() ; i++) {
-            if(World.allUnit.get(i).calculateTheDistanceBetweenUnits(this)<=rangeOfAttack&&
-                    World.allUnit.get(i)!=this&&
-                    World.allUnit.get(i).getLife()<World.allUnit.get(i).getLifeBar().getMaximum())
-            {
-                World.allUnit.get(i).setLife(World.allUnit.get(i).getLife()+damageToEnemy);
-                World.allUnit.get(i).getLifeBar().setValue(World.allUnit.get(i).getLife()+damageToEnemy);
-                World.allUnit.get(i).getLifeBar().setString(""+World.allUnit.get(i).getLife());
+
+        for (int i = 0; i < World.allUnit.size(); i++) {
+            try {
+                if (World.allUnit.get(i).calculateTheDistanceBetweenUnits(this) <= rangeOfAttack &&
+                        World.allUnit.get(i) != this &&
+                        World.allUnit.get(i).getLife() < World.allUnit.get(i).getLifeBar().getMaximum()
+                        && World.allUnit.get(i).isObjectIsLive()) {
+                    World.allUnit.get(i).setLife(World.allUnit.get(i).getLife() + damageToEnemy);
+                    World.allUnit.get(i).getLifeBar().setValue(World.allUnit.get(i).getLife() + damageToEnemy);
+                    World.allUnit.get(i).getLifeBar().setString("" + World.allUnit.get(i).getLife());
 
 
-
+                }
+            } catch (Exception e) {
+                break;
             }
+
         }
     }
 
@@ -138,45 +144,54 @@ public class Unit extends GameObject {
 
                 MainFrame.world.getBackGroundImage().add(unitAttackLabel=new UnitAttackLabel(this),0);
                 changeTheImage();
-                while (calculateTheDistanceBetweenUnits(arrayList.get(i))<=rangeOfAttack&&objectIsAttacking&&!objectIsMoving&&!objectIsStanding&&i<arrayList.size()&&arrayList.get(i).isObjectIsLive()&&isObjectIsLive())
+                try
                 {
-
-
-
-
-
-
-                    try {
-                        Thread.sleep(speedOfAttack);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    if(arrayList.size()>0&&i<arrayList.size()&&!arrayList.get(i).isObjectIsLive())
+                    while (i<arrayList.size()&&calculateTheDistanceBetweenUnits(arrayList.get(i))<=rangeOfAttack&&objectIsAttacking&&!objectIsMoving&&!objectIsStanding&&i<arrayList.size()&&arrayList.get(i).isObjectIsLive()&&isObjectIsLive())
                     {
-                        break;
-                    }else
-                        try
-                        {
-                            decreaseLifeOfUnit(arrayList.get(i));
 
-                        }catch (Exception e)
-                        {
-                            break;
+
+
+
+
+
+                        try {
+                            Thread.sleep(speedOfAttack);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
 
+                        if(arrayList.size()>0&&i<arrayList.size()&&!arrayList.get(i).isObjectIsLive())
+                        {
+                            break;
+                        }else if(arrayList.size()>0&&i<arrayList.size()&&arrayList.get(i).isObjectIsLive())
+                            try
+                            {
+
+                                    decreaseLifeOfUnit(arrayList.get(i));
 
 
 
-                }
-                if(arrayList.size()>0&&i<arrayList.size()&&!arrayList.get(i).isObjectIsLive())
+
+                            }catch (Exception e)
+                            {
+                                e.printStackTrace();
+                                break;
+                            }
+
+
+
+
+                    }
+                }catch (IndexOutOfBoundsException e)
                 {
-
-                        removeTheObject(arrayList,i);
+                    e.printStackTrace();
 
                 }
+
                 objectIsAttacking=false;
                 objectIsStanding=true;
+
+
             }
         }catch (Exception e)
         {
@@ -187,27 +202,26 @@ public class Unit extends GameObject {
     }
 
     private void decreaseLifeOfUnit(GameObject unit) {
-        if( checkIfObjectIsAlive(unit))
+        try
         {
+            if( checkIfObjectIsAlive(unit))
+            {
 
-            unit.setLife(unit.getLife()-damageToEnemy);
-            unit.getLifeBar().setString(""+unit.getLife());
-            unit.getLifeBar().setValue(unit.getLife());
+                unit.setLife(unit.getLife()-damageToEnemy);
+                unit.getLifeBar().setString(""+unit.getLife());
+                unit.getLifeBar().setValue(unit.getLife());
 
 
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
         }
+
 
     }
 
-    private boolean checkIfObjectIsAlive(GameObject unit) {
-        if(unit.getLife()<=0)
-        {
 
-            unit.setObjectIsLive(false);
-            return false;
-        }
-        return true;
-    }
 
     private void checkWhatUnitCanShotAt(int index, ArrayList<GameObject >arrayList) {
         if(canShotAir&&!canShotGround&&arrayList.get(index).getClass().getPackage().getName().contains("Air"))

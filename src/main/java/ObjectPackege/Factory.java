@@ -33,6 +33,26 @@ public class Factory extends GameObject {
 
     }
 
+    public void setTheFactoryMethod(){
+        final GameObject gameObject=this;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (checkIfObjectIsAlive(gameObject))
+                {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(getGroup().contains("not"))
+                    removeTheObject(gameObject,World.allEnemyObjects);
+                else
+                    removeTheObject(gameObject,World.allObjects);
+            }
+        }).start();
+    }
     protected void setTheQuaqe(){
         quaqe=new Quaqe(this);
     }
@@ -64,6 +84,7 @@ public class Factory extends GameObject {
     protected void addToWorld() {
 
         World.allFactorys.add(this);
+        setTheFactoryMethod();
         Factory.objectIsFlotingWorld=false;
         factoryIsOnWorld=true;
     }

@@ -74,17 +74,25 @@ public class MiniMap extends JLabel {
             public void run() {
                 while (running)
                 {
-
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     for (int i = 0; i < getUserLabel().size(); i++) {
                         try
                         {
 
 
-                            if(Integer.parseInt(userLabel.get(i).getName())==World.allObjects.get(i).hashCode())
+                            synchronized (userLabel.get(i))
                             {
-                                userLabel.get(i).setBounds(getWidth()/15+World.allObjects.get(i).getX()/73,getHeight()/5+World.allObjects.get(i).getY()/100,3,3);
-                                userLabel.get(i).setBackground(Color.blue);
+                                if(Integer.parseInt(userLabel.get(i).getName())==World.allObjects.get(i).hashCode())
+                                {
+                                    userLabel.get(i).setBounds(getWidth()/15+World.allObjects.get(i).getX()/73,getHeight()/5+World.allObjects.get(i).getY()/100,3,3);
+                                    userLabel.get(i).setBackground(Color.blue);
+                                }
                             }
+
 
                         }catch (Exception e)
                         {
@@ -120,11 +128,7 @@ public class MiniMap extends JLabel {
 
                     }
                     setTheMiniMapObjects();
-                    try {
-                        Thread.sleep(20);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+
                 }
                 running=true;
                 showTheObjectsOnMiniMap();

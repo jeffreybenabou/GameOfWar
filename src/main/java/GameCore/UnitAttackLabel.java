@@ -45,7 +45,7 @@ public class UnitAttackLabel extends JLabel {
     }
 
     public void setTheImage(Unit unit,SpriteSheet spriteSheet) {
-        while (unit.isObjectIsAttacking() ) {
+        while (unit.isObjectIsAttacking()&&unit.isObjectIsLive() ) {
             setVerticalAlignment(JLabel.TOP);
 
             if (unit.getDirOfUnit() == 0) {
