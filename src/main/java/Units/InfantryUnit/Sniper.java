@@ -17,12 +17,12 @@ public class Sniper extends HumanUnit {
     public static SpriteSheet standSpriteSheetMedic=new SpriteSheet(imageLoader.loadImage("image/infentry/userUnits/sniper/sniperSteale.png"));
 
 
-    public Sniper() {
+    public Sniper(boolean onWorld) {
         super();
         type=14;
         moveSpriteSheet =moveSpriteSheetMedic;
         standSpriteSheet =standSpriteSheetMedic;
-        init();
+        init(onWorld);
         timeToTrain=1;
         setIcon(new ImageIcon(standSpriteSheet.crop(0,0,StaticVariables.HUMAN_UNIT_SHEET_MOVE_WIDTH,StaticVariables.HUMAN_UNIT_SHEET_MOVE_HEGIHT).getScaledInstance(getWidth(),getHeight(),4)));
         setImage();

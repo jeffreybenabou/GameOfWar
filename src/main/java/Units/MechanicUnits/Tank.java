@@ -14,13 +14,13 @@ public class Tank extends MechanicUnit {
     public static SpriteSheet standSpriteSheetTank=new SpriteSheet(imageLoader.loadImage("image/mechanic/user unit/tank/tank.png"));
 
 
-    public Tank() {
+    public Tank(boolean onWorld) {
         super();
 
         type=15;
         moveSpriteSheet =moveSpriteSheetTank;
         standSpriteSheet =standSpriteSheetTank;
-        init();
+        init(onWorld);
         timeToTrain=1;
         setIcon(new ImageIcon(standSpriteSheet.crop(0,0, xWitdhToCrop,yHeightToCrop).getScaledInstance(getWidth(),getHeight(),4)));
         setImage();

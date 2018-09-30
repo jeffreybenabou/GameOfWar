@@ -21,6 +21,8 @@ public class UnitAttackLabel extends JLabel {
                 airUnit(unit);
                 groundUnit(unit);
 
+                setOpaque(true);
+                setBackground(new Color(0,0,0,0));
 
                 removeFromWorld();
             }
@@ -50,7 +52,7 @@ public class UnitAttackLabel extends JLabel {
 
             if (unit.getDirOfUnit() == 0) {
                 setBounds(unit.getX() + unit.getWidth() / 3, unit.getY() + unit.getHeight(), unit.getWidth() / 3, unit.getHeight() / 2);
-                setIcon(new ImageIcon(spriteSheet.crop(0, 115, 280, 115).getScaledInstance(getWidth(), getHeight(), 4)));
+                setIcon(new ImageIcon(spriteSheet.crop(280, 0, 115, 285).getScaledInstance(getWidth(), getHeight(), 4)));
 
 
                 //                        down

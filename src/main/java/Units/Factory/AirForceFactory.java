@@ -17,7 +17,8 @@ public class AirForceFactory extends Factory {
         super();
         type=4;
         setBound(new Rectangle(0,0,AIRFIELD_FACTORY_WIDTH,AIRFIELD_FACTORY_HEIGHT));
-        init();
+        saveTheWidthAndHeight(bound.width,bound.height);
+        init(onWorld);
         setIcon(new ImageIcon(spriteSheet.crop(StaticVariables.FACTORY_SHEET_WIDTH,StaticVariables.FACTORY_SHEET_HEIGHT, StaticVariables.FACTORY_SHEET_WIDTH,StaticVariables.FACTORY_SHEET_HEIGHT).getScaledInstance(getWidth(),getHeight(),4)));
         setImage();
         if(onWorld)

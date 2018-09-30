@@ -10,21 +10,23 @@ import java.awt.*;
 public class LifeBar extends JProgressBar {
 
     public LifeBar(int max){
-        setBackground(Color.black);
-        setForeground(Color.green);
 
 
 
-         setUI(new BasicProgressBarUI() {
-            protected Color getSelectionForeground() { return Color.black; }
-        });
+
+
+
+
+        UIManager.put("ProgressBar.background", Color.ORANGE);
+        UIManager.put("ProgressBar.foreground", Color.BLUE);
+        UIManager.put("ProgressBar.selectionBackground", Color.RED);
+        UIManager.put("ProgressBar.selectionForeground", Color.GREEN);
         setMaximum(max);
-        setBorderPainted(true);
         setString("" + max);
         setStringPainted(true);
         setMinimum(0);
         setValue(max);
-        setOpaque(true);
-        setVisible(true);
+
+
     }
 }

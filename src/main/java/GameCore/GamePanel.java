@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
+import static GameCore.World.initTheArrayList;
+
 public class GamePanel extends JLabel {
 
     private ImageLoader imageLoader;
@@ -14,44 +16,62 @@ public class GamePanel extends JLabel {
     private JButton showTheMap;
     private boolean isMapIsVisible=false;
 
+    private MiniMap miniMap;
+    private BuildingMenu buildingMenu;
+    private UnitTrainMenu unitTrainMenu;
+    private MechanicMenu mechanicMenu;
+    private AirUnitsMenu airUnitMenu;
+    private JLabel bar;
+
+
     public GamePanel() {
 
-        setBounds(0, 0, MainFrame.screenSize.width, MainFrame.screenSize.height / 10);
+        setBounds(0, 0, MainFrame.screenSize.width, MainFrame.screenSize.height);
         imageLoader = new ImageLoader();
-        setIcon(new ImageIcon(imageLoader.loadImage("image/panel/gamePanel.png").getScaledInstance(getWidth(),getHeight(),4)));
 
-        setBackground(Color.black);
+        setLayout(null );
 
+
+        setTheBar();
         setThePower();
         setTheMoney();
         setThePlace();
         setTheString();
         setTheMapButton();
-        setLayout(null);
-setOpaque(true);
+        addMiniMapAndBuildingMenu();
+
+
 
 
 
 
     }
 
+    private void setTheBar() {
+        bar=new JLabel();
+
+        bar.setBounds(0,0,getWidth(),getHeight()/4-getHeight()/7);
+        bar.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/gamePanel.png").getScaledInstance(getWidth(),bar.getHeight(),4)));
+        bar.setOpaque(true);
+        add(bar,0);
+    }
 
 
     private void setTheString() {
         moneyHas= new JLabel(""+StaticVariables.sumOfMoney);
-        moneyHas.setBounds(money.getX()+money.getWidth(),money.getY()+getHeight()/4,getWidth()/10,getHeight()/3);
+        moneyHas.setBounds(money.getX()+money.getWidth(),money.getY()+bar.getHeight()/4,bar.getWidth()/10,bar.getHeight()/3);
         moneyHas.setForeground(Color.yellow);
-        add(moneyHas);
+        bar.add(moneyHas);
 
         powerHas= new JLabel(""+StaticVariables.powerNeed+"/"+StaticVariables.powerHas);
-        powerHas.setBounds(power.getX()+power.getWidth(),power.getY()+getHeight()/4,getWidth()/10,getHeight()/3);
+        powerHas.setBounds(power.getX()+power.getWidth(),power.getY()+bar.getHeight()/4,bar.getWidth()/10,bar.getHeight()/3);
         powerHas.setForeground(Color.yellow);
-        add(powerHas);
+        bar.add(powerHas);
 
         placeHas= new JLabel(""+StaticVariables.unitHas+"/"+StaticVariables.UNIT_LIMIT);
-        placeHas.setBounds(place.getX()+place.getWidth(),place.getY()+getHeight()/4,getWidth()/10,getHeight()/3);
+        placeHas.setBounds(place.getX()+place.getWidth(),place.getY()+bar.getHeight()/4,bar.getWidth()/10,bar.getHeight()/3);
         placeHas.setForeground(Color.yellow);
-        add(placeHas);
+        bar.add(placeHas);
 
         new Thread(new Runnable() {
             public void run() {
@@ -75,7 +95,7 @@ setOpaque(true);
         showTheMap.setVerticalTextPosition(JButton.CENTER);
         showTheMap.setHorizontalAlignment(JButton.CENTER);
         showTheMap.setHorizontalTextPosition(JButton.CENTER);
-        showTheMap.setBounds(getWidth()/20,getHeight()/6,getWidth()/10,getHeight()/2+getHeight()/5);
+        showTheMap.setBounds(bar.getWidth()/20,bar.getHeight()/6,bar.getWidth()/10,bar.getHeight()/2+bar.getHeight()/5);
         showTheMap.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/mapButton.png").getScaledInstance(showTheMap.getWidth(),showTheMap.getHeight(),4)));
         showTheMap.setBackground(new Color(0,0,0,0));
         showTheMap.setContentAreaFilled(false);
@@ -83,41 +103,58 @@ setOpaque(true);
         showTheMap.addMouseListener(MainFrame.mainFrame);
         showTheMap.setPressedIcon(new ImageIcon(imageLoader.loadImage("image/panel/mapButton.png").getScaledInstance(showTheMap.getWidth()+showTheMap.getWidth()/10,showTheMap.getHeight()+showTheMap.getHeight()/10,4)));
 
-        add(showTheMap);
+        bar.add(showTheMap);
 
     }
 
     private void setThePlace() {
         place=new JLabel();
-        place.setBounds(getWidth()-getWidth()/3+getWidth()/40,5,getWidth()/25,getHeight()-getHeight()/5);
+        place.setBounds(bar.getWidth()-bar.getWidth()/3+bar.getWidth()/40,5,bar.getWidth()/25,bar.getHeight()-bar.getHeight()/5);
         place.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/unit.png").getScaledInstance(place.getWidth(),place.getHeight(),4)));
 
         place.setVerticalAlignment(JLabel.CENTER);
         place.setHorizontalAlignment(JLabel.CENTER);
-        add(place);
+        bar.add(place);
     }
 
     private void setTheMoney() {
         money=new JLabel();
 
-        money.setBounds(getWidth()-getWidth()/8,5,getWidth()/30,getHeight()-getHeight()/4);
+        money.setBounds(bar.getWidth()-bar.getWidth()/8,5,bar.getWidth()/30,bar.getHeight()-bar.getHeight()/4);
         money.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/money.png").getScaledInstance(money.getWidth(),money.getHeight(),4)));
         money.setVerticalAlignment(JLabel.CENTER);
         money.setHorizontalAlignment(JLabel.CENTER);
-        add(money);
+        bar.add(money);
     }
 
     private void setThePower() {
         power=new JLabel();
 
-        power.setBounds(getWidth()-getWidth()/3+getWidth()/8,5,getWidth()/25,getHeight()-getHeight()/5);
+        power.setBounds(bar.getWidth()-bar.getWidth()/3+bar.getWidth()/8,5,bar.getWidth()/25,bar.getHeight()-bar.getHeight()/5);
         power.setIcon(new ImageIcon(imageLoader.loadImage("image/panel/power.png").getScaledInstance(power.getWidth(),power.getHeight(),4)));
 
         power.setVerticalAlignment(JLabel.CENTER);
         power.setHorizontalAlignment(JLabel.CENTER);
-        add(power);
+        bar.add(power);
     }
 
+    public void addMiniMapAndBuildingMenu()
+    {
+        initTheArrayList();
+        miniMap =new MiniMap();
+
+        buildingMenu =new BuildingMenu();
+        unitTrainMenu=new UnitTrainMenu();
+        mechanicMenu=new MechanicMenu();
+        airUnitMenu=new AirUnitsMenu();
+
+        add(buildingMenu,0);
+        add(unitTrainMenu,0);
+        add(mechanicMenu,0);
+        add(airUnitMenu,0);
+        add(miniMap,0);
+
+    }
 
     public ImageLoader getImageLoader() {
         return imageLoader;
@@ -146,6 +183,15 @@ setOpaque(true);
     public JLabel getPlace() {
         return place;
     }
+
+    public JLabel getBar() {
+        return bar;
+    }
+
+    public void setBar(JLabel bar) {
+        this.bar = bar;
+    }
+
 
     public void setPlace(JLabel place) {
         this.place = place;
@@ -195,5 +241,45 @@ setOpaque(true);
     public void changeTheText() {
         MainFrame.gamePanel.getPlaceHas().setText(""+StaticVariables.unitHas+"/"+StaticVariables.UNIT_LIMIT);
 
+    }
+
+    public MiniMap getMiniMap() {
+        return miniMap;
+    }
+
+    public void setMiniMap(MiniMap miniMap) {
+        this.miniMap = miniMap;
+    }
+
+    public BuildingMenu getBuildingMenu() {
+        return buildingMenu;
+    }
+
+    public void setBuildingMenu(BuildingMenu buildingMenu) {
+        this.buildingMenu = buildingMenu;
+    }
+
+    public UnitTrainMenu getUnitTrainMenu() {
+        return unitTrainMenu;
+    }
+
+    public void setUnitTrainMenu(UnitTrainMenu unitTrainMenu) {
+        this.unitTrainMenu = unitTrainMenu;
+    }
+
+    public MechanicMenu getMechanicMenu() {
+        return mechanicMenu;
+    }
+
+    public void setMechanicMenu(MechanicMenu mechanicMenu) {
+        this.mechanicMenu = mechanicMenu;
+    }
+
+    public AirUnitsMenu getAirUnitMenu() {
+        return airUnitMenu;
+    }
+
+    public void setAirUnitMenu(AirUnitsMenu airUnitMenu) {
+        this.airUnitMenu = airUnitMenu;
     }
 }

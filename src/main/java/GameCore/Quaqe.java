@@ -35,20 +35,20 @@ public class Quaqe {
         timeToTrain.setVisible(false);
         if(factory.getType()==3)
         {
-            timeToTrain.setBounds(MainFrame.world.getUnitTrainMenu().getUnitQueue().getX()+MainFrame.world.getUnitTrainMenu().getUnitQueue().getX()/10,MainFrame.world.getUnitTrainMenu().getHeight()/2+MainFrame.world.getUnitTrainMenu().getHeight()/10,MainFrame.world.getUnitTrainMenu().getWidth()/10,MainFrame.world.getUnitTrainMenu().getHeight()/3);
-            MainFrame.world.getUnitTrainMenu().add(timeToTrain);
+            timeToTrain.setBounds(MainFrame.gamePanel.getUnitTrainMenu().getUnitQueue().getX()+MainFrame.gamePanel.getUnitTrainMenu().getUnitQueue().getX()/10,MainFrame.gamePanel.getUnitTrainMenu().getHeight()/2+MainFrame.gamePanel.getUnitTrainMenu().getHeight()/10,MainFrame.gamePanel.getUnitTrainMenu().getWidth()/10,MainFrame.gamePanel.getUnitTrainMenu().getHeight()/3);
+            MainFrame.gamePanel.getUnitTrainMenu().add(timeToTrain);
 
         }
         if(factory.getType()==4)
         {
-            timeToTrain.setBounds(MainFrame.world.getUnitTrainMenu().getUnitQueue().getX()+MainFrame.world.getUnitTrainMenu().getUnitQueue().getX()/10,MainFrame.world.getUnitTrainMenu().getHeight()/2+MainFrame.world.getUnitTrainMenu().getHeight()/10,MainFrame.world.getUnitTrainMenu().getWidth()/10,MainFrame.world.getUnitTrainMenu().getHeight()/3);
-            MainFrame.world.getUnitTrainMenu().add(timeToTrain);
+            timeToTrain.setBounds(MainFrame.gamePanel.getUnitTrainMenu().getUnitQueue().getX()+MainFrame.gamePanel.getUnitTrainMenu().getUnitQueue().getX()/10,MainFrame.gamePanel.getUnitTrainMenu().getHeight()/2+MainFrame.gamePanel.getUnitTrainMenu().getHeight()/10,MainFrame.gamePanel.getUnitTrainMenu().getWidth()/10,MainFrame.gamePanel.getUnitTrainMenu().getHeight()/3);
+            MainFrame.gamePanel.getUnitTrainMenu().add(timeToTrain);
 
         }
         if(factory.getType()==9)
         {
-            timeToTrain.setBounds(MainFrame.world.getMechanicMenu().getUnitQueue().getX()+MainFrame.world.getMechanicMenu().getUnitQueue().getX()/10,MainFrame.world.getMechanicMenu().getHeight()/2+MainFrame.world.getMechanicMenu().getHeight()/10,MainFrame.world.getMechanicMenu().getWidth()/10,MainFrame.world.getMechanicMenu().getHeight()/3);
-            MainFrame.world.getMechanicMenu().add(timeToTrain);
+            timeToTrain.setBounds(MainFrame.gamePanel.getMechanicMenu().getUnitQueue().getX()+MainFrame.gamePanel.getMechanicMenu().getUnitQueue().getX()/10,MainFrame.gamePanel.getMechanicMenu().getHeight()/2+MainFrame.gamePanel.getMechanicMenu().getHeight()/10,MainFrame.gamePanel.getMechanicMenu().getWidth()/10,MainFrame.gamePanel.getMechanicMenu().getHeight()/3);
+            MainFrame.gamePanel.getMechanicMenu().add(timeToTrain);
 
         }
         allTimeToTrainLabel.add(timeToTrain);
@@ -93,11 +93,11 @@ public class Quaqe {
                     while (timeOfUnit>0)
                     {
                         if(typeOfFactory.getType()==3)
-                            MainFrame.world.getUnitTrainMenu().getUnitQueue().setIcon(new ImageIcon(unitToAdd.getImage().getScaledInstance( MainFrame.world.getUnitTrainMenu().getUnitQueue().getWidth(), MainFrame.world.getUnitTrainMenu().getUnitQueue().getHeight(),4)));
+                            MainFrame.gamePanel.getUnitTrainMenu().getUnitQueue().setIcon(new ImageIcon(unitToAdd.getImage().getScaledInstance( MainFrame.gamePanel.getUnitTrainMenu().getUnitQueue().getWidth(), MainFrame.gamePanel.getUnitTrainMenu().getUnitQueue().getHeight(),4)));
                         else if(typeOfFactory.getType()==9)
-                            MainFrame.world.getMechanicMenu().getUnitQueue().setIcon(new ImageIcon(unitToAdd.getImage().getScaledInstance( MainFrame.world.getMechanicMenu().getUnitQueue().getWidth(), MainFrame.world.getMechanicMenu().getUnitQueue().getHeight(),4)));
+                            MainFrame.gamePanel.getMechanicMenu().getUnitQueue().setIcon(new ImageIcon(unitToAdd.getImage().getScaledInstance( MainFrame.gamePanel.getMechanicMenu().getUnitQueue().getWidth(), MainFrame.gamePanel.getMechanicMenu().getUnitQueue().getHeight(),4)));
                         else if(typeOfFactory.getType()==4)
-                            MainFrame.world.getAirUnitMenu().getUnitQueue().setIcon(new ImageIcon(unitToAdd.getImage().getScaledInstance( MainFrame.world.getAirUnitMenu().getUnitQueue().getWidth(), MainFrame.world.getAirUnitMenu().getUnitQueue().getHeight(),4)));
+                            MainFrame.gamePanel.getAirUnitMenu().getUnitQueue().setIcon(new ImageIcon(unitToAdd.getImage().getScaledInstance( MainFrame.gamePanel.getAirUnitMenu().getUnitQueue().getWidth(), MainFrame.gamePanel.getAirUnitMenu().getUnitQueue().getHeight(),4)));
 
                         timeToTrain.setText("<html>next unit:<br> "+timeOfUnit+"</html>");
                         timeOfUnit--;
@@ -115,133 +115,133 @@ public class Quaqe {
                     if(unitsInQuaqe==0)
                     {
                         ImageLoader imageLoader=new ImageLoader();
-                        MainFrame.world.getUnitTrainMenu().getUnitQueue().setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(MainFrame.world.getUnitTrainMenu().getBoxBackGround().getWidth(),MainFrame.world.getUnitTrainMenu().getBoxBackGround().getHeight(),4)));
-                        MainFrame.world.getMechanicMenu().getUnitQueue().setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(MainFrame.world.getMechanicMenu().getBoxBackGround().getWidth(),MainFrame.world.getMechanicMenu().getBoxBackGround().getHeight(),4)));
-                        MainFrame.world.getAirUnitMenu().getUnitQueue().setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(MainFrame.world.getAirUnitMenu().getBoxBackGround().getWidth(),MainFrame.world.getAirUnitMenu().getBoxBackGround().getHeight(),4)));
+                        MainFrame.gamePanel.getUnitTrainMenu().getUnitQueue().setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(MainFrame.gamePanel.getUnitTrainMenu().getBoxBackGround().getWidth(),MainFrame.gamePanel.getUnitTrainMenu().getBoxBackGround().getHeight(),4)));
+                        MainFrame.gamePanel.getMechanicMenu().getUnitQueue().setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(MainFrame.gamePanel.getMechanicMenu().getBoxBackGround().getWidth(),MainFrame.gamePanel.getMechanicMenu().getBoxBackGround().getHeight(),4)));
+                        MainFrame.gamePanel.getAirUnitMenu().getUnitQueue().setIcon(new ImageIcon(imageLoader.loadImage("image/panel/box.png").getScaledInstance(MainFrame.gamePanel.getAirUnitMenu().getBoxBackGround().getWidth(),MainFrame.gamePanel.getAirUnitMenu().getBoxBackGround().getHeight(),4)));
 
                         timeToTrain.setText("<html>next unit:<br> none</html>");
 
                     }
 
-                    if(unitToAdd.getNameOfObject().equals("Armored Infentry"))
-                    {
-                        ArmoredInfentry armoredInfentry=new ArmoredInfentry();
-                        armoredInfentry.setTheUnitMethod();
-                        armoredInfentry.setLocation((int)point.getX(),(int)point.getY()+armoredInfentry.getHeight()*5);
-                        MainFrame.world.getBackGroundImage().add(armoredInfentry,16);
-                        World.allUnit.add(armoredInfentry);
-                        World.allObjects.add(armoredInfentry);
-                    }
-                    else if(unitToAdd.getNameOfObject().equals("Infantry"))
-                    {
-                        Infantry infantry=new Infantry();
-                        infantry.setTheUnitMethod();
-                        infantry.setLocation((int)point.getX(),(int)point.getY()+infantry.getHeight()*5);
-                        MainFrame.world.getBackGroundImage().add(infantry,15);
-                        World.allUnit.add(infantry);
-                        World.allObjects.add(infantry);
-                    }
-                    else if(unitToAdd.getNameOfObject().equals("Medic"))
-                    {
-                        Medic unit=new Medic();
-                        unit.setTheUnitMethod();
-                        unit.addLifeToUnit();
-                        unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*5);
-                        MainFrame.world.getBackGroundImage().add(unit,14);
-                        World.allUnit.add(unit);
-                        World.allObjects.add(unit);
-                    }
-                    else if(unitToAdd.getNameOfObject().equals("Bazzoka Unit"))
-                    {
-                        BazzokaUnit unit=new BazzokaUnit();
-                        unit.setTheUnitMethod();
-                        unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*5);
-                        MainFrame.world.getBackGroundImage().add(unit,13);
-                        World.allUnit.add(unit);
-                        World.allObjects.add(unit);
-                    }
-                    else if(unitToAdd.getNameOfObject().equals("sniper"))
-                    {
-                        Sniper unit=new Sniper();
-                        unit.setTheUnitMethod();
-                        unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*5);
-                        MainFrame.world.getBackGroundImage().add(unit,12);
-                        World.allUnit.add(unit);
-                        World.allObjects.add(unit);
-                    }
-                    else if(unitToAdd.getNameOfObject().equals("tank"))
-                    {
-                        Tank unit=new Tank();
-                        unit.setTheUnitMethod();
-                        unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit,11);
-                        World.allUnit.add(unit);
-                        World.allObjects.add(unit);
-                    }
-                    else if(unitToAdd.getNameOfObject().equals("mini gun"))
-                    {
-                        MiniGun unit=new MiniGun();
-                        unit.setTheUnitMethod();
-                        unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit,10);
-                        World.allUnit.add(unit);
-                        World.allObjects.add(unit);
-                    }
-                    else if(unitToAdd.getNameOfObject().equals("anti air"))
-                    {
-                        AntiAirTank unit=new AntiAirTank();
-                        unit.setTheUnitMethod();
-                        unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit,9);
-                        World.allUnit.add(unit);
-                        World.allObjects.add(unit);
-                    }
-                    else if(unitToAdd.getNameOfObject().equals("big boss"))
-                    {
-                        BigBoss unit=new BigBoss();
-                        unit.setTheUnitMethod();
-                        unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit,8);
-                        World.allUnit.add(unit);
-                        World.allObjects.add(unit);
-                    }
-                    else if(unitToAdd.getNameOfObject().equals("Anti air plane"))
-                    {
-                        AntiAir unit=new AntiAir();
-                        unit.floatShip();
-                        unit.setTheUnitMethod();
-                        unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit,7);
-                        World.allUnit.add(unit);
-                        World.allObjects.add(unit);
+                    switch (unitToAdd.getNameOfObject()) {
+                        case "Armored Infentry":
+                            ArmoredInfentry armoredInfentry = new ArmoredInfentry(true);
+                            armoredInfentry.setTheUnitMethod();
+                            armoredInfentry.setLocation((int) point.getX(), (int) point.getY() + armoredInfentry.getHeight() * 5);
+                            MainFrame.world.getBackGroundImage().add(armoredInfentry, 11);
+                            World.allUnit.add(armoredInfentry);
+                            World.allObjects.add(armoredInfentry);
+                            break;
+                        case "Infantry":
+                            Infantry infantry = new Infantry(true);
+                            infantry.setTheUnitMethod();
+                            infantry.setLocation((int) point.getX(), (int) point.getY() + infantry.getHeight() * 5);
+                            MainFrame.world.getBackGroundImage().add(infantry, 10);
+                            World.allUnit.add(infantry);
+                            World.allObjects.add(infantry);
+                            break;
+                        case "Medic": {
+                            Medic unit = new Medic(true);
+                            unit.setTheUnitMethod();
+                            unit.addLifeToUnit();
+                            unit.setLocation((int) point.getX(), (int) point.getY() + unit.getHeight() * 5);
+                            MainFrame.world.getBackGroundImage().add(unit, 9);
+                            World.allUnit.add(unit);
+                            World.allObjects.add(unit);
+                            break;
+                        }
+                        case "Bazzoka Unit": {
+                            BazzokaUnit unit = new BazzokaUnit(true);
+                            unit.setTheUnitMethod();
+                            unit.setLocation((int) point.getX(), (int) point.getY() + unit.getHeight() * 5);
+                            MainFrame.world.getBackGroundImage().add(unit, 8);
+                            World.allUnit.add(unit);
+                            World.allObjects.add(unit);
+                            break;
+                        }
+                        case "sniper": {
+                            Sniper unit = new Sniper(true);
+                            unit.setTheUnitMethod();
+                            unit.setLocation((int) point.getX(), (int) point.getY() + unit.getHeight() * 5);
+                            MainFrame.world.getBackGroundImage().add(unit, 7);
+                            World.allUnit.add(unit);
+                            World.allObjects.add(unit);
+                            break;
+                        }
+                        case "tank": {
+                            Tank unit = new Tank(true);
+                            unit.setTheUnitMethod();
+                            unit.setLocation((int) point.getX(), (int) point.getY() + unit.getHeight() * 2);
+                            MainFrame.world.getBackGroundImage().add(unit, 6);
+                            World.allUnit.add(unit);
+                            World.allObjects.add(unit);
+                            break;
+                        }
+                        case "mini gun": {
+                            MiniGun unit = new MiniGun(true);
+                            unit.setTheUnitMethod();
+                            unit.setLocation((int) point.getX(), (int) point.getY() + unit.getHeight() * 2);
+                            MainFrame.world.getBackGroundImage().add(unit, 5);
+                            World.allUnit.add(unit);
+                            World.allObjects.add(unit);
+                            break;
+                        }
+                        case "anti air": {
+                            AntiAirTank unit = new AntiAirTank(true);
+                            unit.setTheUnitMethod();
+                            unit.setLocation((int) point.getX(), (int) point.getY() + unit.getHeight() * 2);
+                            MainFrame.world.getBackGroundImage().add(unit, 4);
+                            World.allUnit.add(unit);
+                            World.allObjects.add(unit);
+                            break;
+                        }
+                        case "big boss": {
+                            BigBoss unit = new BigBoss(true);
+                            unit.setTheUnitMethod();
+                            unit.setLocation((int) point.getX(), (int) point.getY() + unit.getHeight() * 2);
+                            MainFrame.world.getBackGroundImage().add(unit, 3);
+                            World.allUnit.add(unit);
+                            World.allObjects.add(unit);
+                            break;
+                        }
+                        case "Anti air plane": {
+                            AntiAir unit = new AntiAir(true);
+                            unit.floatShip();
+                            unit.setTheUnitMethod();
+                            unit.setLocation((int) point.getX(), (int) point.getY() + unit.getHeight() * 2);
+                            MainFrame.world.getBackGroundImage().add(unit, 2);
+                            World.allUnit.add(unit);
+                            World.allObjects.add(unit);
 
-                    }
-                    else if(unitToAdd.getNameOfObject().equals("Chopper"))
-                    {
-                        Choper unit=new Choper();
-                        unit.floatShip();
-                        unit.setTheUnitMethod();
-                        unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit,6);
-                        World.allUnit.add(unit);
-                        World.allObjects.add(unit);
+                            break;
+                        }
+                        case "Chopper": {
+                            Choper unit = new Choper(true);
+                            unit.floatShip();
+                            unit.setTheUnitMethod();
+                            unit.setLocation((int) point.getX(), (int) point.getY() + unit.getHeight() * 2);
+                            MainFrame.world.getBackGroundImage().add(unit, 1);
+                            World.allUnit.add(unit);
+                            World.allObjects.add(unit);
 
 
-                    }
+                            break;
+                        }
+                        case "Space Ship": {
+                            SpaceShip unit = new SpaceShip(true);
+                            unit.floatShip();
+                            unit.setTheUnitMethod();
+                            unit.setLocation((int) point.getX(), (int) point.getY() + unit.getHeight() * 2);
+                            MainFrame.world.getBackGroundImage().add(unit, 0);
+                            World.allUnit.add(unit);
+                            World.allObjects.add(unit);
 
-                    else if(unitToAdd.getNameOfObject().equals("Space Ship"))
-                    {
-                        SpaceShip unit=new SpaceShip();
-                        unit.floatShip();
-                        unit.setTheUnitMethod();
-                        unit.setLocation((int)point.getX(),(int)point.getY()+unit.getHeight()*2);
-                        MainFrame.world.getBackGroundImage().add(unit,5);
-                        World.allUnit.add(unit);
-                        World.allObjects.add(unit);
-
+                            break;
+                        }
                     }
                     StaticVariables.unitHas++;
                     MainFrame.gamePanel.changeTheText();
+
 
                 }
             }).start();

@@ -225,6 +225,7 @@ public class MainMenu  extends JLabel  {
     private JButton addNewButton(String s) {
         ImageLoader ima=new ImageLoader();
         JButton button = new JButton("" + s);
+
         button.setPreferredSize(new Dimension(getWidth()/6,getHeight()/6));
         button.setBackground(new Color(0,0,0,0));
         button.setOpaque(true);

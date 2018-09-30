@@ -31,9 +31,11 @@ public class GameObject extends JLabel {
     protected String group;
 
 
+    protected int widthO,heightO;
+
 
     protected boolean objectCanMove=true;
-    protected boolean objectIsOnWorld;
+    protected boolean objectIsOnWorld=false;
     protected boolean objectIsMoving=false;
     protected boolean objectIsStanding=true;
     protected boolean objectIsAttacking=false;
@@ -63,6 +65,10 @@ public class GameObject extends JLabel {
 
     }
 
+    protected void saveTheWidthAndHeight(int x,int y){
+        widthO=x;
+        heightO=y;
+    }
 
     public double calculateTheDistanceBetweenUnits(GameObject gameObject){
         try
@@ -80,6 +86,7 @@ public class GameObject extends JLabel {
 
 
     public void setTheLifeBar() {
+
         new Thread(new Runnable() {
             public void run() {
 
@@ -93,7 +100,10 @@ public class GameObject extends JLabel {
                     }
                 }
 
+
+
                     lifeBar=new LifeBar(life);
+
                     add(lifeBar);
                     lifeBar.repaint();
                     lifeBar.revalidate();
@@ -114,8 +124,6 @@ public class GameObject extends JLabel {
         for (int i = 0; i < 19; i++) {
             jLabel.setBounds(getX(),getY(),getWidth(),getHeight());
             jLabel.setIcon(new ImageIcon(spriteSheet.crop(width,height,170,225).getScaledInstance(getWidth(),getHeight(),4)));
-            jLabel.setOpaque(true);
-            jLabel.setBackground(new Color(0,0,0,0));
             width+=170;
             if(width>spriteSheet.getSheet().getRaster().getWidth()-170)
             {
@@ -141,144 +149,137 @@ public class GameObject extends JLabel {
 
 
     }
-    protected void removeTheObject(GameObject gameObject,ArrayList<GameObject> arrayList) {
-
-        synchronized (gameObject)
-        {
-            try
-            {
-                boolean notFound = true;
-                int hash ;
-                final int[] counter = {0};
-                hash = gameObject.hashCode();
-
-                for (int i = 0; i < MiniMap.userLabel.size(); i++) {
-                    if (gameObject.hashCode() == Integer.parseInt(MiniMap.userLabel.get(i).getName())) {
+    protected synchronized void removeTheObject(GameObject gameObject,ArrayList<GameObject> arrayList) {
 
 
-                        MainFrame.world.getMiniMap().remove(MiniMap.userLabel.get(i));
-                        MainFrame.world.getBackGroundImage().remove(gameObject);
-                        MiniMap.userLabel.remove(i);
-                        notFound = false;
-                        break;
-                    }
+        try {
 
-                }
-                if (notFound) {
-                    synchronized (MiniMap.enemyLabel) {
-                        for (int i = 0; i < MiniMap.enemyLabel.size(); i++) {
-                            if (gameObject.hashCode() == Integer.parseInt(MiniMap.enemyLabel.get(i).getName())) {
-                                MainFrame.world.getMiniMap().remove(MiniMap.enemyLabel.get(i));
-                                MainFrame.world.getBackGroundImage().remove(gameObject);
-                                MiniMap.enemyLabel.remove(i);
-                                break;
-                            }
+            boolean notFound = true;
+            int hash;
+            final int[] counter = {0};
+            hash = gameObject.hashCode();
 
-                        }
-                    }
+            for (int i = 0; i < MiniMap.userLabel.size(); i++) {
+                if (gameObject.hashCode() == Integer.parseInt(MiniMap.userLabel.get(i).getName())) {
 
+
+                    MainFrame.gamePanel.getMiniMap().remove(MiniMap.userLabel.get(i));
+                    MainFrame.world.getBackGroundImage().remove(gameObject);
+                    MiniMap.userLabel.remove(i);
+                    notFound = false;
+                    break;
                 }
 
-
-                int finalHash = hash;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < World.allUnit.size(); i++) {
-                            if (World.allUnit.get(i).hashCode() == finalHash) {
-                                StaticVariables.unitHas--;
-                                MainFrame.gamePanel.changeTheText();
-                                World.allUnit.remove(i);
-
-                                break;
-                            }
-                        }
-                        counter[0]++;
-                    }
-                }).start();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < World.airFactory.size(); i++) {
-                            if (World.airFactory.get(i).hashCode() == finalHash) {
-                                World.airFactory.remove(i);
-                                break;
-                            }
-                        }
-                        counter[0]++;
-                    }
-                }).start();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < World.tankFactory.size(); i++) {
-                            if (World.tankFactory.get(i).hashCode() == finalHash) {
-                                World.tankFactory.remove(i);
-                                break;
-                            }
-                        }
-                        counter[0]++;
-                    }
-                }).start();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < World.allFactorys.size(); i++) {
-                            if (World.allFactorys.get(i).hashCode() == finalHash) {
-                                World.allFactorys.remove(i);
-                                break;
-                            }
-                        }
-                        counter[0]++;
-                    }
-                }).start();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < World.infentryFactory.size(); i++) {
-                            if (World.infentryFactory.get(i).hashCode() == finalHash) {
-                                World.infentryFactory.remove(i);
-                                break;
-                            }
-                        }
-                        counter[0]++;
-                    }
-                }).start();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < arrayList.size(); i++) {
-                            if (arrayList.get(i).hashCode() == finalHash) {
-                                arrayList.remove(i);
-                                break;
-                            }
-                        }
-                        counter[0]++;
-                    }
-                }).start();
-                while (counter[0]<6)
-                {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-
-
-                }
-            }catch (Exception e)
-            {
-                e.printStackTrace();
             }
+            if (notFound) {
+                synchronized (MiniMap.enemyLabel) {
+                    for (int i = 0; i < MiniMap.enemyLabel.size(); i++) {
+                        if (gameObject.hashCode() == Integer.parseInt(MiniMap.enemyLabel.get(i).getName())) {
+                            MainFrame.gamePanel.getMiniMap().remove(MiniMap.enemyLabel.get(i));
+                            MainFrame.world.getBackGroundImage().remove(gameObject);
+                            MiniMap.enemyLabel.remove(i);
+                            break;
+                        }
+
+                    }
+                }
+
+            }
+
+
+            int finalHash = hash;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < World.allUnit.size(); i++) {
+                        if (World.allUnit.get(i).hashCode() == finalHash) {
+                            StaticVariables.unitHas--;
+                            MainFrame.gamePanel.changeTheText();
+                            World.allUnit.remove(i);
+
+                            break;
+                        }
+                    }
+                    counter[0]++;
+                }
+            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < World.airFactory.size(); i++) {
+                        if (World.airFactory.get(i).hashCode() == finalHash) {
+                            World.airFactory.remove(i);
+                            break;
+                        }
+                    }
+                    counter[0]++;
+                }
+            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < World.tankFactory.size(); i++) {
+                        if (World.tankFactory.get(i).hashCode() == finalHash) {
+                            World.tankFactory.remove(i);
+                            break;
+                        }
+                    }
+                    counter[0]++;
+                }
+            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < World.allFactorys.size(); i++) {
+                        if (World.allFactorys.get(i).hashCode() == finalHash) {
+                            World.allFactorys.remove(i);
+                            break;
+                        }
+                    }
+                    counter[0]++;
+                }
+            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < World.infentryFactory.size(); i++) {
+                        if (World.infentryFactory.get(i).hashCode() == finalHash) {
+                            World.infentryFactory.remove(i);
+                            break;
+                        }
+                    }
+                    counter[0]++;
+                }
+            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < arrayList.size(); i++) {
+                        if (arrayList.get(i).hashCode() == finalHash) {
+                            arrayList.remove(i);
+                            break;
+                        }
+                    }
+                    counter[0]++;
+                }
+            }).start();
+            while (counter[0] < 6) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-
 
 
     }
 
-    protected void init(){
+    protected void init(boolean objectIsOnWorld){
 
         setBounds(bound);
 
@@ -286,6 +287,11 @@ public class GameObject extends JLabel {
         addMouseListener(mainFrame);
         setTheUnitProperties();
         setTheLifeBar();
+
+        if(objectIsOnWorld)
+        {
+            World.allObjectsOnMapIncludeEnemy.add(this);
+        }
 
 
     }
@@ -965,6 +971,22 @@ public class GameObject extends JLabel {
 
     public void setObjectIsAttacking(boolean objectIsAttacking) {
         this.objectIsAttacking = objectIsAttacking;
+    }
+
+    public int getWidthO() {
+        return widthO;
+    }
+
+    public void setWidthO(int widthO) {
+        this.widthO = widthO;
+    }
+
+    public int getHeightO() {
+        return heightO;
+    }
+
+    public void setHeightO(int heightO) {
+        this.heightO = heightO;
     }
 
     public boolean isCanShotGround() {

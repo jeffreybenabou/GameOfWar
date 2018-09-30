@@ -18,7 +18,8 @@ public class TankFactory extends Factory {
         super();
         type=9;
         setBound(new Rectangle(0,0,TANK_FACTORY_WIDTH,TANK_FACTORY_HIEGHT));
-        init();
+        saveTheWidthAndHeight(bound.width,bound.height);
+        init(onWorld);
         setIcon(new ImageIcon(spriteSheet.crop(StaticVariables.FACTORY_SHEET_WIDTH*4,0, StaticVariables.FACTORY_SHEET_WIDTH,StaticVariables.FACTORY_SHEET_HEIGHT).getScaledInstance(getWidth(),getHeight(),4)));
         setImage();
         if(onWorld)

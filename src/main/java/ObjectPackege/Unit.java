@@ -29,6 +29,7 @@ public class Unit extends GameObject {
     protected boolean unitHasBeenCheckForIntersect=false;
     protected boolean canAttackThisType=false;
     private int dirOfUnit=0;
+    private boolean targetIsEnemy=false;
 
 
     public Unit() {
@@ -57,8 +58,11 @@ public class Unit extends GameObject {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+
                     moveTheUnit();
+
                     checkIfUnitInRangeOfEnemy();
+
                 }
                 addExplotionLabel();
                 if (getGroup().contains("not"))
@@ -142,7 +146,15 @@ GameObject gameObject=this;
                 objectIsMoving=false;
                 objectIsAttacking=true;
 
-                MainFrame.world.getBackGroundImage().add(unitAttackLabel=new UnitAttackLabel(this),0);
+                try
+                {
+
+                    MainFrame.world.getBackGroundImage().add(unitAttackLabel=new UnitAttackLabel(this),0);
+
+                }catch (IllegalArgumentException e)
+                {
+                    e.printStackTrace();
+                }
                 changeTheImage();
                 try
                 {
@@ -210,6 +222,9 @@ GameObject gameObject=this;
                 unit.setLife(unit.getLife()-damageToEnemy);
                 unit.getLifeBar().setString(""+unit.getLife());
                 unit.getLifeBar().setValue(unit.getLife());
+                if(Integer.parseInt(unit.getLifeBar().getString())<0)
+                    unit.getLifeBar().setString(""+0);
+
 
 
             }
@@ -268,7 +283,14 @@ GameObject gameObject=this;
             directionY = ((pointToMove.getY() - getY()) / distance) * speedOfMove;
             directionX = ((pointToMove.getX() - getX()) / distance) * speedOfMove;
 
-            if (distance < 50)
+
+            if(targetIsEnemy&&distance<=rangeOfAttack)
+            {
+
+                objectIsMoving=false;
+                objectIsStanding=true;
+            }
+            else if (distance < 50)
             {
                 objectIsMoving=false;
                 objectIsStanding=true;
@@ -298,8 +320,6 @@ GameObject gameObject=this;
 
 
 
-
-
         if(isObjectIsMoving())
         {
 
@@ -307,6 +327,7 @@ GameObject gameObject=this;
                 yToMove=0;
             setIcon(new ImageIcon(moveSpriteSheet.crop(xToMove,yToMove,xWitdhToCrop,yHeightToCrop).getScaledInstance(getWidth(),getHeight(),4)));
             yToMove+=yHeightToCrop;
+
         }else if (objectIsStanding)
         {
             yToMove=0;
@@ -323,6 +344,7 @@ GameObject gameObject=this;
 
         }else if (objectIsAttacking)
         {
+
             xToMove=dirOfUnit*xWitdhToCrop;
             if(getClass().getPackage().getName().contains("Air"))
             setIcon(new ImageIcon(standSpriteSheet.crop(0,0,xWitdhToCrop,yHeightToCrop).getScaledInstance(getWidth(),getHeight(),4)));
@@ -337,6 +359,7 @@ GameObject gameObject=this;
 
 
     }
+
 
 
 
@@ -528,6 +551,14 @@ GameObject gameObject=this;
 
     public void setDirOfUnit(int dirOfUnit) {
         this.dirOfUnit = dirOfUnit;
+    }
+
+    public void setTargetIsEnemy(boolean targetIsEnemy) {
+        this.targetIsEnemy = targetIsEnemy;
+    }
+
+    public boolean getTargetIsEnemy() {
+        return targetIsEnemy;
     }
 }
 

@@ -169,7 +169,7 @@ public class AirUnitsMenu extends JLabel {
     }
 
     public void init(){
-        setBounds(MainFrame.screenSize.width/2,MainFrame.screenSize.height-MainFrame.screenSize.height/5,MainFrame.screenSize.width,MainFrame.screenSize.height/4);
+        setBounds(0,MainFrame.screenSize.height-MainFrame.screenSize.height/4,MainFrame.screenSize.width,MainFrame.screenSize.height/4);
         setIcon(new ImageIcon(spriteSheet.crop(390,180,spriteSheet.getSheet().getRaster().getWidth()-390,230).getScaledInstance(getWidth(),getHeight(),4)));
         setVisible(false);
         addMouseListener(MainFrame.mainFrame);

@@ -14,11 +14,10 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class World extends JPanel  {
+public class World extends JLabel  {
 
     public static ArrayList<Factory> airFactory;
-    private JLayeredPane backGroundImage;
-    private boolean isTesting;
+    private JLabel backGroundImage;
     public static ArrayList<Unit> allUnit;
 
     public static ArrayList<GameObject>allObjects;
@@ -26,19 +25,40 @@ public class World extends JPanel  {
     public static ArrayList<Factory> infentryFactory;
     public static ArrayList<Factory> tankFactory;
     public static ArrayList<Factory>allFactorys;
-    private MiniMap miniMap;
-    private BuildingMenu buildingMenu;
-    private UnitTrainMenu unitTrainMenu;
-    private MechanicMenu mechanicMenu;
+    public static ArrayList<GameObject>allObjectsOnMapIncludeEnemy;
     public static Factory factoryPreesed;
     private HumanUnit human;
-    private AirUnitsMenu airUnitMenu;
+
     public JLabel unitsPickRectangle;
+    private MainFactory mainFactory;
 
 
-    public World(boolean isTesting) {
-        this.isTesting = isTesting;
+    public World() {
 
+
+        setTheBackGroundWorld();
+        setTheUnitPickRectangle();
+        checkIfIntersect();
+
+        setBounds(0,0, MainFrame.screenSize.width, MainFrame.screenSize.height);
+
+
+
+
+
+
+
+        setLayout(null);
+
+
+
+
+
+    }
+
+    public static void initTheArrayList()
+    {
+        allObjectsOnMapIncludeEnemy=new ArrayList<>();
         allEnemyObjects=new ArrayList<>();
         allUnit = new ArrayList<Unit>();
         airFactory=new ArrayList<Factory>();
@@ -46,20 +66,7 @@ public class World extends JPanel  {
         allObjects=new ArrayList<GameObject>();
         infentryFactory =new ArrayList<Factory>();
         allFactorys=new ArrayList<Factory>();
-        if (isTesting) {
-            setTheTestScreen();
-        }
-        setBounds(0, MainFrame.gamePanel.getHeight(), MainFrame.screenSize.width, MainFrame.screenSize.height);
-        setTheBackGroundWorld();
-
-        addMiniMap();
-        setTheUnitPickRectangle();
-        setLayout(null);
-        checkIfIntersect();
-
-
     }
-
     private void setTheUnitPickRectangle() {
 
         unitsPickRectangle=new JLabel();
@@ -197,32 +204,33 @@ public class World extends JPanel  {
 
     }
 
-    public void addMiniMap()
-    {
-        miniMap =new MiniMap();
-
-         buildingMenu =new BuildingMenu();
-         unitTrainMenu=new UnitTrainMenu();
-         mechanicMenu=new MechanicMenu();
-         airUnitMenu=new AirUnitsMenu();
-
-        getBackGroundImage().add(buildingMenu,0);
-        getBackGroundImage().add(unitTrainMenu,0);
-        getBackGroundImage().add(mechanicMenu,0);
-        getBackGroundImage().add(airUnitMenu,0);
-        getBackGroundImage().add(miniMap,0);
 
 
 
 
 
-    }
+    public void setTheTestScreen() {
+        mainFactory = new MainFactory(true);
+        mainFactory.setLocation(400,400);
+        mainFactory.setTheFactoryMethod();
 
 
+        for (int i = 0; i < 10; i++) {
+            BigBoss bigBoss2 = new BigBoss(true);
+            bigBoss2.setGroup("not friendly");
+            bigBoss2.setTheUnitMethod();
+
+            bigBoss2.setLocation(getX() + i * 100, getY() + 2000);
+            getBackGroundImage().add(bigBoss2);
+            World.allEnemyObjects.add(bigBoss2);
+        }
 
 
-    private void setTheTestScreen() {
-
+        mainFactory.repaint();
+        mainFactory.revalidate();
+        World.allObjects.add(mainFactory);
+        World.allFactorys.add(mainFactory);
+        getBackGroundImage().add(mainFactory);
     }
 
     public void addFactoryToWorld(MouseEvent e)
@@ -234,7 +242,7 @@ public class World extends JPanel  {
 
                 break;
             case 1:
-                Factory.factory=new PowerFactory();
+                Factory.factory=new PowerFactory(true);
 
                 if(checkEnoughMoney(Factory.factory))
                 {
@@ -248,7 +256,7 @@ public class World extends JPanel  {
 
                 break;
            case 2:
-               MoneyFactory factory=new MoneyFactory();
+               MoneyFactory factory=new MoneyFactory(true);
                if(checkEnoughMoney(factory)) {
                    factory.gainMoney();
                    Factory.factory = factory;
@@ -288,7 +296,7 @@ public class World extends JPanel  {
 
                 break;
             case 5:
-                SateliteFactory sateliteFactory=new SateliteFactory();
+                SateliteFactory sateliteFactory=new SateliteFactory(true);
                 if(checkEnoughMoney(sateliteFactory))
                 {
                     Factory.factory=sateliteFactory;
@@ -318,7 +326,7 @@ public class World extends JPanel  {
 
                 break;
             case 7:
-                SuperWeponeFactory superWeponeFactory=new SuperWeponeFactory();
+                SuperWeponeFactory superWeponeFactory=new SuperWeponeFactory(true);
                 if(checkEnoughMoney(superWeponeFactory))
 
                 {
@@ -333,7 +341,7 @@ public class World extends JPanel  {
 
                 break;
             case 8:
-                SpacielOpsFactory spacielOpsFactory=new SpacielOpsFactory();
+                SpacielOpsFactory spacielOpsFactory=new SpacielOpsFactory(true);
                 if(checkEnoughMoney(spacielOpsFactory))
 
                 {
@@ -347,7 +355,7 @@ public class World extends JPanel  {
 
                 break;
             case 9:
-                CloneFactory cloneFactory=new CloneFactory();
+                CloneFactory cloneFactory=new CloneFactory(true);
                 if(checkEnoughMoney(cloneFactory))
                 {
                     Factory.factory=cloneFactory;
@@ -381,12 +389,13 @@ public class World extends JPanel  {
 
     private void setTheBackGroundWorld() {
 
-                backGroundImage=new JLayeredPane();
+                backGroundImage=new JLabel();
                 backGroundImage.setBounds(0,0,MainFrame.screenSize.width*10,MainFrame.screenSize.height*20);
-                backGroundImage.setBackground(Color.GRAY);
-                backGroundImage.setOpaque(true);
+
                 backGroundImage.addMouseListener(MainFrame.mainFrame);
-        backGroundImage.addMouseMotionListener(MainFrame.mainFrame);
+                backGroundImage.addMouseMotionListener(MainFrame.mainFrame);
+
+
 
                 add(backGroundImage);
 
@@ -401,72 +410,74 @@ public class World extends JPanel  {
             switch (Integer.parseInt(e.getComponent().getName()))
             {
                 case 0:
-                    factoryPreesed.getQuaqe().setTheQueue(new ArmoredInfentry(),factoryPreesed);
+                    factoryPreesed.getQuaqe().setTheQueue(new ArmoredInfentry(false),factoryPreesed);
                     break;
                 case 1:
-                    factoryPreesed.getQuaqe().setTheQueue(new Infantry(),factoryPreesed);
+                    factoryPreesed.getQuaqe().setTheQueue(new Infantry(false),factoryPreesed);
                     break;
                 case 2:
-                    factoryPreesed.getQuaqe().setTheQueue(new Medic(),factoryPreesed);
+                    factoryPreesed.getQuaqe().setTheQueue(new Medic(false),factoryPreesed);
                     break;
                 case 3:
-                    factoryPreesed.getQuaqe().setTheQueue(new Sniper(),factoryPreesed);
+                    factoryPreesed.getQuaqe().setTheQueue(new Sniper(false),factoryPreesed);
                     break;
                 case 4:
-                    factoryPreesed.getQuaqe().setTheQueue(new BazzokaUnit(),factoryPreesed);
+                    factoryPreesed.getQuaqe().setTheQueue(new BazzokaUnit(false),factoryPreesed);
                     break;
             }
         else if(typeOfFactory==1)
             switch (Integer.parseInt(e.getComponent().getName()))
             {
                 case 0:
-                    factoryPreesed.getQuaqe().setTheQueue(new Tank(),factoryPreesed);
+                    factoryPreesed.getQuaqe().setTheQueue(new Tank(false),factoryPreesed);
                     break;
                 case 1:
-                    factoryPreesed.getQuaqe().setTheQueue(new MiniGun(),factoryPreesed);
+                    factoryPreesed.getQuaqe().setTheQueue(new MiniGun(false),factoryPreesed);
                     break;
                 case 2:
-                    factoryPreesed.getQuaqe().setTheQueue(new SuperTank(),factoryPreesed);
+                    factoryPreesed.getQuaqe().setTheQueue(new SuperTank(false),factoryPreesed);
                     break;
                 case 3:
-                    factoryPreesed.getQuaqe().setTheQueue(new AntiAirTank(),factoryPreesed);
+                    factoryPreesed.getQuaqe().setTheQueue(new AntiAirTank(false),factoryPreesed);
                     break;
                 case 4:
-                    factoryPreesed.getQuaqe().setTheQueue(new BigBoss(),factoryPreesed);
+                    factoryPreesed.getQuaqe().setTheQueue(new BigBoss(false),factoryPreesed);
                     break;
             }
         else if(typeOfFactory==2)
             switch (Integer.parseInt(e.getComponent().getName()))
             {
                 case 0:
-                    factoryPreesed.getQuaqe().setTheQueue(new AntiAir(),factoryPreesed);
+                    factoryPreesed.getQuaqe().setTheQueue(new AntiAir(false),factoryPreesed);
                     break;
                 case 1:
-                    factoryPreesed.getQuaqe().setTheQueue(new Choper(),factoryPreesed);
+                    factoryPreesed.getQuaqe().setTheQueue(new Choper(false),factoryPreesed);
                     break;
                 case 2:
-                    factoryPreesed.getQuaqe().setTheQueue(new SpaceShip(),factoryPreesed);
+                    factoryPreesed.getQuaqe().setTheQueue(new SpaceShip(false),factoryPreesed);
                     break;
             }
 
     }
 
 
-    public JLayeredPane getBackGroundImage() {
+    public JLabel getBackGroundImage() {
         return backGroundImage;
     }
 
-    public void setBackGroundImage(JLayeredPane backGroundImage) {
+    public void setBackGroundImage(JLabel backGroundImage) {
         this.backGroundImage = backGroundImage;
     }
 
-    public boolean isTesting() {
-        return isTesting;
+    public static ArrayList<GameObject> getAllEnemyObjects() {
+        return allEnemyObjects;
     }
 
-    public void setTesting(boolean testing) {
-        isTesting = testing;
+    public static void setAllEnemyObjects(ArrayList<GameObject> allEnemyObjects) {
+        World.allEnemyObjects = allEnemyObjects;
     }
+
+
 
 
     public static ArrayList<GameObject> getAllObjects() {
@@ -477,9 +488,6 @@ public class World extends JPanel  {
         World.allObjects = allObjects;
     }
 
-    public BuildingMenu getBuildingMenu() {
-        return buildingMenu;
-    }
 
     public static ArrayList<Unit> getAllUnit() {
         return allUnit;
@@ -517,13 +525,7 @@ public class World extends JPanel  {
         World.tankFactory = tankFactory;
     }
 
-    public MechanicMenu getMechanicMenu() {
-        return mechanicMenu;
-    }
 
-    public void setMechanicMenu(MechanicMenu mechanicMenu) {
-        this.mechanicMenu = mechanicMenu;
-    }
 
     public HumanUnit getHuman() {
         return human;
@@ -537,33 +539,8 @@ public class World extends JPanel  {
         World.factoryPreesed = factoryPreesed;
     }
 
-    public UnitTrainMenu getUnitTrainMenu() {
-        return unitTrainMenu;
-    }
 
-    public void setUnitTrainMenu(UnitTrainMenu unitTrainMenu) {
-        this.unitTrainMenu = unitTrainMenu;
-    }
 
-    public void setBuildingMenu(BuildingMenu buildingMenu) {
-        this.buildingMenu = buildingMenu;
-    }
-
-    public MiniMap getMiniMap() {
-        return miniMap;
-    }
-
-    public void setMiniMap(MiniMap miniMap) {
-        this.miniMap = miniMap;
-    }
-
-    public AirUnitsMenu getAirUnitMenu() {
-        return airUnitMenu;
-    }
-
-    public void setAirUnitMenu(AirUnitsMenu airUnitMenu) {
-        this.airUnitMenu = airUnitMenu;
-    }
 
     public static ArrayList<Factory> getAirFactory() {
         return airFactory;
@@ -575,6 +552,22 @@ public class World extends JPanel  {
 
     public JLabel getUnitsPickRectangle() {
         return unitsPickRectangle;
+    }
+
+    public static ArrayList<GameObject> getAllObjectsOnMapIncludeEnemy() {
+        return allObjectsOnMapIncludeEnemy;
+    }
+
+    public static void setAllObjectsOnMapIncludeEnemy(ArrayList<GameObject> allObjectsOnMapIncludeEnemy) {
+        World.allObjectsOnMapIncludeEnemy = allObjectsOnMapIncludeEnemy;
+    }
+
+    public MainFactory getMainFactory() {
+        return mainFactory;
+    }
+
+    public void setMainFactory(MainFactory mainFactory) {
+        this.mainFactory = mainFactory;
     }
 
     public void setUnitsPickRectangle(JLabel unitsPickRectangle) {
