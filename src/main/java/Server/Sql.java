@@ -1,6 +1,10 @@
 package Server;
 
 
+import com.mysql.jdbc.CommunicationsException;
+
+import javax.swing.*;
+import java.net.InetAddress;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -8,7 +12,7 @@ import java.util.ArrayList;
 public class Sql {
 
     private static Connection connect;
-
+    public static boolean serverIsOffline=true;
 
     public static void delete_statement(){
 
@@ -54,46 +58,54 @@ public class Sql {
 
 
 
-        String sqlInsert = "INSERT INTO users (password, username) VALUES ('"+password+"','"+user+"')";
+        if(!serverIsOffline)
+        {
+            String sqlInsert = "INSERT INTO users (password, username) VALUES ('"+password+"','"+user+"')";
 
-        try {
-            PreparedStatement pst = connect.prepareStatement(sqlInsert);
-            pst.execute();
+            try {
+                PreparedStatement pst = connect.prepareStatement(sqlInsert);
+                pst.execute();
 
 
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
 
     }
 
     public static String [] addAllOnlineUsers(String user) {
-        try {
 
-            ArrayList<String >temp=new ArrayList<>();
-            PreparedStatement statement = connect.prepareStatement("SELECT * FROM users");
+            if(!serverIsOffline){
+                try {
+                    ArrayList<String >temp=new ArrayList<>();
+                    PreparedStatement statement = connect.prepareStatement("SELECT * FROM users");
 
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
+                    ResultSet result = statement.executeQuery();
+                    while (result.next()) {
 
-                if (!result.getString(1).equals(user)&&result.getString(3).equals("true"))
-                {
+                        if (!result.getString(1).equals(user)&&result.getString(3).equals("true"))
+                        {
 
-                    temp.add(result.getString(1));
+                            temp.add(result.getString(1));
 
+                        }
+
+
+                    }
+
+
+                    String[] names = new String[temp.size()];
+                    names = temp.toArray(names);
+                    return names;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return null;
                 }
 
-
-            }
-
-
-            String[] names = new String[temp.size()];
-            names = temp.toArray(names);
-            return names;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return null;
     }
 
@@ -158,49 +170,59 @@ return list;
 
 
 
-        String sqlInsert =  "UPDATE users SET isonline = '"+online+"'  WHERE username = '"+username+"'";
+        if(!serverIsOffline)
+        {
+            String sqlInsert =  "UPDATE users SET isonline = '"+online+"'  WHERE username = '"+username+"'";
 
-        try {
-            PreparedStatement pst = connect.prepareStatement(sqlInsert);
-            pst.execute();
+            try {
+                PreparedStatement pst = connect.prepareStatement(sqlInsert);
+                pst.execute();
 
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
 
     public static boolean checkIfPasswordIsTrue(String user,String password){
-        try {
 
-            PreparedStatement userStatment = connect.prepareStatement("SELECT username FROM users");
-
-            ResultSet result = userStatment.executeQuery();
-
-            PreparedStatement passwordStatment = connect.prepareStatement("SELECT password FROM users");
-
-            ResultSet resultPassword = passwordStatment.executeQuery();
-
-            while(result.next()&&resultPassword.next())
+        if(!serverIsOffline)
+            try
             {
+                PreparedStatement userStatment = connect.prepareStatement("SELECT username FROM users");
 
-                if(result.getString(1).equals(user)&&resultPassword.getString(1).equals(password))
-                    return true;
+                ResultSet result = userStatment.executeQuery();
+
+                PreparedStatement passwordStatment = connect.prepareStatement("SELECT password FROM users");
+
+                ResultSet resultPassword = passwordStatment.executeQuery();
+
+                while(result.next()&&resultPassword.next())
+                {
+
+                    if(result.getString(1).equals(user)&&resultPassword.getString(1).equals(password))
+                        return true;
 
 
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return false;
+
     }
 
     public static boolean checkIfUserExist(String user)
         {
 
+            if(!serverIsOffline)
         try {
             PreparedStatement statement = connect.prepareStatement("SELECT username FROM users");
 
@@ -221,7 +243,7 @@ return list;
 return false;
     }
 
-    public static void connection()
+    private static void connection()
     {
 
         try {
@@ -241,24 +263,27 @@ return false;
         }
     }
 
-    public static void ConectingToSQL ()
+    private static void ConectingToSQL ()
     {
 
         connection();
 
-        String host = "jdbc:mysql://192.168.1.6:3306/wargame?useSSL=false";
+        String host = "jdbc:mysql://192.168.1.20:3306/wargame?allowPublicKeyRetrieval=true&?useSSL=false";
         String username = "jeffrey";
         String password = "1234";
 
 
         try {
+
+
             connect = DriverManager.getConnection(host, username, password);
+            serverIsOffline=false;
 
-        } catch (Exception e) {
-
+        } catch (SQLException e) {
+            serverIsOffline=true;
+            JOptionPane.showMessageDialog(null,"server is offline right now ");
             e.printStackTrace();
         }
-
 
 
     }

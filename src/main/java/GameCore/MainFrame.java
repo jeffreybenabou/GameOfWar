@@ -339,7 +339,11 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
     }
 
     private void checkIfComponentIsFromMainMenu(MouseEvent e) {
-        if(e.getComponent().equals(mainMenu.getExitButton())||e.getComponent().equals(mainMenu.getExitFromPanel()))
+        if(e.getComponent().equals(mainMenu.getSignIn()))
+        {
+            mainMenu.getSignInMenu().setVisible(true);
+        }
+        if(e.getComponent().equals(mainMenu.getExitButton()))
         {
 
             Sql.setTheUserOnline("false",mainMenu.get_userName());
@@ -362,55 +366,62 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
         }
         else
             mainMenu.getUserMenu().setVisible(false);
-
-        if(e.getComponent().equals(mainMenu.getRegister()))
+        if(!Sql.serverIsOffline)
         {
-
-            mainMenu.getSignInMenu().setVisible(true);
-
-        }
-        else
-            mainMenu.getSignInMenu().setVisible(false);
-
-
-        if(e.getComponent().equals(mainMenu.getSignUpButton()))
-        {
-
-
-            if(mainMenu.getIdName().isHintActive()&&mainMenu.getPassword().isHintActive())
+            if(e.getComponent().equals(mainMenu.getRegister()))
             {
-                JOptionPane.showMessageDialog(this,"enter password and user name");
 
-                mainMenu.getSignInMenu().setVisible(true);
-            }
 
-            else if(mainMenu.getIdName().getText().length()>0&&mainMenu.getPassword().getText().length()>0&&!Sql.checkIfUserExist(mainMenu.getIdName().getText()))
-            {
-                Sql.register(mainMenu.getPassword().getText(),mainMenu.getIdName().getText());
-                JOptionPane.showMessageDialog(this,"registration complete");
-                Sql.setTheUserOnline("true",""+mainMenu.get_userName());
-                mainMenu.getUserNameShow().setText("Hello "+mainMenu.getIdName().getText());
-                mainMenu.saveUserName(mainMenu.getIdName().getText(),mainMenu.getPassword().getText());
-                mainMenu.getStartGame().setEnabled(true);
-                mainMenu.getStartGame().addMouseListener(this);
+                mainMenu.getRegisterInMenu().setVisible(true);
 
-            }
-            else if (mainMenu.getIdName().getText().length()>0&&mainMenu.getPassword().getText().length()>0&&Sql.checkIfUserExist(mainMenu.getIdName().getText()))
-            {
-                mainMenu.getSignInMenu().setVisible(true);
-
-                JOptionPane.showMessageDialog(this,"user exist choose another name");
             }
             else
+                mainMenu.getRegisterInMenu().setVisible(false);
+
+
+            if(e.getComponent().equals(mainMenu.getSignUpButton()))
             {
-                mainMenu.getSignInMenu().setVisible(true);
-                JOptionPane.showMessageDialog(this,"enter password and user name");
+
+
+                if(mainMenu.getIdName().isHintActive()&&mainMenu.getPassword().isHintActive())
+                {
+                    JOptionPane.showMessageDialog(this,"enter password and user name");
+
+                    mainMenu.getRegisterInMenu().setVisible(true);
+                }
+
+                else if(mainMenu.getIdName().getText().length()>0&&mainMenu.getPassword().getText().length()>0&&!Sql.checkIfUserExist(mainMenu.getIdName().getText()))
+                {
+                    Sql.register(mainMenu.getPassword().getText(),mainMenu.getIdName().getText());
+                    JOptionPane.showMessageDialog(this,"registration complete");
+                    Sql.setTheUserOnline("true",""+mainMenu.get_userName());
+                    mainMenu.getUserNameShow().setText("Hello "+mainMenu.getIdName().getText());
+                    mainMenu.saveUserName(mainMenu.getIdName().getText(),mainMenu.getPassword().getText());
+                    mainMenu.getStartGame().setEnabled(true);
+                    mainMenu.getStartGame().addMouseListener(this);
+
+                }
+                else if (mainMenu.getIdName().getText().length()>0&&mainMenu.getPassword().getText().length()>0&&Sql.checkIfUserExist(mainMenu.getIdName().getText()))
+                {
+                    mainMenu.getRegisterInMenu().setVisible(true);
+
+                    JOptionPane.showMessageDialog(this,"user exist choose another name");
+                }
+                else
+                {
+                    mainMenu.getRegisterInMenu().setVisible(true);
+                    JOptionPane.showMessageDialog(this,"enter password and user name");
+
+                }
+
+
 
             }
-
-
-
+        }else
+        {
+            JOptionPane.showMessageDialog(null,"server off line");
         }
+
 
 
 
@@ -771,6 +782,7 @@ public class MainFrame extends JFrame implements MouseListener, MouseMotionListe
         }
         world.getUnitsPickRectangle().setBounds(0,0,0,0);
     }
+
 
 
 }

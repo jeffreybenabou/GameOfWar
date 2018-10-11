@@ -23,7 +23,6 @@ public class AirForceFactory extends Factory {
         setImage();
         if(onWorld)
         {
-
             setTheQuaqe();
         }
     }

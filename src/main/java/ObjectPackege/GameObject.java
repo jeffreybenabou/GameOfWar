@@ -29,7 +29,7 @@ public class GameObject extends JLabel {
     protected int costToBuild;
     protected int rangeOfAttack;
     protected String group;
-
+    boolean found = false;
 
     protected int widthO,heightO;
 
@@ -50,6 +50,7 @@ public class GameObject extends JLabel {
     protected String nameOfObject,discription,buildingNeed;
     protected MainFrame mainFrame;
     protected Rectangle bound;
+    protected JLabel objectOnMap;
 
 
     protected GameObject(){
@@ -84,6 +85,39 @@ public class GameObject extends JLabel {
 
     }
 
+    public void addTheUnitToMiniMap(){
+                if(group.contains("not"))
+                    objectOnMap=MiniMap.addAllObjectFromArrayListToTheMap(true);
+                else
+                    objectOnMap=MiniMap.addAllObjectFromArrayListToTheMap(false);
+                MainFrame.gamePanel.getMiniMap().add(objectOnMap);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                while (objectIsLive)
+                {
+
+                    if(group.contains("not"))
+
+                        objectOnMap.setBackground(Color.red);
+                    else
+                        objectOnMap.setBackground(Color.blue);
+                        objectOnMap.setBounds(MainFrame.gamePanel.getMiniMap().getWidth()/15+getX()/73,MainFrame.gamePanel.getMiniMap().getHeight()/5+getY()/100,3,3);
+
+
+
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
+
+    }
 
     public void setTheLifeBar() {
 
@@ -144,55 +178,38 @@ public class GameObject extends JLabel {
             repaint();
         }
         MainFrame.world.getBackGroundImage().remove(jLabel);
-        setVisible(false);
+
 
 
 
     }
-    protected synchronized void removeTheObject(GameObject gameObject,ArrayList<GameObject> arrayList) {
+    protected  void removeTheObject(ArrayList<GameObject> arrayList) {
 
 
         try {
-
-            boolean notFound = true;
-            int hash;
-            final int[] counter = {0};
-            hash = gameObject.hashCode();
-
-            for (int i = 0; i < MiniMap.userLabel.size(); i++) {
-                if (gameObject.hashCode() == Integer.parseInt(MiniMap.userLabel.get(i).getName())) {
+            setVisible(false);
+            MainFrame.gamePanel.getMiniMap().remove(objectOnMap);
+            MainFrame.gamePanel.getMiniMap().revalidate();
+            MainFrame.gamePanel.getMiniMap().repaint();
+            MainFrame.world.getBackGroundImage().remove(this);
+            MainFrame.world.getBackGroundImage().revalidate();
 
 
-                    MainFrame.gamePanel.getMiniMap().remove(MiniMap.userLabel.get(i));
-                    MainFrame.world.getBackGroundImage().remove(gameObject);
-                    MiniMap.userLabel.remove(i);
-                    notFound = false;
-                    break;
-                }
-
-            }
-            if (notFound) {
-                synchronized (MiniMap.enemyLabel) {
-                    for (int i = 0; i < MiniMap.enemyLabel.size(); i++) {
-                        if (gameObject.hashCode() == Integer.parseInt(MiniMap.enemyLabel.get(i).getName())) {
-                            MainFrame.gamePanel.getMiniMap().remove(MiniMap.enemyLabel.get(i));
-                            MainFrame.world.getBackGroundImage().remove(gameObject);
-                            MiniMap.enemyLabel.remove(i);
-                            break;
-                        }
-
-                    }
-                }
-
-            }
 
 
-            int finalHash = hash;
+
+
+
+
+
+
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     for (int i = 0; i < World.allUnit.size(); i++) {
-                        if (World.allUnit.get(i).hashCode() == finalHash) {
+                        if (World.allUnit.get(i).hashCode() == hashCode()&&!found) {
+                            found=true;
                             StaticVariables.unitHas--;
                             MainFrame.gamePanel.changeTheText();
                             World.allUnit.remove(i);
@@ -200,78 +217,75 @@ public class GameObject extends JLabel {
                             break;
                         }
                     }
-                    counter[0]++;
+
                 }
             }).start();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     for (int i = 0; i < World.airFactory.size(); i++) {
-                        if (World.airFactory.get(i).hashCode() == finalHash) {
+                        if (World.airFactory.get(i).hashCode() == hashCode()&&!found) {
+                            found=true;
                             World.airFactory.remove(i);
                             break;
                         }
                     }
-                    counter[0]++;
+
                 }
             }).start();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     for (int i = 0; i < World.tankFactory.size(); i++) {
-                        if (World.tankFactory.get(i).hashCode() == finalHash) {
+                        if (World.tankFactory.get(i).hashCode() == hashCode()&&!found) {
+                            found=true;
                             World.tankFactory.remove(i);
                             break;
                         }
                     }
-                    counter[0]++;
+
                 }
             }).start();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     for (int i = 0; i < World.allFactorys.size(); i++) {
-                        if (World.allFactorys.get(i).hashCode() == finalHash) {
+                        if (World.allFactorys.get(i).hashCode() == hashCode()&&!found) {
+                            found=true;
                             World.allFactorys.remove(i);
                             break;
                         }
                     }
-                    counter[0]++;
+
                 }
             }).start();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     for (int i = 0; i < World.infentryFactory.size(); i++) {
-                        if (World.infentryFactory.get(i).hashCode() == finalHash) {
+                        if (World.infentryFactory.get(i).hashCode() == hashCode()&&!found) {
+                            found=true;
                             World.infentryFactory.remove(i);
                             break;
                         }
                     }
-                    counter[0]++;
+
                 }
             }).start();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     for (int i = 0; i < arrayList.size(); i++) {
-                        if (arrayList.get(i).hashCode() == finalHash) {
+                        if (arrayList.get(i).hashCode() == hashCode()&&!found) {
+                            found=true;
                             arrayList.remove(i);
                             break;
                         }
                     }
-                    counter[0]++;
+
                 }
             }).start();
-            while (counter[0] < 6) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
-
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -279,7 +293,7 @@ public class GameObject extends JLabel {
 
     }
 
-    protected void init(boolean objectIsOnWorld){
+    public void init(boolean objectIsOnWorld){
 
         setBounds(bound);
 
@@ -291,6 +305,8 @@ public class GameObject extends JLabel {
         if(objectIsOnWorld)
         {
             World.allObjectsOnMapIncludeEnemy.add(this);
+            addTheUnitToMiniMap();
+
         }
 
 

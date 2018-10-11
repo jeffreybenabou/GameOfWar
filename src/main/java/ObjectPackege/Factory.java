@@ -47,9 +47,9 @@ public class Factory extends GameObject {
                     }
                 }
                 if(getGroup().contains("not"))
-                    removeTheObject(gameObject,World.allEnemyObjects);
+                    removeTheObject(World.allEnemyObjects);
                 else
-                    removeTheObject(gameObject,World.allObjects);
+                    removeTheObject(World.allObjects);
             }
         }).start();
     }

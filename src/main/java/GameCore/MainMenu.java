@@ -6,21 +6,20 @@ import Server.Sql;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class MainMenu  extends JLabel  {
 
     public static Font fontOfMenuItems,fontOfButtons;
-    private JMenuItem exitFromPanel, statics,load,register,signIn,signOut;
+    private JMenuItem  statics,load,register,signIn,signOut;
     private JMenuBar jMenu;
     private MainFrame mainFrame;
     private JPanel menuPanel;
 
     public static String _userName,_password;
-    private JLabel imageLabel, buttonLabel,userMenu,signInMenu,writeUserInformation,userNameShow,waitForEnemy;
+    private JLabel imageLabel, buttonLabel,userMenu,signInMenu, registerInMenu,writeUserInformation,userNameShow,waitForEnemy;
 
     private         Border border = BorderFactory.createLineBorder(new Color(155,77,45,150),3,true);
 
@@ -33,8 +32,45 @@ public class MainMenu  extends JLabel  {
     private JButton startGame,startTutorial,exitButton,signUpButton,cancelTheGame,pickTheRightEnamy;
     public MainMenu(MainFrame mainFrame){
         this.mainFrame=mainFrame;
+        addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
 
-        sql=new Sql();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+
+                if(e.getButton()==MouseEvent.BUTTON3)
+                {
+                    registerInMenu.setVisible(false);
+                    userMenu.setVisible(false);
+                    signInMenu.setVisible(false);
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+
+
+
+
+
 
         fontOfMenuItems =new Font("SERIF", Font.PLAIN, (MainFrame.screenSize.width + MainFrame.screenSize.height) / 100);
         fontOfButtons=new Font("SERIF", Font.PLAIN, (MainFrame.screenSize.width + MainFrame.screenSize.height) / 150);
@@ -43,11 +79,18 @@ public class MainMenu  extends JLabel  {
         addTheMenuButtons();
         addTheImageBackGround();
         addTheUserMenu();
-        addSignInWindows();
-        checkIfLogIn();
+        addRegisterWindows();
+        addSignInMenu();
+
 
         addExitListenersToProgram();
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sql=new Sql();
+                checkIfLogIn();
+            }
+        }).start();
 
     }
 
@@ -241,24 +284,64 @@ public class MainMenu  extends JLabel  {
         return button;
     }
 
+    private  void addSignInMenu(){
 
-    private void addSignInWindows() {
-        signUpButton=new JButton("click here to sign in");
+               JButton signUpButton=new JButton("click here to sign in");
         signInMenu = new JLabel();
         signInMenu.setBounds(userMenu.getBounds());
 
-        writeUserInformation = new JLabel("create your user - enter password and id ");
+        writeUserInformation = new JLabel("enter password and id to sign in ");
         writeUserInformation.setFont(fontOfButtons);
         writeUserInformation.setHorizontalAlignment(JLabel.CENTER);
-        writeUserInformation.setBounds(0, 0, signInMenu.getWidth(), signInMenu.getHeight() / 10);
+        writeUserInformation.setBounds(0, 0, registerInMenu.getWidth(), registerInMenu.getHeight() / 10);
+        HintTextField password = new HintTextField("enter password");
 
-        idName = new HintTextField("enter user name");
-        idName.setBounds(0, signInMenu.getHeight() / 3, signInMenu.getWidth(), signInMenu.getHeight() / 8);
-        signUpButton.setBounds(signInMenu.getWidth()/2-((signInMenu.getWidth()/2+signInMenu.getWidth()/10)/2), signInMenu.getHeight()-signInMenu.getHeight() / 8 , signInMenu.getWidth()/2+signInMenu.getWidth()/10, signInMenu.getHeight() / 8);
+        HintTextField idName = new HintTextField("enter user name");
+        idName.setBounds(0, registerInMenu.getHeight() / 3, registerInMenu.getWidth(), registerInMenu.getHeight() / 8);
+
+        signUpButton.setBounds(registerInMenu.getWidth()/2-((registerInMenu.getWidth()/2+ registerInMenu.getWidth()/10)/2), registerInMenu.getHeight()- registerInMenu.getHeight() / 8 , registerInMenu.getWidth()/2+ registerInMenu.getWidth()/10, registerInMenu.getHeight() / 8);
         signUpButton.setFont(fontOfButtons);
-        signUpButton.addMouseListener(mainFrame);
-        password = new HintTextField("enter password");
-        password.setBounds(0, signInMenu.getHeight() / 2 + signInMenu.getHeight() / 8, signInMenu.getWidth(), signInMenu.getHeight() / 8);
+        signUpButton.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+                if(Sql.checkIfPasswordIsTrue(idName.getText(),password.getText()))
+                {
+                    Sql.setTheUserOnline("true",idName.getText());
+                    getUserNameShow().setText("Hello "+getIdName().getText());
+                    getUserNameShow().repaint();
+
+                    saveUserName(getIdName().getText(),getPassword().getText());
+                    signInMenu.setVisible(false);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null,"wrong user name/password");
+                }
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        password.setBounds(0, registerInMenu.getHeight() / 2 + registerInMenu.getHeight() / 8, registerInMenu.getWidth(), registerInMenu.getHeight() / 8);
 
         signInMenu.add(writeUserInformation);
 
@@ -272,25 +355,55 @@ public class MainMenu  extends JLabel  {
         signInMenu.setVisible(false);
         signInMenu.setOpaque(true);
         imageLabel.add(signInMenu);
+    }
+
+    private void addRegisterWindows() {
+        signUpButton=new JButton("click here to sign in");
+        registerInMenu = new JLabel();
+        registerInMenu.setBounds(userMenu.getBounds());
+
+        writeUserInformation = new JLabel("create your user - enter password and id ");
+        writeUserInformation.setFont(fontOfButtons);
+        writeUserInformation.setHorizontalAlignment(JLabel.CENTER);
+        writeUserInformation.setBounds(0, 0, registerInMenu.getWidth(), registerInMenu.getHeight() / 10);
+
+        idName = new HintTextField("enter user name");
+        idName.setBounds(0, registerInMenu.getHeight() / 3, registerInMenu.getWidth(), registerInMenu.getHeight() / 8);
+        signUpButton.setBounds(registerInMenu.getWidth()/2-((registerInMenu.getWidth()/2+ registerInMenu.getWidth()/10)/2), registerInMenu.getHeight()- registerInMenu.getHeight() / 8 , registerInMenu.getWidth()/2+ registerInMenu.getWidth()/10, registerInMenu.getHeight() / 8);
+        signUpButton.setFont(fontOfButtons);
+        signUpButton.addMouseListener(mainFrame);
+        password = new HintTextField("enter password");
+        password.setBounds(0, registerInMenu.getHeight() / 2 + registerInMenu.getHeight() / 8, registerInMenu.getWidth(), registerInMenu.getHeight() / 8);
+
+        registerInMenu.add(writeUserInformation);
+
+
+        registerInMenu.add(idName);
+        registerInMenu.add(password);
+        registerInMenu.add(signUpButton);
+
+
+        registerInMenu.setBorder(border);
+        registerInMenu.setVisible(false);
+        registerInMenu.setOpaque(true);
+        imageLabel.add(registerInMenu);
 
     }
 
     private void addTheMenuOptions() {
-        exitFromPanel =new JMenuItem("exit");
         statics =new JMenuItem("statics");
         load =new JMenuItem("load");
         register=new JMenuItem("register");
         signIn=new JMenuItem("sign in");
         signOut=new JMenuItem("sign out");
 
-        exitFromPanel.setFont(fontOfMenuItems);
         statics.setFont(fontOfMenuItems);
         load.setFont(fontOfMenuItems);
         register.setFont(fontOfMenuItems);
         signIn.setFont(fontOfMenuItems);
         signOut.setFont(fontOfMenuItems);
 
-        exitFromPanel.setBackground(new Color(0,0,0,0));
+
         statics.setBackground(new Color(0,0,0,0));
         load.setBackground(new Color(0,0,0,0));
         register.setBackground(new Color(0,0,0,0));
@@ -300,14 +413,13 @@ public class MainMenu  extends JLabel  {
 
 
         register.addMouseListener(mainFrame);
-        exitFromPanel.addMouseListener(mainFrame);
+        signIn.addMouseListener(mainFrame);
 
 
         jMenu=new JMenuBar();
         jMenu.setLayout(new GridLayout());
         jMenu.setForeground(Color.red);
 
-        jMenu.add(exitFromPanel);
         jMenu.add(statics);
         jMenu.add(signIn);
         jMenu.add(signOut);
@@ -330,13 +442,6 @@ public class MainMenu  extends JLabel  {
 
     private void  setTheProperties() {
         setBounds(0,0,MainFrame.screenSize.width,MainFrame.screenSize.height);
-//        setBackground(Color.red);
-
-
-
-
-
-
 
     }
 
@@ -369,13 +474,7 @@ public class MainMenu  extends JLabel  {
     }
 
 
-    public JMenuItem getExitFromPanel() {
-        return exitFromPanel;
-    }
 
-    public void setExitFromPanel(JMenuItem exitFromPanel) {
-        this.exitFromPanel = exitFromPanel;
-    }
 
     public JMenuItem getStatics() {
         return statics;
@@ -519,6 +618,14 @@ public class MainMenu  extends JLabel  {
         this.register = register;
     }
 
+    public JLabel getSignInMenu() {
+        return signInMenu;
+    }
+
+    public void setSignInMenu(JLabel signInMenu) {
+        this.signInMenu = signInMenu;
+    }
+
     public JMenuItem getSignIn() {
         return signIn;
     }
@@ -575,12 +682,12 @@ public class MainMenu  extends JLabel  {
         this.mainFrame = mainFrame;
     }
 
-    public JLabel getSignInMenu() {
-        return signInMenu;
+    public JLabel getRegisterInMenu() {
+        return registerInMenu;
     }
 
-    public void setSignInMenu(JLabel signInMenu) {
-        this.signInMenu = signInMenu;
+    public void setRegisterInMenu(JLabel registerInMenu) {
+        this.registerInMenu = registerInMenu;
     }
 
 
@@ -619,4 +726,6 @@ public class MainMenu  extends JLabel  {
     public void setjMenu(JMenuBar jMenu) {
         this.jMenu = jMenu;
     }
+
+
 }

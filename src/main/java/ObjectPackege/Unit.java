@@ -66,9 +66,9 @@ public class Unit extends GameObject {
                 }
                 addExplotionLabel();
                 if (getGroup().contains("not"))
-                    removeTheObject(gameObject, World.allEnemyObjects);
+                    removeTheObject( World.allEnemyObjects);
                 else
-                    removeTheObject(gameObject, World.allObjects);
+                    removeTheObject( World.allObjects);
 
             }
         }).start();
@@ -149,11 +149,12 @@ GameObject gameObject=this;
                 try
                 {
 
-                    MainFrame.world.getBackGroundImage().add(unitAttackLabel=new UnitAttackLabel(this),0);
+                    MainFrame.world.getBackGroundImage().add(unitAttackLabel=new UnitAttackLabel(this,arrayList.get(i)),0);
 
-                }catch (IllegalArgumentException e)
+                }catch (Exception e)
                 {
                     e.printStackTrace();
+
                 }
                 changeTheImage();
                 try
@@ -179,7 +180,11 @@ GameObject gameObject=this;
                             try
                             {
 
+                                synchronized (arrayList.get(i))
+                                {
                                     decreaseLifeOfUnit(arrayList.get(i));
+                                }
+
 
 
 
@@ -194,11 +199,12 @@ GameObject gameObject=this;
 
 
                     }
-                }catch (IndexOutOfBoundsException e)
+                }catch (Exception e)
                 {
                     e.printStackTrace();
 
                 }
+
 
                 objectIsAttacking=false;
                 objectIsStanding=true;
